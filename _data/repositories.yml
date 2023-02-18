@@ -1,12 +1,10 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - loevlie
 
 github_repos:
-  - alshedivat/al-folio
-  - twbs/bootstrap
-  - jekyll/jekyll
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - jpswalsh/academicons
-  - mathjax/MathJax
+  - loevlie/nb_search
+  - loevlie/DL_Project_PSMNet
+  - loevlie/Face_Verification
+  - loevlie/Question_Answer_model
+  - loevlie/ASL_Active_Learning
+  - loevlie/SkinsAI
