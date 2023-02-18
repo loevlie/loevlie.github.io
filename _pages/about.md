@@ -17,8 +17,10 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+Welcome to my website! As a computer vision engineer with a background in chemical engineering and extensive experience in computational research, I offer a unique problem-solving outlook that would be a valuable addition to any CS PhD program. My current work involves researching and training state-of-the-art segmentation models for KEF Robotics hazard detection system and building their human-computer interaction (HCI).
 
-Put your address / P.O. box / other info right below your picture. You can also disable any these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+My research interests lie in computer vision and natural language processing, particularly in their joint applications in multimodal learning. I am excited to explore the potential of multimodal learning to advance the field of computer vision, and to develop new applications for these cutting-edge technologies.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](http://fortawesome.github.io/Font-Awesome/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+On this website, you can explore my research growth and CS and computational skills, as well as my ability to conduct high-impact research independently and collaboratively ([publications page](/al-folio/publications/)). I am eager to leverage my expertise and experience to make meaningful contributions to the field of AI research through a CS PhD program.
+
+Thank you for visiting my website, and I hope you will join me in exploring the exciting world of computer vision and multimodal learning!
