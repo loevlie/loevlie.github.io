@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Moto. Etc.
+subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>. "The only failure in your twenties is inaction.  The rest is trial and error." - Tony Fadell
 
 profile:
   align: right
@@ -17,7 +17,7 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
 
-I'm a senior computer vision and machine learning engineer who's been excelling at [KEF Robotics](https://www.kefrobotics.com), training state-of-the-art image segmentation models and building cutting-edge HCI. But I'm not stopping there - I'm eager to take my skills to the next level by diving headfirst into a CS graduate program!  I have a passion for learning and a strong desire to make a positive impact on the world.  I'm looking for a program that will allow me to grow as a researcher and a person, and I'm excited to see where that takes me!  
+I'm a **senior computer vision and machine learning engineer** who's been excelling at training state-of-the-art deep learning models and getting them to run efficiently on constrained hardware. I've worked on a plethera of computer vision problems such as, image segmentation, object detection, monocular depth estimation, image matching, and 3D reconstruction.  I've also delved into the world of NLP and vision-language by working with open-vocabulary object detection, building tools with LLMs, and building a question-answering model utilizing **spaCy** and **PyTorch**.  I'm eager to take my skills to the next level by diving headfirst into a CS graduate program!  I have a passion for learning and a strong desire to make a positive impact on the world.  I'm looking for a program that will allow me to grow as a researcher and a person, and I'm excited to see where that takes me!  
 
 I'm also a huge fan of the outdoors, and I love to play soccer in my free time.  
 
