@@ -2,12 +2,14 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>. "The only failure in your twenties is inaction.  The rest is trial and error." - Tony Fadell
+subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>. 
+
+# "The only failure in your twenties is inaction.  The rest is trial and error." - Tony Fadell
 
 profile:
   align: right
   image: Me_in_Norway.jpg
-  image_circular: true # crops the image to make it circular
+  image_circular: false # crops the image to make it circular
   address: >
     <p>6534 Hamilton Ave</p>
     <p>Pittsburgh, PA 15206</p>
