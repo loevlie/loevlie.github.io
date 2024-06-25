@@ -6,7 +6,7 @@
     - name: Date of Birth
       value: 9th April 1997
     - name: Languages
-      value: English, German
+      value: English
 
 - title: Education
   type: time_table

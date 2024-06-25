@@ -2,9 +2,10 @@ github_users:
   - loevlie
 
 github_repos:
+  - loevlie/GPT4Readability
   - loevlie/nb_search
   - loevlie/DL_Project_PSMNet
-  - loevlie/Face_Verification
+  # - loevlie/Face_Verification
   - loevlie/Question_Answer_model
   - loevlie/ASL_Active_Learning
   - loevlie/SkinsAI
