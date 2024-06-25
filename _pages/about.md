@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>. 
+subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>  "The only failure in your twenties is inaction.  The rest is trial and error." - Tony Fadell.
 
 # "The only failure in your twenties is inaction.  The rest is trial and error." - Tony Fadell
 
@@ -19,11 +19,10 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true  # includes social icons at the bottom of the page
 ---
 
-I'm a **senior computer vision and machine learning engineer** who's been excelling at training state-of-the-art deep learning models and getting them to run efficiently on constrained hardware. I've worked on a plethera of computer vision problems such as, **image segmentation, object detection, monocular depth estimation, image matching,** and **3D reconstruction**.  I've also delved into the world of NLP and vision-language by working with open-vocabulary object detection, building tools with LLMs, and building a question-answering model utilizing **spaCy** and **PyTorch**.  
+# About
+I'm a **senior computer vision and machine learning engineer** who's been excelling at training state-of-the-art deep learning models and getting them to run efficiently on constrained hardware. I've worked on a plethera of computer vision problems such as, **image segmentation, object detection, monocular depth estimation, image matching,** and **3D reconstruction**.  I've also delved into the world of NLP and vision-language by working with open-vocabulary object detection, building tools with LLMs, and building a question-answering model utilizing **spaCy** and **PyTorch**.
 
-I'm eager to take my skills to the next level by diving headfirst into a CS graduate program!  I have a passion for learning and a strong desire to make a positive impact on the world.  I'm looking for a program that will allow me to grow as a researcher and a person, and I'm excited to see where that takes me!  
-
-I'm also a huge fan of the outdoors, and I love to play soccer in my free time.  
+# Next Steps
+I'm eager to take my skills to the next level by diving headfirst into a CS graduate program!  I have a passion for learning and a strong desire to make a positive impact on the world.  I'm looking for a program that will allow me to grow as a researcher and a person, and I'm excited to see where that takes me!
 
 <!-- I was doing well in a previous Ph.D. program in Chemical Engineering but I decided to switch to Computer Science because I wanted to work on computer vision, natural language processing, and multi-modal learning problems.  Basically, I want to work on ML problems that are novel, interesting, and challenging (which in my opinion usually don't involve tabular data or straight-forward features), and I want to work on them with people who are passionate about the same things.  I'm also interested in working on problems that have a positive impact on the world, and I'm excited to see where that takes me! -->
-

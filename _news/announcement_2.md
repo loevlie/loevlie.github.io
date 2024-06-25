@@ -4,7 +4,7 @@ date: 2024-04-15 07:59:00-0400
 inline: true
 ---
 
-Promoted to Senior Computer Vision and Machine Learning Engineer
+Promoted to Senior Computer Vision and Machine Learning Engineer.
 
 <!-- ---
 layout: post
