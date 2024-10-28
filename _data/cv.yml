@@ -2,96 +2,107 @@
   type: map
   contents:
     - name: Full Name
-      value: Dennis Loevlie
-    - name: Date of Birth
-      value: 9th April 1997
+      value: Dennis Johan Loevlie
+    - name: Location
+      value: Medford, MA, USA
+    - name: Phone
+      value: +1 724-841-8769
+    - name: Website
+      value: https://www.loevliedl.com
     - name: Languages
       value: English
 
 - title: Education
   type: time_table
   contents:
-    - title: MS
-      institution: Carnegie Mellon University, Pittsburgh, USA
-      year: 2020
+    - title: MS in Computer Science
+      institution: Tufts University, Medford, MA, USA
+      year: 2024 - Present
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
-          contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Federal teaching diploma
-      institution: Eidgenössische Technische Hochschule, Zurich, Switzerland
-      year: 1900
+        - Specialization: Computer Science
+    - title: MS in Chemical Engineering
+      institution: Carnegie Mellon University, Pittsburgh, PA, USA
+      year: 2019 - 2020
       description:
-        - Description 1.
-        - Description 2.
+        - GPA: 3.91
+    - title: BS in Chemical Engineering
+      institution: West Virginia University, Morgantown, WV, USA
+      year: 2016 - 2019
+      description:
+        - Graduated with Honors
 
 - title: Experience
   type: time_table
   contents:
-    - title: Professor of Theoretical Physics
-      institution: Institute for Advanced Study, Princeton University
-      year: 1933 - 1955
+    - title: Senior Computer Vision and Machine Learning Engineer
+      institution: KEF Robotics, Pittsburgh, PA, USA
+      year: 2024 - 2024
       description:
-        - Description 1.
-        - Description 2.
-        - title: Description 3.
+        - Led a team on a $500K project with responsibilities in budgeting and ML implementation.
+        - Developed on-device object detection, monocular depth prediction, and 3D mapping.
+        - title: Optimized segmentation model
           contents:
-            - Sub-description 1.
-            - Sub-description 2.
-    - title: Visiting Professor
-      institution: California Institute of Technology, Pasadena, California, US
-      year: 1933
+            - Improved inference speed by 45% with minimal accuracy loss.
+            - Fine-tuned a transformer-based segmentation model to recognize power lines in infra-red images.
+    - title: Lead Data Scientist
+      institution: AiThElite, Pittsburgh, PA, USA
+      year: 2021 - 2023
       description:
-        - Description 1.
-        - Description 2.
-
-    - title: Director
-      institution: Kaiser Wilhelm Institute for Physics, Berlin, Germany.
-      year: 1917-1933
-
-    - title: Professor of Theoretical Physics
-      institution: Karl-Ferdinand University, Prague, Czechoslovakia
-      year: 1911 - 1917
+        - Built the frontend and backend of a Django-based website hosted on AWS.
+        - Developed automated data retrieval scripts and feature engineering pipelines.
+    - title: Research Assistant
+      institution: University of Pittsburgh CANELa
+      year: 2021 - 2023
       description:
-
-    - title: Associate Professor of Theoretical Physics
-      institution: University of Zurich, Zurich, Switzerland
-      year: 1909 - 1911
+        - Proposed a novel method for model weight initiation, reducing RMSE by 71%.
+    - title: Research Assistant
+      institution: Carnegie Mellon University, Pittsburgh, PA, USA
+      year: 2019 - 2020
+      description:
+        - Created a Python package for Jupyter notebook file management and improved image analysis tools.
 
 - title: Open Source Projects
   type: time_table
   contents:
-    - title: <a href="https://github.com/alshedivat/al-folio">al-folio</a>
-      year: 2015-now
-      description: A beautiful, simple, clean, and responsive Jekyll theme for academics.
+    - title: <a href="https://github.com/loevlie/GPT4Readability">GPT4Readability</a>
+      year: Summer 2023
+      description: CLI tool using LLMs to auto-generate README files and suggest code improvements.
+    - title: <a href="https://skinsai.herokuapp.com/">SkinsAI</a>
+      year: Fall 2022
+      description: Developed a CNN tool for mole classification in skin images.
 
 - title: Honors and Awards
   type: time_table
   contents:
-    - year: 1921
+    - year: 2022
       items: 
-        - Nobel Prize in Physics 
-        - Matteucci Medal
-    - year: 2029
+        - 2nd place in The Pitt Challenge Hackathon
+    - year: 2020
       items: 
-        - Max Planck Medal
+        - 3rd place in CMU Chemical Engineering Poster Competition
+        - Category winner in The Pitt Challenge Hackathon, "Largest impact on healthcare workers"
+    - year: 2019
+      items: 
+        - 1st place in AVEVA's National Simulation Competition
+        - 2nd place in the AIChE National Poster Competition
 
 - title: Academic Interests
   type: nested_list
   contents:
-    - title: Topic 1.
+    - title: Machine Learning
       items: 
-        - Description 1.
-        - Description 2.
-    - title: Topic 2.
+        - Deep Learning
+        - Computer Vision
+        - Natural Language Processing
+    - title: Programming
       items:
-        - Description 1.
-        - Description 2.
+        - Python
+        - MATLAB
+        - C++
+        - Rust
 
 - title: Other Interests
   type: list
   contents:
-    - <u>Hobbies:</u> Hobby 1, Hobby 2, etc.
+    - <u>Community Involvement:</u> Volunteered in youth robotics team and organized charity events.
+    - <u>Hobbies:</u> Soccer, STEM outreach activities, experimental research collaboration
