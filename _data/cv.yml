@@ -107,22 +107,23 @@
 - title: Publications
   type: list
   contents:
-    - title: Demystifying the chemical ordering of multimetallic nanoparticles
-      publisher: Accounts of Chemical Research
+    - title: "Demystifying the chemical ordering of multimetallic nanoparticles"
+      publisher: "Accounts of Chemical Research"
       date: 2023
-      url: https://doi.org/10.1021/acs.accounts.2c00646
-    - title: Single Atom Alloys Segregation in the Presence of Ligands
-      publisher: The Journal of Physical Chemistry C
+      url: "https://doi.org/10.1021/acs.accounts.2c00646"
+    - title: "Single Atom Alloys Segregation in the Presence of Ligands"
+      publisher: "The Journal of Physical Chemistry C"
       date: 2023
-      url: https://doi.org/10.1021/acs.jpcc.3c05827
-    - title: Size-dependent shape distributions of platinum nanoparticles
-      publisher: Nanoscale Adv.
+      url: "https://doi.org/10.1021/acs.jpcc.3c05827"
+    - title: "Size-dependent shape distributions of platinum nanoparticles"
+      publisher: "Nanoscale Adv."
       date: 2022
-      url: https://pubs.rsc.org/en/content/articlelanding/2022/na/d2na00326k
-    - title: Resolving electrocatalytic imprecision in atomically precise metal nanoclusters
-      publisher: Current Opinion in Chemical Engineering
+      url: "https://pubs.rsc.org/en/content/articlelanding/2022/na/d2na00326k"
+    - title: "Resolving electrocatalytic imprecision in atomically precise metal nanoclusters"
+      publisher: "Current Opinion in Chemical Engineering"
       date: 2022
-      url: https://www.sciencedirect.com/science/article/abs/pii/S2211339821001167
+      url: "https://www.sciencedirect.com/science/article/abs/pii/S2211339821001167"
+
 
 - title: Academic Interests
   type: nested_list
