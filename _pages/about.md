@@ -20,16 +20,48 @@ social: true  # includes social icons at the bottom of the page
 ---
 
 ### About
-I'm a **senior computer vision and machine learning engineer** who's been excelling at training state-of-the-art deep learning models and getting them to run efficiently on constrained hardware. I've worked on a plethera of computer vision problems such as, **image segmentation, object detection, monocular depth estimation, image matching,** and **3D reconstruction**.  I've also delved into the world of NLP and vision-language by working with open-vocabulary object detection, building tools with LLMs, and building a question-answering model utilizing **spaCy** and **PyTorch**.
+I'm currently taking my skills to the next level by diving headfirst into a CS MS program at Tufts University. I'm actively growing as a researcher and a person, and I'm excited to see where that takes me!  Right now I am working on ML for 3D medical imaging classification with limited amounts of data.  I'm hoping to have updates on some cool publications in that area (and other deep learning multi-modal AI areas) in the near future! 
 
-### Next Steps
-I'm eager to take my skills to the next level by diving headfirst into a CS graduate program. I'm looking for a program that will allow me to grow as a researcher and a person, and I'm excited to see where that takes me!
+### Before Tufts
+Before starting my MS at Tufts I was a **senior computer vision and machine learning engineer** excelling at training state-of-the-art deep learning models and getting them to run efficiently on constrained hardware. I've worked on a plethera of computer vision problems such as, **image segmentation, object detection, monocular depth estimation, image matching,** and **3D reconstruction**.  I've also delved into the world of NLP and vision-language by working with open-vocabulary object detection, building tools with LLMs, and building a question-answering model utilizing **spaCy** and **PyTorch**.
 
 ### Code Contributions 👨‍💻
+#### 🤗 [HuggingFace Transformers Library](https://github.com/huggingface/transformers)
 
-- 🤗 **[HuggingFace Transformers Library](https://github.com/huggingface/transformers)**
-- :airplane: **[KEF Robotics Code](https://www.kefrobotics.com/)** <!-- Replace with the actual repo link -->
-- 🏈 **[AiThElite Code](https://www.aithelite.com/)** <!-- Replace with the actual repo link -->
-- ⚛️ **[CANELa Code](https://github.com/mpourmpakis/CANELa_NP)** <!-- Replace with the actual repo link -->
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-1.7%2B-red)
+
+*Contributed a code fix that made Mask2Former a universal image segmentation model compatitble with PyTorch 2.0 `torch.compile()` optimization.*
+
+---
+
+#### ✈️ [KEF Robotics (Private)](https://www.kefrobotics.com/)
+
+![C++](https://img.shields.io/badge/C%2B%2B-11%2B-brightgreen)
+![ROS](https://img.shields.io/badge/ROS-Melodic-orange)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+
+*Developed perception and planning algorithms for autonomous drones.*
+
+---
+
+#### 🏈 [AiThElite (Private)](https://www.aithelite.com/)
+
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![NumPy](https://img.shields.io/badge/NumPy-1.18%2B-yellow)
+![SkLearn](https://img.shields.io/badge/scikit%20learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![MySQL](https://img.shields.io/badge/-SQL-000?&logo=MySQL&logoColor=4479A1)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+
+*Built AI models for sports analytics.*
+
+---
+
+#### ⚛️ [CANELa](https://github.com/mpourmpakis/CANELa_NP)
+
+![Python](https://img.shields.io/badge/Python-3.7%2B-blue)
+![NumPy](https://img.shields.io/badge/NumPy-1.18%2B-yellow)
+
+*Enhanced mathmatical models for molecular property prediction.*
 
 <!-- I was doing well in a previous Ph.D. program in Chemical Engineering but I decided to switch to Computer Science because I wanted to work on computer vision, natural language processing, and multi-modal learning problems.  Basically, I want to work on ML problems that are novel, interesting, and challenging (which in my opinion usually don't involve tabular data or straight-forward features), and I want to work on them with people who are passionate about the same things.  I'm also interested in working on problems that have a positive impact on the world, and I'm excited to see where that takes me! -->
