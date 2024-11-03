@@ -20,7 +20,7 @@ social: true  # includes social icons at the bottom of the page
 ---
 
 ### About
-I'm currently taking my skills to the next level by diving headfirst into a CS MS program at Tufts University. I'm actively growing as a researcher and a person, and I'm excited to see where that takes me!  Right now I am working on ML for 3D medical imaging classification with limited amounts of data.  I'm hoping to have updates on some cool publications in that area (and other deep learning multi-modal AI areas) in the near future! 
+I'm currently in my first semester of an MS in Computer Science at **Tufts University** I am working in **Michael Hughes lab** on ML for 3D medical imaging classification with limited amounts of data.  Although I can't say exactly what we are working on, it involves some cool applications of **representation learning and multiple instance learning (MIL)**.  I'm hoping to have updates on some cool publications in that area (and other multi-modal AI areas) in the near future! 
 
 ### Before Tufts
 Before starting my MS at Tufts I was a **senior computer vision and machine learning engineer** excelling at training state-of-the-art deep learning models and getting them to run efficiently on constrained hardware. I've worked on a plethera of computer vision problems such as, **image segmentation, object detection, monocular depth estimation, image matching,** and **3D reconstruction**.  I've also delved into the world of NLP and vision-language by working with open-vocabulary object detection, building tools with LLMs, and building a question-answering model utilizing **spaCy** and **PyTorch**.
