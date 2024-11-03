@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>  "The only failure in your twenties is inaction.  The rest is trial and error." - Tony Fadell.
+subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>  Just trying to do interesting (preferably open-source) stuff with multi-modal AI. 
 
 # "The only failure in your twenties is inaction.  The rest is trial and error." - Tony Fadell
 
