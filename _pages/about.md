@@ -25,9 +25,7 @@ I'm a **senior computer vision and machine learning engineer** who's been excell
 ### Next Steps
 I'm eager to take my skills to the next level by diving headfirst into a CS graduate program. I'm looking for a program that will allow me to grow as a researcher and a person, and I'm excited to see where that takes me!
 
-### Welcome! 👋
-
-I'm Denny Loevlie, here are a few code bases I've contributed to:
+### Code Contributions 👨‍💻
 
 - 🤗 **[HuggingFace Transformers Library](https://github.com/huggingface/transformers)**
 - :airplane: **[KEF Robotics Code](https://www.kefrobotics.com/)** <!-- Replace with the actual repo link -->
