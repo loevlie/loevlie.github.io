@@ -13,3 +13,16 @@ $max-content-width: {{ site.max_width }};
   "base",
   "distill"
 ;
+/* Custom CSS for the news section */
+.news {
+  /* Default styles */
+  max-height: 400px; /* Adjust as needed */
+  overflow-y: auto;
+}
+
+/* On mobile devices, increase the height */
+@media (max-width: 767.98px) {
+  .news {
+    max-height: 600px; /* Increase the height */
+  }
+}
