@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>  "Currently trying to do interesting stuff with multi-modal AI."
+subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>  "Currently trying to do interesting things with multi-modal AI."
 
 # "The only failure in your twenties is inaction.  The rest is trial and error." - Tony Fadell
 
@@ -109,7 +109,6 @@ Before starting my MS at Tufts I was a **senior computer vision and machine lear
 ![Python](https://img.shields.io/badge/Python-3.7%2B-blue)
 ![NumPy](https://img.shields.io/badge/NumPy-1.18%2B-yellow) -->
 
-*Enhanced mathmatical models for molecular property prediction.*
 
 
 <!-- I was doing well in a previous Ph.D. program in Chemical Engineering but I decided to switch to Computer Science because I wanted to work on computer vision, natural language processing, and multi-modal learning problems.  Basically, I want to work on ML problems that are novel, interesting, and challenging (which in my opinion usually don't involve tabular data or straight-forward features), and I want to work on them with people who are passionate about the same things.  I'm also interested in working on problems that have a positive impact on the world, and I'm excited to see where that takes me! -->
