@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>, <a href='https://github.com/tufts-ml'> Tufts></a>  
+subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>, <a href='https://github.com/tufts-ml'>Tufts</a>  “There are no facts, only interpretations.” – Friedrich Nietzsche
 
 # "The only failure in your twenties is inaction.  The rest is trial and error." - Tony Fadell
 
