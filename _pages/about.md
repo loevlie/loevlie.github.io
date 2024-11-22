@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>  "Currently trying to do interesting things with multi-modal AI."
+subtitle: <a href='https://www.cmu.edu/'>CMU</a>, <a href='https://www.kefrobotics.com'>KEF Robotics</a>, <a href='https://github.com/tufts-ml'> Tufts></a>  
 
 # "The only failure in your twenties is inaction.  The rest is trial and error." - Tony Fadell
 
@@ -20,10 +20,10 @@ social: true  # includes social icons at the bottom of the page
 ---
 
 ### About
-I'm currently in my first semester of an MS in Computer Science at **Tufts University** I am working in **Michael Hughes lab** on ML for 3D medical imaging classification with limited amounts of data.  Although I can't say exactly what we are working on, it involves some cool applications of **representation learning and multiple instance learning (MIL)**.  I'm hoping to have updates on publications in that area (and other multi-modal AI areas) in the near future! 
+  I'm currently pursuing my MS in Computer Science at **Tufts University**.  I am working in **Michael Hughes lab** on deep learning methods with limited amounts of labeled data.  I'm interested in **representation learning, multimodal ML, and optimization**.  In my first semester at Tufts, along with a full course load, I have completed a research project that will be submitted to a conference in the near future.  My overarching goal is to begin a Ph.D. in Fall 2026 after the completion of my masters degree.
 
 ### Before Tufts
-Before starting my MS at Tufts I was a **senior computer vision and machine learning engineer** excelling at training state-of-the-art deep learning models and getting them to run efficiently on constrained hardware. I've worked on a plethera of computer vision problems such as, **image segmentation, object detection, monocular depth estimation, image matching,** and **3D reconstruction**.  I've also delved into the world of NLP and vision-language by working with open-vocabulary object detection, building tools with LLMs, and building a question-answering model utilizing **spaCy** and **PyTorch**.
+Before starting my MS at Tufts I was a **senior computer vision and machine learning engineer** at KEF Robotics.  In this role, I researched, trained, and evaluated state-of-the-art deep learning models and then got them to run efficiently on constrained hardware. I've worked on a plethera of computer vision problems such as, **image segmentation, object detection, monocular depth estimation, image matching,** and **3D reconstruction**.  I've also delved into the world of NLP and vision-language by working with open-vocabulary object detection, building tools with LLMs, developing KEF Robotics local AI chatbot, and building a question-answering model utilizing **spaCy** and **PyTorch**.
 
 ### Code Contributions 👨‍💻
 
@@ -41,8 +41,9 @@ Before starting my MS at Tufts I was a **senior computer vision and machine lear
       <h4>✈️ <a href="https://www.kefrobotics.com/">KEF Robotics (Private)</a></h4>
       <p>
         <img src="https://img.shields.io/badge/C++-11%2B-brightgreen" alt="C++">
-        <img src="https://img.shields.io/badge/ROS-Melodic-orange" alt="ROS">
         <img src="https://img.shields.io/badge/Python-3.8%2B-blue" alt="Python">
+        <img src="https://img.shields.io/badge/ROS-Melodic-orange" alt="ROS">
+        <img src="https://img.shields.io/badge/PyTorch-1.7%2B-red" alt="PyTorch">
       </p>
       <p><em>Developed perception and planning algorithms for autonomous drones.</em></p>
     </td>
