@@ -31,7 +31,9 @@
   .repo-img-dark {
     display: none;
   }
+  --global-theme-color: #007ACC;  /* switched from purple to blue */
 }
+
 
 html[data-theme='dark'] {
   --global-bg-color: #{$grey-color-dark};
