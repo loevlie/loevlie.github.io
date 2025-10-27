@@ -1,6 +1,6 @@
 ---
 title: "Improving LLM SVG Generation with Reinforcement Learning"
-excerpt: "Using Group Relative Policy Optimization to improve vision-language models' ability to generate aesthetic SVGs from text"
+excerpt: "Using Group Relative Policy Optimization to improve vision-language models' ability to generate aesthetic SVGs from text<br/><img src='/images/svg-grpo-comparison.png'>"
 collection: portfolio
 ---
 

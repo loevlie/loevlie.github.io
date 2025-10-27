@@ -1,6 +1,6 @@
 ---
 title: "GPT4Readability: AI-Powered Code Documentation"
-excerpt: "CLI tool that uses LLMs and vector databases to generate README files and suggest improvements for any GitHub repository"
+excerpt: "CLI tool that uses LLMs and vector databases to generate README files and suggest improvements for any GitHub repository<br/><img src='/images/gpt4readability.gif'>"
 collection: portfolio
 ---
 

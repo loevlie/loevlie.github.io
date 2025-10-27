@@ -1,6 +1,6 @@
 ---
 title: "SkinsAI: Melanoma Detection Tool"
-excerpt: "Free web-based tool for classifying moles as benign or malignant using deep learning (2nd place, Pitt Challenge Hackathon)"
+excerpt: "Free web-based tool for classifying moles as benign or malignant using deep learning (2nd place, Pitt Challenge Hackathon)<br/><img src='/images/skinsai-logo.png'>"
 collection: portfolio
 ---
 

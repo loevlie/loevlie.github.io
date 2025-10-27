@@ -1,6 +1,6 @@
 ---
 title: "Psychology-Inspired Object Counting in Vision-Language Models"
-excerpt: "Teaching VLMs to count by treating it as a sequential task with tools, inspired by human cognitive psychology"
+excerpt: "Teaching VLMs to count by treating it as a sequential task with tools, inspired by human cognitive psychology<br/><img src='/images/counting-strategies.png'>"
 collection: portfolio
 ---
 
