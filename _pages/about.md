@@ -9,7 +9,7 @@ redirect_from:
 
 **Hi, my name is Denny!**  I'm a Master's student in Computer Science at Tufts University, where I'm advised by **[Prof. Michael Hughes](https://www.michaelchughes.com/)** and **[Prof. Jivko Sinapov](https://www.eecs.tufts.edu/~jsinapov/)**.
 
-I am broadly interested in deep learning with constraint. That constraint could be a lack of labeled data, quality data, rich data representations, or inherent model limitations.
+I am broadly interested in deep learning with constraint. That constraint could be a lack of labeled data, quality data, rich data representations, or inherent model limitations.  
 
 To address these constraints, I have explored diverse approaches including:
 
@@ -19,5 +19,8 @@ To address these constraints, I have explored diverse approaches including:
 -  Parameter-efficient fine-tuning with LoRA
 -  Simulation-to-real transfer
 - Incorporating inductive biases inspired by cognitive science.
+
+I am also interested in **deep learning interpretability** because as these models become ubiquitous in daily life, understanding their
+  decision-making is essential for safe deployment.
 
 My previous work spans medical imaging, computer vision for robotics, vision-language models, and computational chemistry.
