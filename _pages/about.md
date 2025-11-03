@@ -24,3 +24,10 @@ I am also interested in **deep learning interpretability** because as these mode
   decision-making is essential for safe deployment.
 
 My previous work spans medical imaging, computer vision for robotics, vision-language models, and computational chemistry.
+
+---
+
+### Open Source Contributions
+
+[![Hugging Face Transformers](https://img.shields.io/badge/🤗_Transformers-Contributor-FFD21E?style=for-the-badge&logo=huggingface)](https://github.com/huggingface/transformers)
+[![TorchMIL](https://img.shields.io/badge/TorchMIL-Contributor-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](https://github.com/Franblueee/torchmil)
