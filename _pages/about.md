@@ -29,5 +29,12 @@ My previous work spans medical imaging, computer vision for robotics, vision-lan
 
 ### Open Source Contributions
 
-[![Hugging Face Transformers](https://img.shields.io/badge/🤗_Transformers-Contributor-FFD21E?style=for-the-badge&logo=huggingface)](https://github.com/huggingface/transformers)
-[![TorchMIL](https://img.shields.io/badge/TorchMIL-Contributor-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)](https://github.com/Franblueee/torchmil)
+<p align="left">
+  <a href="https://github.com/huggingface/transformers">
+    <img src="https://img.shields.io/badge/🤗%20Transformers-Contributor-FFD21E?style=flat-square&logo=huggingface&logoColor=black" alt="Hugging Face Transformers" height="28"/>
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://github.com/Franblueee/torchmil">
+    <img src="https://img.shields.io/badge/TorchMIL-Contributor-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="TorchMIL" height="28"/>
+  </a>
+</p>
