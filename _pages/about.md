@@ -29,12 +29,19 @@ My previous work spans medical imaging, computer vision for robotics, vision-lan
 
 ### Open Source Contributions
 
-<p align="left">
-  <a href="https://github.com/huggingface/transformers">
-    <img src="https://img.shields.io/badge/🤗%20Transformers-Contributor-FFD21E?style=flat-square&logo=huggingface&logoColor=black" alt="Hugging Face Transformers" height="28"/>
+<p align="left" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+  <a href="https://github.com/huggingface/transformers" style="text-decoration: none;">
+    <img src="https://img.shields.io/badge/🤗%20Transformers-Contributor-FFD21E?style=for-the-badge" alt="Hugging Face Transformers"/>
   </a>
-  &nbsp;&nbsp;
-  <a href="https://github.com/Franblueee/torchmil">
-    <img src="https://img.shields.io/badge/TorchMIL-Contributor-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="TorchMIL" height="28"/>
+  <a href="https://github.com/Franblueee/torchmil" style="text-decoration: none;">
+    <img src="https://img.shields.io/badge/TorchMIL-Contributor-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white" alt="TorchMIL"/>
   </a>
 </p>
+
+---
+
+### Recent News
+
+**October 2025** - Our paper "Synthetic Data Reveals Generalization Gaps in Correlated Multiple Instance Learning" has been accepted at the **ML4H Findings Track**! [Read the paper on arXiv](https://arxiv.org/abs/2510.25759)
+
+I'll be in San Diego for the ML4H conference and staying for NeurIPS. If you'd like to chat, let me know! ☕
