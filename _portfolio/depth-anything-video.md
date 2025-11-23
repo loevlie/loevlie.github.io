@@ -11,6 +11,8 @@ links:
     icon: "fas fa-fw fa-link"
   - label: "PyTorch"
     icon: "fas fa-fw fa-code"
+  - label: "KEF Robotics"
+    icon: "fas fa-fw fa-briefcase"
 ---
 
 ## Overview
@@ -18,7 +20,6 @@ Fine-tuned monocular depth estimation networks for autonomous flight application
 
 ## Links
 - **HuggingFace Spaces Demo**: [huggingface.co/spaces/JohanDL/Depth-Anything-Video](https://huggingface.co/spaces/JohanDL/Depth-Anything-Video)
-- **GitHub**: [github.com/loevlie](https://github.com/loevlie)
 
 ## Technical Details
 - **Framework**: PyTorch
@@ -29,7 +30,7 @@ Fine-tuned monocular depth estimation networks for autonomous flight application
 ## Key Features
 - Monocular depth prediction from single camera images
 - Fine-tuned for aerial/UAV perspectives
-- Real-time depth estimation for flight applications
+- Depth estimation for flight applications
 - Interactive demo on HuggingFace Spaces
 
 ## Awards
