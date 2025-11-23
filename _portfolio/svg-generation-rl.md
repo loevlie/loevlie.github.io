@@ -22,12 +22,12 @@ I used Group Relative Policy Optimization (GRPO) with a custom 3-part reward fun
 2. **Aesthetic quality**: Visually appealing graphics
 3. **Semantic alignment**: Match to input text descriptions
 
-The model (Qwen-2.5 7B) learns through trial and error, similar to recent approaches like DeepSeek-R1 and AlphaMaze.
+The model (Qwen-2.5 7B) learns through trial and error, similar to recent approaches like DeepSeek-R1.
 
 ## Results
 - **18% improvement** on a comprehensive benchmark evaluating SVG aesthetics, alignment, and code validity
 - Significantly better structured outputs compared to base model
-- Demonstrates the power of RL for improving visual reasoning in LLMs
+- Demonstrates how RL can improve visual reasoning in LLMs
 
 ## Technical Details
 - Model: Qwen-2.5 7B
