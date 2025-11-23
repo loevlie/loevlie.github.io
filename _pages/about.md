@@ -45,3 +45,7 @@ My previous work spans medical imaging, computer vision for robotics, vision-lan
 **October 2025** - Our paper "Synthetic Data Reveals Generalization Gaps in Correlated Multiple Instance Learning" has been accepted at the **ML4H Findings Track**! [Read the paper on arXiv](https://arxiv.org/abs/2510.25759)
 
 I'll be in San Diego for the ML4H conference and staying for NeurIPS. If you'd like to chat, let me know! ☕
+
+**July 2024** - Featured in [CMU ChemE Alumni Spotlight](https://www.cheme.engineering.cmu.edu/news/2024/07/10-alum-spotlight-loevlie.html)!
+
+**May 2023** - Presented "An Interactive Exploration of Computer Vision for Unmanned Aerial Vehicles (UAVs)" at [XChange Pittsburgh 2023](https://xchangepgh2023.sched.com/event/1LdC7/an-interactive-exploration-of-computer-vision-for-unmanned-aerial-vehicles-uavs)
