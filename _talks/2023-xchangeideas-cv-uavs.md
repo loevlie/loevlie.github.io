@@ -8,9 +8,9 @@ date: 2023-05-15
 location: "Pittsburgh, PA, USA"
 ---
 
-[Talk Link](https://xchangepgh2023.sched.com/event/1LdC7/an-interactive-exploration-of-computer-vision-for-unmanned-aerial-vehicles-uavs)
-
 ![Semantic Segmentation](/images/seg.png)
+
+[Talk Link](https://xchangepgh2023.sched.com/event/1LdC7/an-interactive-exploration-of-computer-vision-for-unmanned-aerial-vehicles-uavs)
 
 Presented work on multi-modal semantic segmentation for autonomous drone navigation at KEF Robotics. The talk covered our approach to power line detection across RGB and infrared modalities using transfer learning, domain adaptation, and cross-modal label transfer under severe data constraints.
 
