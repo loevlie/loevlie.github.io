@@ -1,11 +1,27 @@
 ---
 title: "GPT4Readability: AI-Powered Code Documentation"
-excerpt: "CLI tool that uses LLMs and vector databases to generate README files and suggest improvements for any GitHub repository<br/><img src='/images/gpt4readability.gif'>"
+excerpt: "AI-powered CLI tool for automatic code documentation"
 collection: portfolio
+date: 2023-06-01
+header:
+  teaser: gpt4readability_new.gif
+links:
+  - label: "GitHub"
+    url: "https://github.com/loevlie/GPT4Readability"
+    icon: "fab fa-fw fa-github"
+  - label: "HuggingFace"
+    url: "https://huggingface.co/spaces/JohanDL/GPT4Readability"
+    icon: "fas fa-fw fa-link"
+  - label: "LangChain"
+    icon: "fas fa-fw fa-code"
 ---
 
 ## Overview
 GPT4Readability is a command-line interface (CLI) that leverages large language models and vector databases to automatically analyze GitHub repositories and generate comprehensive documentation.
+
+## Links
+- **Source Code**: [github.com/loevlie/GPT4Readability](https://github.com/loevlie/GPT4Readability)
+- **HuggingFace Spaces**: [huggingface.co/spaces/JohanDL/GPT4Readability](https://huggingface.co/spaces/JohanDL/GPT4Readability)
 
 ## Features
 - **Automatic README Generation**: Creates detailed README files from codebase analysis

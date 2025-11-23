@@ -1,7 +1,16 @@
 ---
 title: "Improving LLM SVG Generation with Reinforcement Learning"
-excerpt: "Using Group Relative Policy Optimization to improve vision-language models' ability to generate aesthetic SVGs from text<br/><img src='/images/svg-grpo-comparison.png'>"
+excerpt: "Using GRPO to improve VLM SVG generation quality"
 collection: portfolio
+date: 2024-12-01
+header:
+  teaser: svg-grpo-comparison.png
+links:
+  - label: "Report"
+    url: "https://www.loevliedl.com/static/Portfolio/PDF/RL_for_Visual_Reasoning.pdf"
+    icon: "fas fa-fw fa-file-pdf"
+  - label: "PyTorch"
+    icon: "fas fa-fw fa-code"
 ---
 
 ## Overview
