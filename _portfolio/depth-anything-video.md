@@ -15,6 +15,8 @@ links:
     icon: "fas fa-fw fa-briefcase"
 ---
 
+![Depth Anything Video](/images/depth_anything.gif)
+
 ## Overview
 Fine-tuned monocular depth estimation networks for autonomous flight applications at KEF Robotics. While I cannot share the fine-tuned code, I created a HuggingFace Space that allows users to test the base model (from TikTok) on their own custom videos.
 

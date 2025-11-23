@@ -12,6 +12,8 @@ links:
     icon: "fas fa-fw fa-flask"
 ---
 
+![VLM Counting Evolution](/images/counting-evolution.gif)
+
 ## Overview
 Vision-language models (VLMs) struggle with counting objects in dense scenes. This research enumerates possible strategies to improve VLM counting performance while simultaneously investigating what VLMs are actually doing when they return a "count" on dense scenes of objects.
 

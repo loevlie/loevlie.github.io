@@ -18,6 +18,8 @@ links:
     icon: "fas fa-fw fa-server"
 ---
 
+![SkinsAI Logo](/images/skinsai_new.png)
+
 ## Overview
 SkinsAI is a free-access diagnostic tool that helps users classify moles as benign or malignant using deep learning. Developed during The Pitt Challenge Hackathon in Fall 2022.
 

@@ -12,6 +12,8 @@ links:
     icon: "fas fa-fw fa-code"
 ---
 
+![Stereo Disparity](/images/disparity.png)
+
 ## Overview
 State-of-the-art disparity map generation from 3D stereo images using PSMNet (Pyramid Stereo Matching Network). Completed as part of CMU's Introduction to Deep Learning course.
 

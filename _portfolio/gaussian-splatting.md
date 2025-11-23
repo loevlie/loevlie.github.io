@@ -12,6 +12,8 @@ links:
     icon: "fas fa-fw fa-briefcase"
 ---
 
+![Gaussian Splatting Demo](/images/building.gif)
+
 ## Overview
 Led development of a pipeline for creating "Digital Twins" of objects through Gaussian Splatting at KEF Robotics. This technique enables high-fidelity 3D reconstruction for autonomous drone navigation and inspection.
 

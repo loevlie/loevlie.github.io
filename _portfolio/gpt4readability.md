@@ -16,6 +16,8 @@ links:
     icon: "fas fa-fw fa-code"
 ---
 
+![GPT4Readability Demo](/images/gpt4readability_new.gif)
+
 ## Overview
 GPT4Readability is a command-line interface (CLI) that leverages large language models and vector databases to automatically analyze GitHub repositories and generate comprehensive documentation.
 

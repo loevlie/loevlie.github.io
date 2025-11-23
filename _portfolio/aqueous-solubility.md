@@ -12,6 +12,8 @@ links:
     icon: "fas fa-fw fa-trophy"
 ---
 
+![Aqueous Solubility](/images/aqueous.png)
+
 ## Overview
 Applied graph neural network (SolTranNet) to predict aqueous solubility classification in a Kaggle competition. This project demonstrates the application of GNNs to molecular property prediction.
 

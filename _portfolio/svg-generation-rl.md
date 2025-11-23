@@ -13,6 +13,8 @@ links:
     icon: "fas fa-fw fa-code"
 ---
 
+![SVG Generation Comparison](/images/svg-grpo-comparison.png)
+
 ## Overview
 Open-source LLMs struggle to generate semantically meaningful and aesthetic SVG graphics from text descriptions. This project applies state-of-the-art reinforcement learning techniques to dramatically improve their capabilities.
 
