@@ -13,7 +13,7 @@ links:
     icon: "fas fa-fw fa-code"
 ---
 
-![ASL Recognition](/images/asl.png)
+<img src="/images/asl.png" alt="ASL Recognition" width="66%">
 
 ## Overview
 GUI application using CNN classifier and YOLO object detection to verify correct American Sign Language letter signing. Developed at Hack the Northeast hackathon.
