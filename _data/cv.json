@@ -1,152 +1,322 @@
 {
   "basics": {
-    "name": "Your Sidebar Name",
-    "email": "none@example.org",
+    "name": "Dennis Johan Loevlie",
+    "email": "",
     "phone": "",
-    "website": "https://academicpages.github.io",
-    "summary": "Currently employed at Red Brick University. Short biography for the left-hand sidebar",
+    "website": "https://loevlie.github.io",
+    "summary": "",
     "location": {
-      "address": "",
-      "postalCode": "",
-      "city": "Earth",
-      "countryCode": "US",
-      "region": ""
+      "city": "Medford",
+      "region": "MA",
+      "countryCode": "USA"
     },
-    "profiles": [
-      {
-        "network": "Google Scholar",
-        "username": "",
-        "url": "https://scholar.google.com/citations?user=PS_CX0AAAAAJ"
-      },
-      {
-        "network": "ORCID",
-        "username": "",
-        "url": "https://orcid.org/yourorcidurl"
-      },
-      {
-        "network": "GitHub",
-        "username": "academicpages",
-        "url": "https://github.com/academicpages"
-      }
-    ]
+    "profiles": []
   },
-  "work": [],
   "education": [
     {
-      "institution": "GitHub University",
-      "area": "Ph.D in Version Control Theory",
+      "institution": "Tufts University, Medford, MA, USA",
+      "area": "Masters of Science in Computer Science",
       "studyType": "",
-      "startDate": "",
-      "endDate": "2018",
-      "gpa": null,
+      "startDate": "September 2024",
+      "endDate": "Present",
+      "gpa": "3.95",
+      "courses": [],
+      "detail": "Expected Graduation: Spring 2026"
+    },
+    {
+      "institution": "Carnegie Mellon University, Pittsburgh, PA, USA",
+      "area": "Masters of Science in Chemical Engineering",
+      "studyType": "",
+      "startDate": "September 2019",
+      "endDate": "December 2020",
+      "gpa": "3.91",
       "courses": []
     },
     {
-      "institution": "GitHub University",
-      "area": "M.S. in Jekyll",
+      "institution": "West Virginia University, Morgantown, WV, USA",
+      "area": "Bachelor of Science with Honors in Chemical Engineering",
       "studyType": "",
-      "startDate": "",
-      "endDate": "2014",
+      "startDate": "September 2016",
+      "endDate": "August 2019",
       "gpa": null,
-      "courses": []
-    },
-    {
-      "institution": "GitHub University",
-      "area": "B.S. in GitHub",
-      "studyType": "",
-      "startDate": "",
-      "endDate": "2012",
-      "gpa": null,
-      "courses": []
+      "courses": [],
+      "detail": "Cum Laude"
     }
   ],
-  "skills": [],
-  "languages": [],
-  "interests": [],
-  "references": [],
   "publications": [
     {
-      "name": "Paper Title Number 1",
-      "publisher": "Journal 1",
-      "releaseDate": "2009-10-01",
-      "website": "https://academicpages.github.io/files/paper1.pdf",
-      "summary": "This paper is about the number 1. The number 2 is left for future work."
+      "name": "Synthetic Data Reveals Generalization Gaps in Correlated Multiple Instance Learning",
+      "authors": "Ethan Harvey, Dennis Johan Loevlie, and Michael C. Hughes",
+      "publisher": "ML4H 2025 Symposium, Findings Track",
+      "releaseDate": "2025",
+      "website": "https://arxiv.org/abs/2510.25759",
+      "summary": ""
     },
     {
-      "name": "Paper Title Number 2",
-      "publisher": "Journal 1",
-      "releaseDate": "2010-10-01",
-      "website": "https://academicpages.github.io/files/paper2.pdf",
-      "summary": "This paper is about the number 2. The number 3 is left for future work."
+      "name": "Demystifying the chemical ordering of multimetallic nanoparticles",
+      "authors": "Dennis Johan Loevlie, Brenno Ferreira, and Giannis Mpourmpakis",
+      "publisher": "Accounts of Chemical Research, 56(3):248\u2013257, 2023",
+      "releaseDate": "2023",
+      "website": "https://doi.org/10.1021/acs.accounts.2c00646",
+      "summary": ""
     },
     {
-      "name": "Paper Title Number 3",
-      "publisher": "Journal 1",
-      "releaseDate": "2015-10-01",
-      "website": "https://academicpages.github.io/files/paper3.pdf",
-      "summary": "This paper is about the number 3. The number 4 is left for future work."
+      "name": "Single Atom Alloys Segregation in the Presence of Ligands",
+      "authors": "Salem, M., Loevlie, D. J., Mpourmpakis, G.",
+      "publisher": "The Journal of Physical Chemistry C, 127(46), 22790\u201322798, 2023",
+      "releaseDate": "2023",
+      "website": "https://doi.org/10.1021/acs.jpcc.3c05827",
+      "summary": ""
     },
     {
-      "name": "Paper Title Number 4",
-      "publisher": "GitHub Journal of Bugs",
-      "releaseDate": "2024-02-17",
-      "website": "https://academicpages.github.io/files/paper3.pdf",
-      "summary": "This paper is about fixing template issue #693."
+      "name": "Size-dependent shape distributions of platinum nanoparticles",
+      "authors": "Ruikang Ding, Ingrid M. Padilla Espinosa, Dennis Loevlie, Soodabeh Azadehranjbar, Andrew J. Baker, Giannis Mpourmpakis, Ashlie Martini, and Tevis D. B. Jacobs",
+      "publisher": "Nanoscale Adv., 4:3978\u20133986, 2022",
+      "releaseDate": "2022",
+      "website": "https://pubs.rsc.org/en/content/articlelanding/2022/na/d2na00326k",
+      "summary": ""
+    },
+    {
+      "name": "Resolving electrocatalytic imprecision in atomically precise metal nanoclusters",
+      "authors": "Anantha Venkataraman Nagarajan, Dennis Johan Loevlie, Michael J Cowan, and Giannis Mpourmpakis",
+      "publisher": "Current Opinion in Chemical Engineering, 36:100784, 2022",
+      "releaseDate": "2022",
+      "website": "https://www.sciencedirect.com/science/article/abs/pii/S2211339821001167",
+      "summary": ""
     }
   ],
   "presentations": [
     {
-      "name": "Talk 1 on Relevant Topic in Your Field",
-      "event": "UC San Francisco, Department of Testing",
-      "date": "2012-03-01",
-      "location": "San Francisco, CA, USA",
+      "name": "Synthetic Data Reveals Generalization Gaps in Correlated Multiple Instance Learning",
+      "event": "Machine Learning for Health (ML4H) 2025 Symposium",
+      "date": "2025-12-01",
+      "location": "San Diego, California",
+      "description": "Poster presentation"
+    },
+    {
+      "name": "Computer Vision for UAVs",
+      "event": "XChangeIdeas Pittsburgh",
+      "date": "2023",
+      "location": "",
       "description": ""
     },
     {
-      "name": "Tutorial 1 on Relevant Topic in Your Field",
-      "event": "UC-Berkeley Institute for Testing Science",
-      "date": "2013-03-01",
-      "location": "Berkeley, CA, USA",
+      "name": "Software Development for HER High-Throughput Experiments",
+      "event": "Carnegie Mellon University Chemical Engineering Masters Student Association Research Forum",
+      "date": "2020",
+      "location": "",
       "description": ""
     },
     {
-      "name": "Talk 2 on Relevant Topic in Your Field",
-      "event": "London School of Testing",
-      "date": "2014-02-01",
-      "location": "London, UK",
-      "description": ""
-    },
-    {
-      "name": "Conference Proceeding talk 3 on Relevant Topic in Your Field",
-      "event": "Testing Institute of America 2014 Annual Conference",
-      "date": "2014-03-01",
-      "location": "Los Angeles, CA, USA",
+      "name": "Mathematical Modeling and Optimization of an Ion Transport Membrane for Oxygen Separation from Air",
+      "event": "American Institute of Chemical Engineers National Research Conference, Computing and Process Control Division",
+      "date": "2018",
+      "location": "",
       "description": ""
     }
   ],
-  "teaching": [
+  "research": [
     {
-      "course": "Teaching experience 1",
-      "institution": "University 1, Department",
-      "date": "2014-01-01",
-      "role": "Undergraduate course",
-      "description": ""
+      "institution": "Tufts University",
+      "advisor": "Dr. Michael Hughes",
+      "position": "Graduate Researcher",
+      "startDate": "August 2024",
+      "endDate": "Present",
+      "summary": "Improving the performance of deep learning models in situations with limited data quantity or quality.",
+      "highlights": [
+        "Using attention-based multiple instance learning (MIL) to predict precursors of dementia and stroke from 3D image data (MRI and CT).",
+        "Published a paper at Machine Learning for Health on generalization gaps in correlated MIL.",
+        "Identified and resolved a quadratic scaling bottleneck in the lab's MIL codebase, enabling experiments on larger datasets.",
+        "Developing a regularization method to encourage more interpretable attention scores.",
+        "Trained 3D CNN and Transformer models with multiple GPUs using the Tufts HPC.",
+        "Implemented methods for supervised learning with noisy labels."
+      ]
     },
     {
-      "course": "Teaching experience 2",
-      "institution": "University 1, Department",
-      "date": "2015-01-01",
-      "role": "Workshop",
-      "description": ""
+      "institution": "Tufts University",
+      "advisor": "Dr. Jivko Sinapov",
+      "position": "Graduate Researcher",
+      "startDate": "January 2025",
+      "endDate": "Present",
+      "summary": "Work initially linked to Tufts Reinforcement Learning course.",
+      "highlights": [
+        "Used Group Relative Policy Optimization to improve Qwen2.5-Coder-7B's ability to generate SVGs from text descriptions. Drawing inspiration from recent works such as DeepSeek-R1 and AlphaMaze.",
+        "Achieved an 18% improvement on a benchmark evaluating SVG aesthetics, alignment, and code validity.",
+        "Currently working on understanding the limitations in vision-language models (i.e. Qwen3-VL) and open vocabulary instance segmentation models (i.e. SAM3) ability to count objects in dense scenes."
+      ]
+    },
+    {
+      "institution": "University of Pittsburgh CANELa",
+      "advisor": "Dr. Giannis Mpourmpakis",
+      "position": "Graduate Researcher",
+      "startDate": "June 2021",
+      "endDate": "January 2023",
+      "summary": "Applied machine learning, Boltzmann statistics, and evolutionary optimization to predict material properties of metal nanoparticles.",
+      "highlights": [
+        "Contributed to neural architecture design, hyper-parameter optimization, and fair assessment of ML models on Salem et al.",
+        "Proposed a novel method to initiate model weights from Yihao et al. that led to a 71% reduction in the RMSE on the datasets investigated in Loevlie et al.",
+        "Wrote the ML applications and background section in the Nagarajan et al. review article.",
+        "Collaborated with experimental research groups by using Boltzmann statistics to explain their findings in Ding et al."
+      ]
+    },
+    {
+      "institution": "Carnegie Mellon University",
+      "advisor": "Dr. John Kitchin",
+      "position": "Graduate Researcher",
+      "startDate": "December 2019",
+      "endDate": "December 2020",
+      "summary": "Developed software tools to improve and automate experiment design and evaluation.",
+      "highlights": [
+        "Recreated image analysis tools in Python (originally in Mathematica) to be interactive, fast, and intuitive.",
+        "Trained a convolutional neural network classifier to extract valuable information from experimental image data.",
+        "Developed a Python package, nb_search, to efficiently sort through, locate and open Jupyter Notebook files.",
+        "Regressed parameters and used them to cluster different bimetallic catalysts."
+      ]
+    },
+    {
+      "institution": "West Virginia University",
+      "advisor": "Dr. Fernando Lima",
+      "position": "Undergraduate Researcher",
+      "startDate": "April 2017",
+      "endDate": "August 2019",
+      "summary": "Mathematical modeling and non-linear optimization for chemical process design.",
+      "highlights": [
+        "Modeled, optimized, and economically evaluated a chemical process in MATLAB \u2014 Funded by the National Science Foundation.",
+        "Presented findings at the American Institute of Chemical Engineers conference and was awarded second place in the poster competition."
+      ]
     }
   ],
-  "portfolio": [
+  "work": [
     {
-      "name": "Portfolio item number 1",
-      "category": "portfolio",
-      "date": "",
-      "url": "",
-      "description": "Short description of portfolio item number 1<br/><img src='/images/500x300.png'>"
+      "company": "KEF Robotics",
+      "position": "Senior Computer Vision and Machine Learning Engineer (2024), Computer Vision Engineer (2023)",
+      "startDate": "January 2023",
+      "endDate": "August 2024",
+      "summary": "KEF Robotics is a Pittsburgh-based company that provides software only integrations enabling aerial autonomy on any unmanned aerial vehicle (UAV).",
+      "highlights": [
+        "Led a team of five engineers on a one-year, $500K project where I was responsible for task breakdown, budgeting, and advanced ML research and implementation.",
+        "Led the development of efficient on-device object detection, monocular depth prediction, and 3D map generation from monocular camera images. Showcased these capabilities at two in-person demos.",
+        "Enhanced hazard detection for UAVs with Mask2Former, a transformer-based universal image segmentation model. Fine-tuned the model to segment a new class (power lines) and generalize to a new image modality (infra-red) using transfer learning.",
+        "Optimized our image segmentation neural network architecture, resulting in a significant 45% boost in inference speed with only a 1% loss in accuracy."
+      ]
+    },
+    {
+      "company": "AiThElite",
+      "position": "Lead Data Scientist",
+      "startDate": "December 2020",
+      "endDate": "May 2021",
+      "summary": "AiThElite is a Pittsburgh-based startup company using AI to improve the college athlete transfer process.",
+      "highlights": [
+        "Developed web scraping scripts using Beautifulsoup and Selenium to automate data retrieval and updating.",
+        "Developed and automated the feature engineering with Numpy and Pandas.",
+        "Applied machine learning algorithms using Numpy and SkLearn to generate intelligent predictions and insights from the data.",
+        "Built the frontend and backend of the AithELITE EliteAI website with Django, hosted on AWS."
+      ]
     }
-  ]
+  ],
+  "internships": [
+    {
+      "company": "ContentsPal",
+      "position": "Multimodal AI Intern",
+      "startDate": "May 2025",
+      "endDate": "August 2025",
+      "summary": "MIT professor led AI startup in the insurance space.",
+      "highlights": [
+        "Investigated and implemented learning-based duplicate detection and open-vocabulary instance segmentation.",
+        "Worked with React and React Native to test new and existing features."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "GPT4Readability",
+      "tags": "Natural Language Processing, Deep Learning, Open-Source",
+      "date": "Summer 2023",
+      "highlights": [
+        "Developed a Command Line Interface (CLI) that leverages large language models (LLMs) and vector databases with LangChain and llama.cpp to generate a comprehensive README file and suggest code improvements for any GitHub repository.",
+        "Supports running with cloud-based LLMs or running locally with open-source LLMs.",
+        "Supports 15 different programming languages."
+      ]
+    },
+    {
+      "name": "SkinsAI",
+      "tags": "Computer Vision, Deep Learning, Hosted",
+      "date": "Fall 2022",
+      "highlights": [
+        "Developed a free-access, diagnosis tool for classifying moles as benign or malignant.",
+        "The convolutional neural network classification model was written, trained, and evaluated using PyTorch."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Languages",
+      "keywords": ["Python", "MATLAB", "Java", "JavaScript", "C++"]
+    },
+    {
+      "name": "ML & AI",
+      "keywords": ["PyTorch", "TensorFlow", "Scikit-learn", "Computer Vision", "Transformers", "LLMs", "Reinforcement Learning", "Graph Neural Networks", "Optimization"]
+    },
+    {
+      "name": "Computing",
+      "keywords": ["NumPy", "Pandas", "SciPy", "Matplotlib", "HPC Clusters", "TensorRT"]
+    }
+  ],
+  "awards": [
+    {
+      "year": "2026",
+      "description": "First place out of 10 teams in the BrainStorm Neural Decoder Challenge, real-time auditory decoding from 1024-channel ECoG; 95% accuracy, sub-ms inference, edge-deployable model."
+    },
+    {
+      "year": "2024",
+      "description": "Awarded Community Grant from Hugging Face to demonstrate Depth Anything results on videos."
+    },
+    {
+      "year": "2022",
+      "description": "2nd place out of 24 teams in The Pitt Challenge Hackathon for building SkinsAI."
+    },
+    {
+      "year": "2020",
+      "description": "3rd place in the Chemical Engineering Masters Student Association Research Forum, Poster Competition."
+    },
+    {
+      "year": "2020",
+      "description": "Category winner in The Pitt Challenge Hackathon \"Largest impact on healthcare workers\" category."
+    },
+    {
+      "year": "2019",
+      "description": "1st place in AVEVA's National Simulation Competition (advanced category)."
+    },
+    {
+      "year": "2018",
+      "description": "2nd place in the American Institute of Chemical Engineers National Poster Competition, Computing and Process Control Division."
+    }
+  ],
+  "community": [
+    {
+      "description": "Youth robotics team working on tools for blind soccer players",
+      "role": "Industry Volunteer",
+      "year": "2024"
+    },
+    {
+      "description": "Organized a profit sharing event to raise funds for the flooding in Pakistan",
+      "role": "Leadership",
+      "year": "2022"
+    },
+    {
+      "description": "Volunteered at an outreach event to help encourage students to pursue STEM",
+      "role": "Leadership",
+      "year": "2022"
+    },
+    {
+      "description": "Volunteered to conduct science experiments with elementary students",
+      "role": "STEM Education",
+      "year": "2021"
+    }
+  ],
+  "teaching": [],
+  "portfolio": [],
+  "languages": [],
+  "interests": [],
+  "references": []
 }

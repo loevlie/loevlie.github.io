@@ -210,6 +210,29 @@
   font-size: 0.9rem;
 }
 
+/* Highlights (bullet points under experience items) */
+.cv-highlights {
+  margin-top: 0.5rem;
+  padding-left: 1.5rem;
+}
+
+.cv-highlights li {
+  margin-bottom: 0.25rem;
+}
+
+/* Award Items */
+.cv-award-item {
+  margin-bottom: 1rem;
+}
+
+.cv-award-item .cv-item-header {
+  flex-shrink: 0;
+}
+
+.cv-award-year {
+  min-width: 3em;
+}
+
 /* References Styles */
 .cv-references {
   font-style: italic;
