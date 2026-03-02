@@ -11,19 +11,6 @@ redirect_from:
 
 I am completing my Master's in Computer Science at Tufts University, where I was advised by **[Prof. Michael Hughes](https://www.michaelchughes.com/)** and **[Prof. Jivko Sinapov](https://www.eecs.tufts.edu/~jsinapov/)**.
 
-I am broadly interested in deep learning with constraint. That constraint could be a lack of labeled data, quality data, rich data representations, or inherent model limitations.
-
-To address these constraints, I have explored diverse approaches including:
-
-- Transfer learning
-- Weakly-supervised methods like multiple instance learning
-- Reinforcement learning for LLM post-training
-- Parameter-efficient fine-tuning with LoRA
-- Simulation-to-real transfer
-- Incorporating inductive biases inspired by cognitive science.
-
-I am also interested in **deep learning interpretability** because as these models become ubiquitous in daily life, understanding their decision-making is essential for safe deployment.
-
 My previous work spans medical imaging, computer vision for robotics, vision-language models, and computational chemistry.
 
 ---
