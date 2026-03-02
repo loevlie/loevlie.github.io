@@ -7,21 +7,22 @@ redirect_from:
   - /about.html
 ---
 
-**Hi, my name is Denny!**  I'm a Master's student in Computer Science at Tufts University, where I'm advised by **[Prof. Michael Hughes](https://www.michaelchughes.com/)** and **[Prof. Jivko Sinapov](https://www.eecs.tufts.edu/~jsinapov/)**.
+**Hi, my name is Denny!**  I'm an incoming **ELLIS PhD student** at [CWI](https://www.cwi.nl/en/) in the [TRLab](https://www.cwi.nl/en/groups/tabular-and-relational-learning/), advised by **[Madelon Hulsebos](https://madelonhulsebos.github.io/)** and co-advised by **[Jan-Willem Van de Meent](https://jwvdm.github.io/)** at [AMLab](https://amlab.science.uva.nl/), University of Amsterdam. I will be working on **multimodal tabular foundation models**. More to come soon!
 
-I am broadly interested in deep learning with constraint. That constraint could be a lack of labeled data, quality data, rich data representations, or inherent model limitations.  
+I am completing my Master's in Computer Science at Tufts University, where I was advised by **[Prof. Michael Hughes](https://www.michaelchughes.com/)** and **[Prof. Jivko Sinapov](https://www.eecs.tufts.edu/~jsinapov/)**.
+
+I am broadly interested in deep learning with constraint. That constraint could be a lack of labeled data, quality data, rich data representations, or inherent model limitations.
 
 To address these constraints, I have explored diverse approaches including:
 
--  Transfer learning 
--  Weakly-supervised methods like multiple instance learning
--  Reinforcement learning for LLM post-training
--  Parameter-efficient fine-tuning with LoRA
--  Simulation-to-real transfer
+- Transfer learning
+- Weakly-supervised methods like multiple instance learning
+- Reinforcement learning for LLM post-training
+- Parameter-efficient fine-tuning with LoRA
+- Simulation-to-real transfer
 - Incorporating inductive biases inspired by cognitive science.
 
-I am also interested in **deep learning interpretability** because as these models become ubiquitous in daily life, understanding their
-  decision-making is essential for safe deployment.
+I am also interested in **deep learning interpretability** because as these models become ubiquitous in daily life, understanding their decision-making is essential for safe deployment.
 
 My previous work spans medical imaging, computer vision for robotics, vision-language models, and computational chemistry.
 
@@ -41,6 +42,8 @@ My previous work spans medical imaging, computer vision for robotics, vision-lan
 ---
 
 ### Recent News
+
+**March 2026** - Excited to share that I'll be joining **[CWI](https://www.cwi.nl/en/)** in Amsterdam as an **ELLIS PhD student** in the [TRLab](https://www.cwi.nl/en/groups/tabular-and-relational-learning/), advised by [Madelon Hulsebos](https://madelonhulsebos.github.io/) and co-advised by [Jan-Willem Van de Meent](https://jwvdm.github.io/) at [AMLab](https://amlab.science.uva.nl/). I'll be working on multimodal tabular foundation models!
 
 **October 2025** - Our paper "Synthetic Data Reveals Generalization Gaps in Correlated Multiple Instance Learning" has been accepted at the **ML4H Findings Track**! [Read the paper on arXiv](https://arxiv.org/abs/2510.25759)
 

@@ -12,7 +12,7 @@ site_theme               : "air" # Currently available options are "default", "a
 title                    : "Denny Loevlie"
 title_separator          : "-"
 name                     : &name "Denny Loevlie"
-description              : &description "MS Computer Science student at Tufts University researching data-efficient machine learning"
+description              : &description "Incoming ELLIS PhD student at CWI (TRLab) & AMLab, working on multimodal tabular foundation models"
 url                      : https://loevlie.github.io
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "loevlie/loevlie.github.io"
@@ -25,9 +25,9 @@ author:
   avatar           : "profile.png"
   name             : "Denny Loevlie"
   pronouns         : # example: "she/her"  
-  bio              : "Researching data-efficient ML, vision-language models, and medical imaging"
-  location         : "Boston, MA, USA"
-  employer         : "Tufts University"
+  bio              : "Incoming ELLIS PhD student at CWI (TRLab) & AMLab. Multimodal tabular foundation models. Advised by Madelon Hulsebos & Jan-Willem Van de Meent."
+  location         : "Amsterdam, Netherlands"
+  employer         : "CWI / AMLab"
   uri              : # URL
   email            : "dennis.loevlie@tufts.edu" 
 

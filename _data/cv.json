@@ -14,6 +14,16 @@
   },
   "education": [
     {
+      "institution": "CWI & University of Amsterdam, Amsterdam, Netherlands",
+      "area": "Doctor of Philosophy in Computer Science (ELLIS)",
+      "studyType": "",
+      "startDate": "Fall 2026",
+      "endDate": "Present",
+      "gpa": null,
+      "courses": [],
+      "detail": "TRLab (CWI) & AMLab (UvA) — Advisors: Madelon Hulsebos & Jan-Willem Van de Meent. Focus: Multimodal Tabular Foundation Models."
+    },
+    {
       "institution": "Tufts University, Medford, MA, USA",
       "area": "Masters of Science in Computer Science",
       "studyType": "",
