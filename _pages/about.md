@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-**Hi, my name is Denny!**  I'm an incoming **ELLIS PhD student** at [CWI](https://www.cwi.nl/en/) in the [TRLab](https://www.cwi.nl/en/groups/tabular-and-relational-learning/), advised by **[Madelon Hulsebos](https://madelonhulsebos.github.io/)** and co-advised by **[Jan-Willem Van de Meent](https://jwvdm.github.io/)** at [AMLab](https://amlab.science.uva.nl/), University of Amsterdam. I will be working on **multimodal tabular foundation models**. More to come soon!
+**Hi, my name is Denny!**  I'm an incoming **ELLIS PhD student** at [CWI](https://www.cwi.nl) in the [TRLab](https://trl-lab.github.io/), advised by **[Madelon Hulsebos](https://madelonhulsebos.github.io/)** and co-advised by **[Jan-Willem Van de Meent](https://jwvdm.github.io/)** at [AMLab](https://amlab.science.uva.nl/), University of Amsterdam. I will be working on **multimodal tabular foundation models**. More to come soon!
 
 I am completing my Master's in Computer Science at Tufts University, where I was advised by **[Prof. Michael Hughes](https://www.michaelchughes.com/)** and **[Prof. Jivko Sinapov](https://www.eecs.tufts.edu/~jsinapov/)**.
 
@@ -30,7 +30,7 @@ My previous work spans medical imaging, computer vision for robotics, vision-lan
 
 ### Recent News
 
-**March 2026** - Excited to share that I'll be joining **[CWI](https://www.cwi.nl/en/)** in Amsterdam as an **ELLIS PhD student** in the [TRLab](https://www.cwi.nl/en/groups/tabular-and-relational-learning/), advised by [Madelon Hulsebos](https://madelonhulsebos.github.io/) and co-advised by [Jan-Willem Van de Meent](https://jwvdm.github.io/) at [AMLab](https://amlab.science.uva.nl/). I'll be working on multimodal tabular foundation models!
+**March 2026** - Excited to share that I'll be joining **[CWI](https://www.cwi.nl)** in Amsterdam as an **ELLIS PhD student** in the [TRLab](https://trl-lab.github.io/), advised by [Madelon Hulsebos](https://madelonhulsebos.github.io/) and co-advised by [Jan-Willem Van de Meent](https://jwvdm.github.io/) at [AMLab](https://amlab.science.uva.nl/). I'll be working on multimodal tabular foundation models!
 
 **October 2025** - Our paper "Synthetic Data Reveals Generalization Gaps in Correlated Multiple Instance Learning" has been accepted at the **ML4H Findings Track**! [Read the paper on arXiv](https://arxiv.org/abs/2510.25759)
 
