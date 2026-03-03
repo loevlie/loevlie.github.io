@@ -17,7 +17,7 @@ redirect_from:
 
   <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
     <div style="flex-shrink: 0;">
-      <img src="/images/mil_result.png" alt="MIL paper figure" style="width: 190px; border-radius: 4px;">
+      <img src="/images/mil_bayes.png" alt="MIL paper figure" style="width: 190px; border-radius: 4px;">
     </div>
     <div style="flex: 1; min-width: 0;">
       <strong><a href="https://arxiv.org/abs/2510.25759">Synthetic Data Reveals Generalization Gaps in Correlated Multiple Instance Learning</a></strong><br>
