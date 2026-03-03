@@ -17,7 +17,7 @@ redirect_from:
 
   <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
     <div style="flex-shrink: 0;">
-      <img src="/images/mil.png" alt="MIL paper figure" style="width: 140px; border-radius: 4px;">
+      <img src="/images/mil_fig.png" alt="MIL paper figure" style="width: 190px; border-radius: 4px;">
     </div>
     <div style="flex: 1; min-width: 0;">
       <strong><a href="https://arxiv.org/abs/2510.25759">Synthetic Data Reveals Generalization Gaps in Correlated Multiple Instance Learning</a></strong><br>
@@ -29,8 +29,8 @@ redirect_from:
 
   <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
     <div style="flex-shrink: 0;">
-      <img src="/images/cover_acr.jpeg" alt="ACR cover art" style="width: 140px; border-radius: 4px;"><br>
-      <em style="font-size: 0.75rem;">Cover art by Dennis Loevlie &amp; Sungil Hong</em>
+      <img src="/images/cover_acr.jpeg" alt="ACR cover art" style="width: 190px; border-radius: 4px;"><br>
+      <em style="font-size: 0.75rem;">Cover art by Sungil Hong &amp; Dennis Loevlie</em>
     </div>
     <div style="flex: 1; min-width: 0;">
       <strong><a href="https://doi.org/10.1021/acs.accounts.2c00646">Demystifying the Chemical Ordering of Multimetallic Nanoparticles</a></strong><br>
