@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <filter id="glow" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softglow" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f2744"/>
+      <stop offset="50%" stop-color="#1e3f6e"/>
+      <stop offset="100%" stop-color="#0f2744"/>
+    </linearGradient>
+    <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#92400e"/>
+      <stop offset="50%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#92400e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="400" fill="#0d1117"/>
+
+  <!-- ── SLICES ── centered vertically: 5 × 20px + 4 × 14px gap = 156px → start y=122 -->
+
+  <rect x="62" y="122" width="108" height="20" rx="3" fill="url(#sg)" opacity="0.50"/>
+  <!-- inner texture lines -->
+  <line x1="75"  y1="128" x2="155" y2="128" stroke="#3b82f6" stroke-width="0.6" opacity="0.18"/>
+  <line x1="75"  y1="133" x2="155" y2="133" stroke="#3b82f6" stroke-width="0.6" opacity="0.12"/>
+
+  <rect x="62" y="156" width="108" height="20" rx="3" fill="url(#sg)" opacity="0.70"/>
+  <line x1="75"  y1="162" x2="155" y2="162" stroke="#3b82f6" stroke-width="0.6" opacity="0.22"/>
+  <line x1="75"  y1="167" x2="155" y2="167" stroke="#3b82f6" stroke-width="0.6" opacity="0.15"/>
+
+  <!-- highlighted slice -->
+  <rect x="62" y="190" width="108" height="20" rx="3" fill="url(#hg)" filter="url(#glow)"/>
+  <line x1="75"  y1="196" x2="155" y2="196" stroke="#fff" stroke-width="0.7" opacity="0.30"/>
+  <line x1="75"  y1="201" x2="155" y2="201" stroke="#fff" stroke-width="0.7" opacity="0.20"/>
+
+  <rect x="62" y="224" width="108" height="20" rx="3" fill="url(#sg)" opacity="0.70"/>
+  <line x1="75"  y1="230" x2="155" y2="230" stroke="#3b82f6" stroke-width="0.6" opacity="0.22"/>
+  <line x1="75"  y1="235" x2="155" y2="235" stroke="#3b82f6" stroke-width="0.6" opacity="0.15"/>
+
+  <rect x="62" y="258" width="108" height="20" rx="3" fill="url(#sg)" opacity="0.50"/>
+  <line x1="75"  y1="264" x2="155" y2="264" stroke="#3b82f6" stroke-width="0.6" opacity="0.18"/>
+  <line x1="75"  y1="269" x2="155" y2="269" stroke="#3b82f6" stroke-width="0.6" opacity="0.12"/>
+
+  <!-- ── CORRELATION BRACKETS (left edge) ── -->
+  <path d="M 62 132 C 40 132 40 166 62 166" stroke="#3b82f6" stroke-width="1.5" fill="none" opacity="0.40"/>
+  <path d="M 62 166 C 40 166 40 200 62 200" stroke="#fbbf24" stroke-width="2.2" fill="none" opacity="0.85" filter="url(#glow)"/>
+  <path d="M 62 200 C 40 200 40 234 62 234" stroke="#fbbf24" stroke-width="2.2" fill="none" opacity="0.85" filter="url(#glow)"/>
+  <path d="M 62 234 C 40 234 40 268 62 268" stroke="#3b82f6" stroke-width="1.5" fill="none" opacity="0.40"/>
+
+  <!-- ── BEZIER FLOWS → attention node at (292, 200) ── -->
+  <path d="M 170 132 C 234 132 234 200 292 200" stroke="#3b82f6" stroke-width="1.2" fill="none" opacity="0.28"/>
+  <path d="M 170 166 C 234 166 234 200 292 200" stroke="#3b82f6" stroke-width="1.8" fill="none" opacity="0.48"/>
+  <!-- highlighted flow — straight through -->
+  <path d="M 170 200 L 292 200"               stroke="#fbbf24" stroke-width="3.2" fill="none" opacity="1"    filter="url(#glow)"/>
+  <path d="M 170 234 C 234 234 234 200 292 200" stroke="#3b82f6" stroke-width="1.8" fill="none" opacity="0.48"/>
+  <path d="M 170 268 C 234 268 234 200 292 200" stroke="#3b82f6" stroke-width="1.2" fill="none" opacity="0.28"/>
+
+  <!-- ── ATTENTION NODE ── -->
+  <circle cx="292" cy="200" r="24" fill="#0d1117" stroke="#60a5fa" stroke-width="2" filter="url(#softglow)"/>
+  <text x="292" y="208" text-anchor="middle" fill="#93c5fd"
+        font-size="20" font-family="Georgia, 'Times New Roman', serif" font-style="italic">α</text>
+
+  <!-- ── OUTPUT ── -->
+  <line x1="316" y1="200" x2="348" y2="200" stroke="#e2e8f0" stroke-width="1.5" opacity="0.55"/>
+  <polygon points="345,195 356,200 345,205" fill="#e2e8f0" opacity="0.55"/>
+  <circle cx="366" cy="200" r="15" fill="#0d1117" stroke="#34d399" stroke-width="2" filter="url(#softglow)"/>
+  <text x="366" y="207" text-anchor="middle" fill="#34d399"
+        font-size="14" font-family="Georgia, serif" font-style="italic">ŷ</text>
+
+  <!-- ── SUBTLE "MIL" LABEL at bottom ── -->
+  <text x="200" y="355" text-anchor="middle" fill="#3b82f6"
+        font-size="11" font-family="'Helvetica Neue', Arial, sans-serif"
+        letter-spacing="4" opacity="0.45">MULTIPLE INSTANCE LEARNING</text>
+</svg>
