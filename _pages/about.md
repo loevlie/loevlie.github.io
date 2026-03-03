@@ -7,11 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-**Hi, my name is Denny!**  I'm an incoming ⭐ **[ELLIS PhD](https://ellis.eu/research/phd-postdoc) student** at [CWI](https://www.cwi.nl) in the [TRLab](https://trl-lab.github.io/), advised by **[Madelon Hulsebos](https://madelonhulsebos.github.io/)** and co-advised by **[Jan-Willem Van de Meent](https://jwvdm.github.io/)** at [AMLab](https://amlab.science.uva.nl/), University of Amsterdam. I will be working on **multimodal tabular foundation models**. More to come soon!
-
-I am completing my Master's in Computer Science at Tufts University, where I was advised by **[Prof. Michael Hughes](https://www.michaelchughes.com/)** and **[Prof. Jivko Sinapov](https://www.eecs.tufts.edu/~jsinapov/)**.
-
-My previous work spans medical imaging, computer vision for robotics, vision-language models, and computational chemistry.
+**Hi, my name is Denny!** I'm an incoming ⭐ **[ELLIS PhD](https://ellis.eu/research/phd-postdoc) student** at [CWI](https://www.cwi.nl) ([TRLab](https://trl-lab.github.io/)), working on **multimodal tabular foundation models** with [Madelon Hulsebos](https://madelonhulsebos.github.io/) and co-advised by [Jan-Willem Van de Meent](https://jwvdm.github.io/) ([AMLab](https://amlab.science.uva.nl/), University of Amsterdam). Previously, I completed my Master's in Computer Science at Tufts with [Prof. Michael Hughes](https://www.michaelchughes.com/), focusing on deep learning for medical imaging. Across my career I've also worked on computer vision for robotics, vision-language models, and computational chemistry.
 
 ---
 
