@@ -29,8 +29,8 @@ redirect_from:
 
   <div style="display: flex; gap: 1.2rem; align-items: flex-start;">
     <div style="flex-shrink: 0;">
-      <img src="/images/cover_acr.jpeg" alt="ACR cover art" style="width: 190px; border-radius: 4px;"><br>
-      <em style="font-size: 0.75rem;">Cover art by Sungil Hong &amp; Dennis Loevlie</em>
+      <img src="/images/cover_acr.jpeg" alt="ACR cover art" style="width: 190px; border-radius: 4px; display: block;"><br>
+      <em style="font-size: 0.75rem; display: block; max-width: 190px;">Cover art by Sungil Hong &amp; Dennis Loevlie</em>
     </div>
     <div style="flex: 1; min-width: 0;">
       <strong><a href="https://doi.org/10.1021/acs.accounts.2c00646">Demystifying the Chemical Ordering of Multimetallic Nanoparticles</a></strong><br>
