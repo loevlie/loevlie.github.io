@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<meta name=robots content="noindex">
+<title>Text columns: prompts per dataset</title>
+<link rel=preconnect href="https://fonts.googleapis.com"><link rel=preconnect href="https://fonts.gstatic.com" crossorigin>
+<link rel=stylesheet href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+<style>
+:root { --bg:#f7f5f0; --card:#fffdf8; --ink:#16202c; --soft:#4a5563; --muted:#6b7480; --line:#e2ddd2; --accent:#1f5f99; --pos:#1f6f43; --neg:#a3461b;
+        --dev-bg:#f3e3d0; --dev-ink:#7a3f10; --unt-bg:#dbe7f2; --unt-ink:#1b4a74; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#12171d; --card:#19212a; --ink:#e8ebef; --soft:#b7c0ca; --muted:#8d97a3;
+        --line:#2b3540; --accent:#7fb4e6; --pos:#7ccf9e; --neg:#f0a07a; --dev-bg:#3b2a1a; --dev-ink:#f2c79a; --unt-bg:#1d3347; --unt-ink:#a9cdf0; } }
+* { box-sizing:border-box }
+body { margin:0; background:var(--bg); color:var(--ink); font:17px/1.6 'IBM Plex Sans', system-ui, sans-serif }
+main { max-width:1040px; margin:0 auto; padding:56px 16px 96px }
+h1, h2, h3 { font-family:'Source Serif 4', Georgia, serif; font-weight:600; line-height:1.2 }
+h1 { font-size:clamp(30px, 5vw, 44px); margin:0 0 12px }
+h2 { font-size:28px; margin:56px 0 16px }
+h3 { font-size:22px; margin:0 }
+p { margin:0 0 12px }
+a { color:var(--accent) }
+.lede { font-size:19px; color:var(--soft); max-width:760px }
+.box { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px 24px; margin:24px 0 }
+.box ol { margin:8px 0 0; padding-left:22px } .box li { margin:4px 0 }
+.code { font-family:'IBM Plex Mono', ui-monospace, monospace; font-size:14px }
+.scroll { overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--card) }
+table { border-collapse:collapse; width:100% }
+th, td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top }
+th { font-weight:600; font-size:14px; color:var(--soft); white-space:nowrap }
+tr:last-child td { border-bottom:none }
+.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap }
+.pos { color:var(--pos); font-weight:600 } .neg { color:var(--neg); font-weight:600 } .flat { color:var(--soft) }
+.se { color:var(--muted); font-weight:400; font-size:14px }
+.muted { color:var(--muted) }
+.tag { display:inline-block; font-size:13px; font-weight:500; padding:2px 10px; border-radius:999px; white-space:nowrap }
+.tag.development { background:var(--dev-bg); color:var(--dev-ink) } .tag.untouched { background:var(--unt-bg); color:var(--unt-ink) }
+.card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin:16px 0; scroll-margin-top:16px }
+.card header { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:6px }
+.card .meta { color:var(--muted); font-size:15px; overflow-wrap:anywhere }
+.prompts { margin:12px 0; border:1px solid var(--line); border-radius:8px; overflow:hidden }
+.prompts td:first-child { width:32%; color:var(--soft) }
+.result { margin-top:12px; color:var(--soft) }
+footer { margin-top:56px; color:var(--muted); font-size:14px }
+</style>
+</head>
+<body>
+<main>
+<h1>Text columns: the prompts for every dataset</h1>
+<p class=lede>Companion to the slides “Describing the label in words”. For each MulTaBench image dataset: a link to the dataset, what its target is, the exact sentences used as prompts, and its result.</p>
+
+<div class=box>
+<b>How the text columns are made</b>
+<ol>
+<li>One short sentence per class (for a numeric target: five sentences describing ordered levels, low to high).</li>
+<li>Each image and each sentence are embedded with <b>BiomedCLIP</b> and with <b>dino.txt</b> (both frozen).</li>
+<li>Column value = 100 × cosine similarity between the image and the sentence. One column per sentence per model.</li>
+<li>The columns are added to the table; everything else is MulTaBench's released pipeline (TabPFN-v2, frozen DINOv3-small + PCA 30, their splits). No labels and no training are used to make the columns.</li>
+</ol>
+<p style="margin-top:12px">Prompts were written once on 2026-10-04 from each dataset's metadata (target name and class values), <b>before any result on these datasets</b>, and never changed. <b>Development</b> datasets are where the method was chosen; <b>untouched</b> ones were never looked at before this run, so only they test the claim.</p>
+</div>
+
+<h2>Results at a glance</h2>
+<p class=muted>Mean over MulTaBench folds 0–4. Frozen = their pipeline as released (our rerun); fine-tuned = their shipped TabPFN-v2 results with DINOv3 LoRA-tuned on each dataset's labels. Difference ± standard error over folds (folds share rows, so the error is optimistic).</p>
+<div class=scroll><table>
+<thead><tr><th>dataset</th><th>set</th><th>metric</th><th class=num>frozen</th><th class=num>+ text columns</th><th class=num>fine-tuned</th><th class=num>difference vs frozen</th></tr></thead>
+<tbody><tr><td><a href='#amazon-bestseller'>Amazon Bestseller</a></td><td><span class='tag untouched'>untouched</span></td><td>R²</td><td class=num>0.546</td><td class=num>0.578</td><td class=num>0.578</td><td class='num pos'>+0.032 <span class=se>± 0.009</span></td></tr><tr><td><a href='#amazon-packages'>Amazon Packages</a></td><td><span class='tag untouched'>untouched</span></td><td>R²</td><td class=num>0.560</td><td class=num>0.566</td><td class=num>0.598</td><td class='num pos'>+0.007 <span class=se>± 0.001</span></td></tr><tr><td><a href='#celeb-attractiveness'>CelebA Attractiveness</a></td><td><span class='tag untouched'>untouched</span></td><td>AUROC</td><td class=num>0.908</td><td class=num>0.909</td><td class=num>0.914</td><td class='num pos'>+0.001 <span class=se>± 0.000</span></td></tr><tr><td><a href='#csgo-skin'>CS:GO Skins</a></td><td><span class='tag untouched'>untouched</span></td><td>AUROC</td><td class=num>0.897</td><td class=num>0.898</td><td class=num>0.887</td><td class='num flat'>+0.000 <span class=se>± 0.001</span></td></tr><tr><td><a href='#flower-bouquets'>Flower Bouquets</a></td><td><span class='tag untouched'>untouched</span></td><td>AUROC</td><td class=num>0.653</td><td class=num>0.652</td><td class=num>0.668</td><td class='num flat'>-0.000 <span class=se>± 0.004</span></td></tr><tr><td><a href='#glaucoma-smdg'>Glaucoma SMDG</a></td><td><span class='tag untouched'>untouched</span></td><td>AUROC</td><td class=num>0.928</td><td class=num>0.931</td><td class=num>0.937</td><td class='num pos'>+0.003 <span class=se>± 0.002</span></td></tr><tr><td><a href='#hnm-fashion'>H&amp;M Fashion</a></td><td><span class='tag untouched'>untouched</span></td><td>R²</td><td colspan=4 class=muted>not in the matched run (MulTaBench ships no TabPFN-v2 results for it)</td></tr><tr><td><a href='#hateful-meme'>Hateful Meme</a></td><td><span class='tag untouched'>untouched</span></td><td>AUROC</td><td class=num>0.759</td><td class=num>0.758</td><td class=num>0.766</td><td class='num flat'>-0.000 <span class=se>± 0.001</span></td></tr><tr><td><a href='#hubmap-hpa'>HubMAP HPA</a></td><td><span class='tag untouched'>untouched</span></td><td>AUROC</td><td class=num>0.959</td><td class=num>0.958</td><td class=num>0.975</td><td class='num neg'>-0.001 <span class=se>± 0.000</span></td></tr><tr><td><a href='#justin-instagram'>Justin Instagram</a></td><td><span class='tag untouched'>untouched</span></td><td>AUROC</td><td class=num>0.952</td><td class=num>0.982</td><td class=num>0.985</td><td class='num pos'>+0.030 <span class=se>± 0.001</span></td></tr><tr><td><a href='#khaadi-clothes'>Khaadi Clothes</a></td><td><span class='tag untouched'>untouched</span></td><td>R²</td><td class=num>0.712</td><td class=num>0.694</td><td class=num>0.796</td><td class='num flat'>-0.018 <span class=se>± 0.043</span></td></tr><tr><td><a href='#letterboxd-movies'>Letterboxd Movies</a></td><td><span class='tag untouched'>untouched</span></td><td>R²</td><td class=num>0.472</td><td class=num>0.474</td><td class=num>0.473</td><td class='num pos'>+0.002 <span class=se>± 0.001</span></td></tr><tr><td><a href='#mammography-cmmd'>Mammography CMMD</a></td><td><span class='tag untouched'>untouched</span></td><td>AUROC</td><td class=num>0.787</td><td class=num>0.787</td><td class=num>0.805</td><td class='num flat'>-0.001 <span class=se>± 0.001</span></td></tr><tr><td><a href='#mkphoto-bots'>MkPhoto Bots</a></td><td><span class='tag untouched'>untouched</span></td><td>R²</td><td class=num>0.333</td><td class=num>0.334</td><td class=num>0.362</td><td class='num flat'>+0.001 <span class=se>± 0.003</span></td></tr><tr><td><a href='#painting-price'>Painting Price</a></td><td><span class='tag untouched'>untouched</span></td><td>R²</td><td class=num>0.271</td><td class=num>0.268</td><td class=num>0.286</td><td class='num flat'>-0.004 <span class=se>± 0.006</span></td></tr><tr><td><a href='#petfinder'>PetFinder</a></td><td><span class='tag untouched'>untouched</span></td><td>AUROC</td><td class=num>0.836</td><td class=num>0.859</td><td class=num>0.845</td><td class='num pos'>+0.023 <span class=se>± 0.001</span></td></tr><tr><td><a href='#zooscan-zooplankton'>Zooscan Plankton</a></td><td><span class='tag untouched'>untouched</span></td><td>AUROC</td><td class=num>0.983</td><td class=num>0.982</td><td class=num>0.986</td><td class='num flat'>-0.000 <span class=se>± 0.000</span></td></tr><tr><td><a href='#cbis-ddsm'>CBIS-DDSM</a></td><td><span class='tag development'>development</span></td><td>AUROC</td><td class=num>0.868</td><td class=num>0.869</td><td class=num>0.898</td><td class='num flat'>+0.000 <span class=se>± 0.002</span></td></tr><tr><td><a href='#chexpert'>CheXpert</a></td><td><span class='tag development'>development</span></td><td>AUROC</td><td class=num>0.782</td><td class=num>0.815</td><td class=num>0.820</td><td class='num pos'>+0.034 <span class=se>± 0.002</span></td></tr><tr><td><a href='#ham10000-lesion'>HAM10000</a></td><td><span class='tag development'>development</span></td><td>AUROC</td><td colspan=4 class=muted>not in the matched run (MulTaBench ships no TabPFN-v2 results for it)</td></tr><tr><td><a href='#mango-mass'>Mango Mass</a></td><td><span class='tag development'>development</span></td><td>R²</td><td class=num>0.610</td><td class=num>0.636</td><td class=num>0.690</td><td class='num pos'>+0.026 <span class=se>± 0.012</span></td></tr></tbody>
+</table></div>
+
+<h2>Prompts, dataset by dataset</h2>
+
+<article class=card id="amazon-bestseller">
+  <header><h3>Amazon Bestseller</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-amazon-bestseller">kaggle.com/datasets/chico89/multabench-amazon-bestseller</a> · target column <span class=code>price</span> · regression (prompts describe five ordered levels) · 3,488 rows</p>
+  <p>product price from a product photo. 5 prompts → 10 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>ordered level (low → high)</th><th>prompt</th></tr></thead><tbody><tr><td class=code>level 1 of 5</td><td>a photo of a very cheap product</td></tr><tr><td class=code>level 2 of 5</td><td>a photo of a cheap product</td></tr><tr><td class=code>level 3 of 5</td><td>a photo of a moderately priced product</td></tr><tr><td class=code>level 4 of 5</td><td>a photo of an expensive product</td></tr><tr><td class=code>level 5 of 5</td><td>a photo of a very expensive premium product</td></tr></tbody></table>
+  <p class=result><b>Result</b> (R², MulTaBench folds 0–4): frozen 0.546 → <b>with text columns 0.578</b> (+0.032 ± 0.009, better); MulTaBench's fine-tuned encoder 0.578.</p>
+</article>
+<article class=card id="amazon-packages">
+  <header><h3>Amazon Packages</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-amazon-packages">kaggle.com/datasets/chico89/multabench-amazon-packages</a> · target column <span class=code>Total Weight in Pounds</span> · regression (prompts describe five ordered levels) · 46,398 rows</p>
+  <p>package weight (lb) from a photo. 5 prompts → 10 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>ordered level (low → high)</th><th>prompt</th></tr></thead><tbody><tr><td class=code>level 1 of 5</td><td>a photo of a very light, small package</td></tr><tr><td class=code>level 2 of 5</td><td>a photo of a small package</td></tr><tr><td class=code>level 3 of 5</td><td>a photo of a medium-sized package</td></tr><tr><td class=code>level 4 of 5</td><td>a photo of a large, heavy package</td></tr><tr><td class=code>level 5 of 5</td><td>a photo of a very large, very heavy package</td></tr></tbody></table>
+  <p class=result><b>Result</b> (R², MulTaBench folds 0–4): frozen 0.560 → <b>with text columns 0.566</b> (+0.007 ± 0.001, better); MulTaBench's fine-tuned encoder 0.598.</p>
+</article>
+<article class=card id="celeb-attractiveness">
+  <header><h3>CelebA Attractiveness</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-celeb-attractiveness">kaggle.com/datasets/chico89/multabench-celeb-attractiveness</a> · target column <span class=code>Attractive</span> · classification, 2 classes · 99,999 rows</p>
+  <p>the &#x27;attractive&#x27; attribute from a face photo. 2 prompts → 4 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>-1</td><td>a photo of a person who is not attractive</td></tr><tr><td class=code>1</td><td>a photo of an attractive person</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.908 → <b>with text columns 0.909</b> (+0.001 ± 0.000, better); MulTaBench's fine-tuned encoder 0.914.</p>
+</article>
+<article class=card id="csgo-skin">
+  <header><h3>CS:GO Skins</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-csgo-skin">kaggle.com/datasets/chico89/multabench-csgo-skin</a> · target column <span class=code>Price_Category</span> · classification, 10 classes · 956 rows</p>
+  <p>price category (10 bins) from the skin&#x27;s image. 10 prompts → 20 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>Quantile 0-10%</td><td>a cheap, plain video game weapon skin</td></tr><tr><td class=code>Quantile 10-20%</td><td>a very common video game weapon skin</td></tr><tr><td class=code>Quantile 20-30%</td><td>a common video game weapon skin</td></tr><tr><td class=code>Quantile 30-40%</td><td>an ordinary video game weapon skin</td></tr><tr><td class=code>Quantile 40-50%</td><td>a moderately rare video game weapon skin</td></tr><tr><td class=code>Quantile 50-60%</td><td>an uncommon video game weapon skin</td></tr><tr><td class=code>Quantile 60-70%</td><td>a rare video game weapon skin</td></tr><tr><td class=code>Quantile 70-80%</td><td>a very rare video game weapon skin</td></tr><tr><td class=code>Quantile 80-90%</td><td>an expensive, rare video game weapon skin</td></tr><tr><td class=code>Quantile 90-100%</td><td>an extremely rare, expensive, flashy video game weapon skin</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.897 → <b>with text columns 0.898</b> (+0.000 ± 0.001, no clear difference); MulTaBench's fine-tuned encoder 0.887.</p>
+</article>
+<article class=card id="flower-bouquets">
+  <header><h3>Flower Bouquets</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-flower-bouquets">kaggle.com/datasets/chico89/multabench-flower-bouquets</a> · target column <span class=code>girlfriend_rating</span> · classification, 5 classes · 600 rows</p>
+  <p>bouquet rating (5 levels) from a photo. 5 prompts → 10 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>1</td><td>a photo of an ugly, unappealing flower bouquet</td></tr><tr><td class=code>2</td><td>a photo of a plain flower bouquet</td></tr><tr><td class=code>3</td><td>a photo of a nice flower bouquet</td></tr><tr><td class=code>4</td><td>a photo of a beautiful flower bouquet</td></tr><tr><td class=code>5</td><td>a photo of a stunning, romantic flower bouquet</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.653 → <b>with text columns 0.652</b> (-0.000 ± 0.004, no clear difference); MulTaBench's fine-tuned encoder 0.668.</p>
+</article>
+<article class=card id="glaucoma-smdg">
+  <header><h3>Glaucoma SMDG</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-glaucoma-smdg">kaggle.com/datasets/chico89/multabench-glaucoma-smdg</a> · target column <span class=code>types</span> · classification, 3 classes · 12,449 rows</p>
+  <p>glaucoma status (3 classes) from a fundus photo. 3 prompts → 6 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>-1</td><td>a fundus photograph of an eye suspected of glaucoma</td></tr><tr><td class=code>0</td><td>a fundus photograph of a healthy eye</td></tr><tr><td class=code>1</td><td>a fundus photograph of an eye with glaucoma</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.928 → <b>with text columns 0.931</b> (+0.003 ± 0.002, better); MulTaBench's fine-tuned encoder 0.937.</p>
+</article>
+<article class=card id="hnm-fashion">
+  <header><h3>H&amp;M Fashion</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-hnm-fashion">kaggle.com/datasets/chico89/multabench-hnm-fashion</a> · target column <span class=code>AvgConsumerAge</span> · regression (prompts describe five ordered levels) · 104,072 rows</p>
+  <p>average buyer age from a product photo. 5 prompts → 10 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>ordered level (low → high)</th><th>prompt</th></tr></thead><tbody><tr><td class=code>level 1 of 5</td><td>clothing for teenagers</td></tr><tr><td class=code>level 2 of 5</td><td>clothing for young adults in their twenties</td></tr><tr><td class=code>level 3 of 5</td><td>clothing for adults in their thirties</td></tr><tr><td class=code>level 4 of 5</td><td>clothing for middle-aged adults</td></tr><tr><td class=code>level 5 of 5</td><td>clothing for older adults</td></tr></tbody></table>
+  
+</article>
+<article class=card id="hateful-meme">
+  <header><h3>Hateful Meme</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-hateful-meme">kaggle.com/datasets/chico89/multabench-hateful-meme</a> · target column <span class=code>label</span> · classification, 2 classes · 9,000 rows</p>
+  <p>hateful or not, from the meme image. 2 prompts → 4 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>0.0</td><td>a harmless, friendly meme</td></tr><tr><td class=code>1.0</td><td>a hateful, offensive meme</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.759 → <b>with text columns 0.758</b> (-0.000 ± 0.001, no clear difference); MulTaBench's fine-tuned encoder 0.766.</p>
+</article>
+<article class=card id="hubmap-hpa">
+  <header><h3>HubMAP HPA</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-hubmap-hpa">kaggle.com/datasets/chico89/multabench-hubmap-hpa</a> · target column <span class=code>age</span> · classification, 10 classes · 12,581 rows</p>
+  <p>donor age group (10 bins) from a tissue image. 10 prompts → 20 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>Quantile 0-10%</td><td>a microscopy image of tissue from a very young donor</td></tr><tr><td class=code>Quantile 10-20%</td><td>a microscopy image of tissue from a young donor</td></tr><tr><td class=code>Quantile 20-30%</td><td>a microscopy image of tissue from a young adult donor</td></tr><tr><td class=code>Quantile 30-40%</td><td>a microscopy image of tissue from a adult donor</td></tr><tr><td class=code>Quantile 40-50%</td><td>a microscopy image of tissue from a middle-aged donor</td></tr><tr><td class=code>Quantile 50-60%</td><td>a microscopy image of tissue from a middle-aged donor</td></tr><tr><td class=code>Quantile 60-70%</td><td>a microscopy image of tissue from a older adult donor</td></tr><tr><td class=code>Quantile 70-80%</td><td>a microscopy image of tissue from a older donor</td></tr><tr><td class=code>Quantile 80-90%</td><td>a microscopy image of tissue from a elderly donor</td></tr><tr><td class=code>Quantile 90-100%</td><td>a microscopy image of tissue from a very elderly donor</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.959 → <b>with text columns 0.958</b> (-0.001 ± 0.000, worse); MulTaBench's fine-tuned encoder 0.975.</p>
+</article>
+<article class=card id="justin-instagram">
+  <header><h3>Justin Instagram</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-justin-instagram">kaggle.com/datasets/chico89/multabench-justin-instagram</a> · target column <span class=code>username</span> · classification, 5 classes · 10,319 rows</p>
+  <p>which &#x27;Justin&#x27; posted the photo (5 accounts). 5 prompts → 10 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>justinbieber</td><td>a photo from Justin Bieber&#x27;s Instagram</td></tr><tr><td class=code>justinhartley</td><td>a photo from actor Justin Hartley&#x27;s Instagram</td></tr><tr><td class=code>justinlong</td><td>a photo from actor Justin Long&#x27;s Instagram</td></tr><tr><td class=code>justinpjtrudeau</td><td>a photo from Canadian prime minister Justin Trudeau&#x27;s Instagram</td></tr><tr><td class=code>justintimberlake</td><td>a photo from Justin Timberlake&#x27;s Instagram</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.952 → <b>with text columns 0.982</b> (+0.030 ± 0.001, better); MulTaBench's fine-tuned encoder 0.985.</p>
+</article>
+<article class=card id="khaadi-clothes">
+  <header><h3>Khaadi Clothes</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-khaadi-clothes">kaggle.com/datasets/chico89/multabench-khaadi-clothes</a> · target column <span class=code>Price</span> · regression (prompts describe five ordered levels) · 400 rows</p>
+  <p>garment price from a product photo. 5 prompts → 10 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>ordered level (low → high)</th><th>prompt</th></tr></thead><tbody><tr><td class=code>level 1 of 5</td><td>a photo of cheap, simple women&#x27;s clothing</td></tr><tr><td class=code>level 2 of 5</td><td>a photo of affordable everyday women&#x27;s clothing</td></tr><tr><td class=code>level 3 of 5</td><td>a photo of mid-priced women&#x27;s clothing</td></tr><tr><td class=code>level 4 of 5</td><td>a photo of expensive embroidered women&#x27;s clothing</td></tr><tr><td class=code>level 5 of 5</td><td>a photo of luxurious, heavily embroidered designer clothing</td></tr></tbody></table>
+  <p class=result><b>Result</b> (R², MulTaBench folds 0–4): frozen 0.712 → <b>with text columns 0.694</b> (-0.018 ± 0.043, no clear difference); MulTaBench's fine-tuned encoder 0.796.</p>
+</article>
+<article class=card id="letterboxd-movies">
+  <header><h3>Letterboxd Movies</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-letterboxd-movies">kaggle.com/datasets/chico89/multabench-letterboxd-movies</a> · target column <span class=code>rating</span> · regression (prompts describe five ordered levels) · 12,564 rows</p>
+  <p>average rating from the movie poster. 5 prompts → 10 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>ordered level (low → high)</th><th>prompt</th></tr></thead><tbody><tr><td class=code>level 1 of 5</td><td>a poster of a terrible, badly rated movie</td></tr><tr><td class=code>level 2 of 5</td><td>a poster of a poorly rated movie</td></tr><tr><td class=code>level 3 of 5</td><td>a poster of an average movie</td></tr><tr><td class=code>level 4 of 5</td><td>a poster of a well rated movie</td></tr><tr><td class=code>level 5 of 5</td><td>a poster of an acclaimed, highly rated masterpiece movie</td></tr></tbody></table>
+  <p class=result><b>Result</b> (R², MulTaBench folds 0–4): frozen 0.472 → <b>with text columns 0.474</b> (+0.002 ± 0.001, better); MulTaBench's fine-tuned encoder 0.473.</p>
+</article>
+<article class=card id="mammography-cmmd">
+  <header><h3>Mammography CMMD</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-mammography-cmmd">kaggle.com/datasets/chico89/multabench-mammography-cmmd</a> · target column <span class=code>Classification</span> · classification, 2 classes · 5,202 rows</p>
+  <p>benign vs malignant from a mammogram. 2 prompts → 4 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>Benign</td><td>a mammogram of a benign breast lesion</td></tr><tr><td class=code>Malignant</td><td>a mammogram of a malignant breast tumour</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.787 → <b>with text columns 0.787</b> (-0.001 ± 0.001, no clear difference); MulTaBench's fine-tuned encoder 0.805.</p>
+</article>
+<article class=card id="mkphoto-bots">
+  <header><h3>MkPhoto Bots</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-mkphoto-bots">kaggle.com/datasets/chico89/multabench-mkphoto-bots</a> · target column <span class=code>TrustNZ_IDNNZ</span> · regression (prompts describe five ordered levels) · 13,748 rows</p>
+  <p>account trust score from a profile photo. 5 prompts → 10 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>ordered level (low → high)</th><th>prompt</th></tr></thead><tbody><tr><td class=code>level 1 of 5</td><td>a photo that looks fake and untrustworthy</td></tr><tr><td class=code>level 2 of 5</td><td>a photo that looks somewhat suspicious</td></tr><tr><td class=code>level 3 of 5</td><td>an ordinary photo</td></tr><tr><td class=code>level 4 of 5</td><td>a photo that looks genuine</td></tr><tr><td class=code>level 5 of 5</td><td>a photo that looks completely genuine and trustworthy</td></tr></tbody></table>
+  <p class=result><b>Result</b> (R², MulTaBench folds 0–4): frozen 0.333 → <b>with text columns 0.334</b> (+0.001 ± 0.003, no clear difference); MulTaBench's fine-tuned encoder 0.362.</p>
+</article>
+<article class=card id="painting-price">
+  <header><h3>Painting Price</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-painting-price">kaggle.com/datasets/chico89/multabench-painting-price</a> · target column <span class=code>price</span> · regression (prompts describe five ordered levels) · 12,369 rows</p>
+  <p>painting price from an image of the painting. 5 prompts → 10 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>ordered level (low → high)</th><th>prompt</th></tr></thead><tbody><tr><td class=code>level 1 of 5</td><td>a photo of a cheap amateur painting</td></tr><tr><td class=code>level 2 of 5</td><td>a photo of an inexpensive painting</td></tr><tr><td class=code>level 3 of 5</td><td>a photo of a mid-priced painting</td></tr><tr><td class=code>level 4 of 5</td><td>a photo of an expensive professional painting</td></tr><tr><td class=code>level 5 of 5</td><td>a photo of a very expensive masterpiece painting</td></tr></tbody></table>
+  <p class=result><b>Result</b> (R², MulTaBench folds 0–4): frozen 0.271 → <b>with text columns 0.268</b> (-0.004 ± 0.006, no clear difference); MulTaBench's fine-tuned encoder 0.286.</p>
+</article>
+<article class=card id="petfinder">
+  <header><h3>PetFinder</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-petfinder">kaggle.com/datasets/chico89/multabench-petfinder</a> · target column <span class=code>AGE_BIN</span> · classification, 8 classes · 14,652 rows</p>
+  <p>pet age group (8 bins) from the listing photo. 8 prompts → 16 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>Quantile 0-12%</td><td>a photo of a newborn puppy or kitten</td></tr><tr><td class=code>Quantile 12-25%</td><td>a photo of a very young puppy or kitten</td></tr><tr><td class=code>Quantile 25-38%</td><td>a photo of a young puppy or kitten</td></tr><tr><td class=code>Quantile 38-50%</td><td>a photo of a juvenile pet</td></tr><tr><td class=code>Quantile 50-62%</td><td>a photo of a young adult pet</td></tr><tr><td class=code>Quantile 62-75%</td><td>a photo of an adult pet</td></tr><tr><td class=code>Quantile 75-88%</td><td>a photo of a mature adult pet</td></tr><tr><td class=code>Quantile 88-100%</td><td>a photo of an old pet</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.836 → <b>with text columns 0.859</b> (+0.023 ± 0.001, better); MulTaBench's fine-tuned encoder 0.845.</p>
+</article>
+<article class=card id="zooscan-zooplankton">
+  <header><h3>Zooscan Plankton</h3><span class='tag untouched'>untouched</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-zooscan-zooplankton">kaggle.com/datasets/chico89/multabench-zooscan-zooplankton</a> · target column <span class=code>taxon_cat</span> · classification, 10 classes · 100,000 rows</p>
+  <p>plankton taxon (10 classes) from a microscope image. 10 prompts → 20 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>Acartiidae</td><td>a plankton image of an Acartiidae copepod</td></tr><tr><td class=code>Calanidae</td><td>a plankton image of a Calanidae copepod</td></tr><tr><td class=code>Calanoida</td><td>a plankton image of a calanoid copepod</td></tr><tr><td class=code>Centropagidae</td><td>a plankton image of a Centropagidae copepod</td></tr><tr><td class=code>Oithonidae</td><td>a plankton image of an Oithonidae copepod</td></tr><tr><td class=code>Oncaeidae</td><td>a plankton image of an Oncaeidae copepod</td></tr><tr><td class=code>Temoridae</td><td>a plankton image of a Temoridae copepod</td></tr><tr><td class=code>badfocus&lt;Copepoda</td><td>a blurry, out-of-focus plankton image of a copepod</td></tr><tr><td class=code>dead&lt;Copepoda</td><td>a plankton image of a dead copepod</td></tr><tr><td class=code>other</td><td>a plankton image of another small organism</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.983 → <b>with text columns 0.982</b> (-0.000 ± 0.000, no clear difference); MulTaBench's fine-tuned encoder 0.986.</p>
+</article>
+<article class=card id="cbis-ddsm">
+  <header><h3>CBIS-DDSM</h3><span class='tag development'>development</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-cbis-ddsm">kaggle.com/datasets/chico89/multabench-cbis-ddsm</a> · target column <span class=code>breast_density</span> · classification, 4 classes · 1,696 rows</p>
+  <p>breast density (BI-RADS A–D) from a mammogram + lesion table. 4 prompts → 8 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>1</td><td>a mammogram of a breast that is almost entirely fatty (BI-RADS density A)</td></tr><tr><td class=code>2</td><td>a mammogram of a breast with scattered areas of fibroglandular density (BI-RADS density B)</td></tr><tr><td class=code>3</td><td>a mammogram of a heterogeneously dense breast (BI-RADS density C)</td></tr><tr><td class=code>4</td><td>a mammogram of an extremely dense breast (BI-RADS density D)</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.868 → <b>with text columns 0.869</b> (+0.000 ± 0.002, no clear difference); MulTaBench's fine-tuned encoder 0.898.</p>
+</article>
+<article class=card id="chexpert">
+  <header><h3>CheXpert</h3><span class='tag development'>development</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-chexpert">kaggle.com/datasets/chico89/multabench-chexpert</a> · target column <span class=code>Cardiomegaly</span> · classification, 3 classes · 46,437 rows</p>
+  <p>cardiomegaly (positive / negative / uncertain) from a chest X-ray + 17 report-derived columns. 3 prompts → 6 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>-1.0</td><td>a chest X-ray with possible cardiomegaly, uncertain finding</td></tr><tr><td class=code>0.0</td><td>a chest X-ray with a normal heart size, no cardiomegaly</td></tr><tr><td class=code>1.0</td><td>a chest X-ray showing cardiomegaly, an enlarged heart</td></tr></tbody></table>
+  <p class=result><b>Result</b> (AUROC, MulTaBench folds 0–4): frozen 0.782 → <b>with text columns 0.815</b> (+0.034 ± 0.002, better); MulTaBench's fine-tuned encoder 0.820.</p>
+</article>
+<article class=card id="ham10000-lesion">
+  <header><h3>HAM10000</h3><span class='tag development'>development</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-full-ham10000-lesion">kaggle.com/datasets/chico89/multabench-full-ham10000-lesion</a> · target column <span class=code>dx</span> · classification, 7 classes · 7,470 rows</p>
+  <p>skin lesion diagnosis (7 types) from a dermoscopy image. 7 prompts → 14 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>class value in the data</th><th>prompt</th></tr></thead><tbody><tr><td class=code>akiec</td><td>a dermoscopy image of actinic keratosis or intraepithelial carcinoma</td></tr><tr><td class=code>bcc</td><td>a dermoscopy image of basal cell carcinoma</td></tr><tr><td class=code>bkl</td><td>a dermoscopy image of a benign keratosis-like lesion</td></tr><tr><td class=code>df</td><td>a dermoscopy image of a dermatofibroma</td></tr><tr><td class=code>mel</td><td>a dermoscopy image of melanoma</td></tr><tr><td class=code>nv</td><td>a dermoscopy image of a melanocytic nevus</td></tr><tr><td class=code>vasc</td><td>a dermoscopy image of a vascular skin lesion</td></tr></tbody></table>
+  
+</article>
+<article class=card id="mango-mass">
+  <header><h3>Mango Mass</h3><span class='tag development'>development</span></header>
+  <p class=meta><a href="https://www.kaggle.com/datasets/chico89/multabench-mango-mass">kaggle.com/datasets/chico89/multabench-mango-mass</a> · target column <span class=code>Mass(kg)</span> · regression (prompts describe five ordered levels) · 546 rows</p>
+  <p>mango mass (kg) from a photo. 5 prompts → 10 text columns (each prompt under BiomedCLIP and dino.txt).</p>
+  <table class=prompts><thead><tr><th>ordered level (low → high)</th><th>prompt</th></tr></thead><tbody><tr><td class=code>level 1 of 5</td><td>a photo of a very small, light mango</td></tr><tr><td class=code>level 2 of 5</td><td>a photo of a small mango</td></tr><tr><td class=code>level 3 of 5</td><td>a photo of a medium-sized mango</td></tr><tr><td class=code>level 4 of 5</td><td>a photo of a large mango</td></tr><tr><td class=code>level 5 of 5</td><td>a photo of a very large, heavy mango</td></tr></tbody></table>
+  <p class=result><b>Result</b> (R², MulTaBench folds 0–4): frozen 0.610 → <b>with text columns 0.636</b> (+0.026 ± 0.012, better); MulTaBench's fine-tuned encoder 0.690.</p>
+</article>
+
+<footer>Dennis Loevlie · results from MulTaBench's released code (commit cf189b7), run on 2026-10-05.</footer>
+</main>
+</body>
+</html>
