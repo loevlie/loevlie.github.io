@@ -48,7 +48,7 @@ footer { margin-top:56px; color:var(--muted); font-size:14px }
 <body>
 <main>
 <h1>Text columns: the prompts for every dataset</h1>
-<p class=lede>Companion to the slides “Describing the label in words”. For each MulTaBench image dataset: a link to the dataset, what its target is, the exact sentences used as prompts, and its result.</p>
+<p class=lede>For each MulTaBench image dataset: a link to the dataset, what its target is, the exact sentences used as prompts, and its result.</p>
 
 <div class=box>
 <b>How the text columns are made</b>
@@ -58,7 +58,7 @@ footer { margin-top:56px; color:var(--muted); font-size:14px }
 <li>Column value = 100 × cosine similarity between the image and the sentence. One column per sentence per model.</li>
 <li>The columns are added to the table; everything else is MulTaBench's released pipeline (TabPFN-v2, frozen DINOv3-small + PCA 30, their splits). No labels and no training are used to make the columns.</li>
 </ol>
-<p style="margin-top:12px">Prompts were written once on 2026-10-04 from each dataset's metadata (target name and class values), <b>before any result on these datasets</b>, and never changed. <b>Development</b> datasets are where the method was chosen; <b>untouched</b> ones were never looked at before this run, so only they test the claim.</p>
+<p style="margin-top:12px">Prompts were written once on 2026-10-04 from each dataset's metadata (target name and class values), <b>before any result on these datasets</b>, and never changed. <b>Development</b> datasets were used to select the two image–text models; <b>untouched</b> ones were never looked at before this run, so only they test the claim.</p>
 </div>
 
 <h2>Results at a glance</h2>
