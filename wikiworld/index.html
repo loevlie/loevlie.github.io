@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WikiWorld-Real Explorer</title>
+<meta name="description" content="Browse WikiWorld-Real: a real image + table + text dataset from Wikidata, with label leakage detected, repaired and measured.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a museum-catalogue index. Task list on the left (domains as sections), the selected task's
+   summary and specimen cards on the right; method + attribution at the foot. */
+:root {
+  --bg: #EDF0F3; --card: #FFFFFF; --ink: #16202A; --muted: #5B6875; --line: #D6DDE3; --soft: #F4F6F8;
+  --accent: #1D5C8C; --accent-soft: #E1ECF5; --on-accent: #FFFFFF;
+  --leak: #F7CF6A; --leak-ink: #4A3300;
+  --ok: #2E7D5B; --ok-soft: #E2F2EA; --warn: #9A6412; --warn-soft: #FBEFD9; --bad: #B4443A; --bad-soft: #F8E3E1;
+  --f-display: "Spectral", Georgia, "Times New Roman", serif;
+  --f-body: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0F1418; --card: #172028; --ink: #E5ECF2; --muted: #93A1AE; --line: #2A3540; --soft: #1D2731;
+  --accent: #82B7E3; --accent-soft: #1C3347; --on-accent: #0F1418;
+  --leak: #7A5A12; --leak-ink: #FFE9B0;
+  --ok: #63C497; --ok-soft: #173327; --warn: #E3AE55; --warn-soft: #3A2C12; --bad: #E7837A; --bad-soft: #3D1E1C; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0F1418; --card: #172028; --ink: #E5ECF2; --muted: #93A1AE; --line: #2A3540; --soft: #1D2731;
+  --accent: #82B7E3; --accent-soft: #1C3347; --on-accent: #0F1418;
+  --leak: #7A5A12; --leak-ink: #FFE9B0;
+  --ok: #63C497; --ok-soft: #173327; --warn: #E3AE55; --warn-soft: #3A2C12; --bad: #E7837A; --bad-soft: #3D1E1C; color-scheme: dark }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body); }
+a { color: var(--accent); }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eyebrow { font: 500 11px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+.top { padding-block: 40px 28px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.top-in { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; align-items: end; }
+.top h1 { font: 600 clamp(34px, 5vw, 56px)/1.02 var(--f-display); margin-top: 10px; }
+.top p { margin: 14px 0 0; color: var(--muted); max-width: 62ch; }
+.totals { display: flex; gap: 28px; flex-wrap: wrap; justify-content: flex-end; }
+.totals div { display: grid; gap: 2px; }
+.totals b { font: 600 30px/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.totals span { font-size: 12px; color: var(--muted); }
+
+.wrap { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 28px; padding-block: 0 56px;
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+nav.tasks { position: sticky; top: 16px; align-self: start; display: grid; gap: 18px; }
+nav.tasks section { display: grid; gap: 2px; }
+nav.tasks h2 { margin-bottom: 6px; }
+nav.tasks button { text-align: left; background: none; border: 0; border-radius: 6px; padding: 7px 10px; color: var(--ink); cursor: pointer; display: grid; gap: 1px; }
+nav.tasks button small { color: var(--muted); font-size: 12px; }
+nav.tasks button:hover { background: var(--soft); }
+nav.tasks button[aria-current="true"] { background: var(--accent); color: var(--on-accent); }
+nav.tasks button[aria-current="true"] small { color: var(--on-accent); opacity: .8; }
+
+main { display: grid; gap: 22px; min-width: 0; }
+.task-head h2 { font: 600 clamp(26px, 3vw, 36px)/1.1 var(--f-display); }
+.task-head p { margin: 6px 0 0; color: var(--muted); }
+.task-head code { font: 12px var(--f-mono); }
+.panels { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.bar { display: grid; grid-template-columns: 150px minmax(0, 1fr) 44px; gap: 10px; align-items: center; font-size: 13px; }
+.bar .lbl { color: var(--muted); }
+.bar .track { height: 8px; background: var(--soft); border-radius: 4px; position: relative; }
+.bar .fill { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: var(--leak); }
+.bar .fill.mod { background: var(--accent); }
+.bar.dim .fill.mod { background: var(--muted); opacity: .5; }
+.bar .base { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--ink); }
+.bar .v { font: 500 12px var(--f-mono); text-align: right; font-variant-numeric: tabular-nums; }
+.panel .note { font-size: 12px; color: var(--muted); margin: 2px 0 0; }
+.stack { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: var(--soft); }
+.stack i { display: block; height: 100%; }
+.nums { display: flex; gap: 22px; flex-wrap: wrap; }
+.nums div { display: grid; }
+.nums b { font: 600 22px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+.nums span { font-size: 12px; color: var(--muted); }
+
+.controls { display: flex; flex-wrap: wrap; gap: 12px 22px; align-items: center; }
+.seg { display: inline-flex; flex-wrap: wrap; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 3px; gap: 2px; }
+.seg button { color: var(--muted); background: none; border: 0; border-radius: 6px; padding: 8px 12px; cursor: pointer; font-size: 13px; font-weight: 500; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.ctl-label { font-size: 12px; color: var(--muted); margin-right: 8px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 18px; align-items: start; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; display: grid; min-width: 0; }
+.card.dropped { border-style: dashed; }
+.card.dropped .body > :not(.verdict) { opacity: .62; }
+.photo { aspect-ratio: 4 / 3; background: var(--soft); max-width: 100%; position: relative; }
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo .none { position: absolute; inset: 0; display: grid; place-items: center; font: 12px var(--f-mono); color: var(--muted); }
+.fname { font: 11.5px/1.4 var(--f-mono); color: var(--muted); padding: 8px 14px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; display: flex; justify-content: space-between; gap: 10px; }
+.fname a { white-space: nowrap; }
+.body { padding: 14px; display: grid; gap: 12px; min-width: 0; }
+.head { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
+.head h3 { font: 600 20px/1.2 var(--f-display); }
+.qid { font: 12px var(--f-mono); }
+.chips { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+.chip { font: 500 11px/1 var(--f-body); letter-spacing: .04em; text-transform: uppercase; padding: 5px 8px; border-radius: 4px; white-space: nowrap; }
+.chip.kept { color: var(--ok); background: var(--ok-soft); }
+.chip.repaired { color: var(--warn); background: var(--warn-soft); }
+.chip.dropped { color: var(--bad); background: var(--bad-soft); }
+.chip.split { color: var(--muted); background: var(--soft); font-family: var(--f-mono); text-transform: none; letter-spacing: 0; }
+.target { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 9px 12px; border: 1px dashed var(--line); border-radius: 8px; }
+.target .k { font-size: 12px; color: var(--muted); }
+.target .v { font: 600 20px/1.1 var(--f-display); font-variant-numeric: tabular-nums; text-align: right; }
+dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 12px; margin: 0; font-size: 13px; }
+dt { font: 12px var(--f-mono); color: var(--muted); }
+dd { margin: 0; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+dd.null { color: var(--muted); }
+.sec { font: 500 10.5px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.text { font-size: 13.5px; line-height: 1.6; max-height: 12.8em; overflow-y: auto; margin: 0; white-space: pre-line; }
+.text.gone { font-style: italic; color: var(--muted); }
+mark { background: var(--leak); color: var(--leak-ink); border-radius: 3px; padding: 0 3px; }
+.after { background: var(--warn-soft); border-radius: 8px; padding: 10px 12px; display: grid; gap: 6px; }
+.after .sec { color: var(--warn); }
+.after p { margin: 0; font-size: 13px; overflow-wrap: anywhere; }
+.after del { text-decoration-color: var(--bad); text-decoration-thickness: 1.5px; }
+.verdict { font-size: 12.5px; border-top: 1px solid var(--line); padding-top: 10px; display: grid; gap: 3px; }
+.verdict code { font: 12px var(--f-mono); }
+.attr { font-size: 11.5px; color: var(--muted); }
+.empty { color: var(--muted); padding: 24px 0; }
+
+.about { max-width: 1320px; margin: 0 auto; padding-block: 8px 64px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px));
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; border-top: 1px solid var(--line); }
+.about h2 { font: 600 20px/1.2 var(--f-display); margin: 22px 0 8px; }
+.about p, .about li { font-size: 14px; color: var(--muted); max-width: 60ch; }
+.about ul { padding-left: 18px; margin: 0; }
+
+@media (max-width: 960px) {
+  .top-in { grid-template-columns: 1fr; } .totals { justify-content: flex-start; }
+  .wrap { grid-template-columns: 1fr; } nav.tasks { position: static; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .panels { grid-template-columns: 1fr; } .about { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) { .bar { grid-template-columns: 110px minmax(0, 1fr) 40px; } }
+@media (prefers-reduced-motion: no-preference) { .seg button, nav.tasks button { transition: background .15s, color .15s; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div>
+      <div class="eyebrow">Dataset explorer · <span id="gen"></span></div>
+      <h1>WikiWorld-Real</h1>
+      <p>A real image + table + text dataset from Wikidata for multimodal tabular foundation models. Every row is one entity: its Wikidata properties, its Wikipedia intro and its Commons image. Wherever the prediction target leaks into the text, title or image, it is detected and repaired or the row is dropped.</p>
+    </div>
+    <div class="totals" id="totals"></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="tasks" id="tasks" aria-label="Tasks"></nav>
+  <main>
+    <div class="task-head" id="task-head"></div>
+    <div class="panels" id="panels"></div>
+    <div class="controls">
+      <div><span class="ctl-label">Rows</span><span class="seg" id="status-seg">
+        <button type="button" data-status="all" aria-pressed="true">All</button>
+        <button type="button" data-status="kept" aria-pressed="false">Kept</button>
+        <button type="button" data-status="repaired" aria-pressed="false">Repaired</button>
+        <button type="button" data-status="dropped" aria-pressed="false">Dropped</button>
+      </span></div>
+      <div><span class="ctl-label">Text</span><span class="seg" id="view-seg">
+        <button type="button" data-view="original" aria-pressed="true">Original, leaks marked</button>
+        <button type="button" data-view="model" aria-pressed="false">What the model sees</button>
+      </span></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </main>
+</div>
+
+<footer class="about">
+  <div>
+    <h2>How rows are built</h2>
+    <p>For each task, entities of one Wikidata class that have an English Wikipedia article are sampled with a fixed seed (up to 5,000). Columns are Wikidata properties (quantities SI-normalised), the text is the article intro, the image is the entity's Commons image (P18). Train / val / test splits come from a hash of the Wikidata ID, so an entity never appears in two splits.</p>
+  </div>
+  <div>
+    <h2>How leaks are handled</h2>
+    <ul>
+      <li>Text: the target is matched in many surface forms (1,234,567 · 1.2 million · 1880s · ±10 years · feet for metres · "aged 94" with a death year · class labels, aliases, synonyms). The bracketed part or the whole sentence is removed and the text re-checked; no placeholder is left.</li>
+      <li>Title, image filename or text read inside the image (OCR) contains the target: the row is dropped.</li>
+      <li>A column that alone predicts the target (score ≥ 0.95) is dropped.</li>
+    </ul>
+  </div>
+  <div>
+    <h2>Sources and licenses</h2>
+    <p>Structured data: <a href="https://www.wikidata.org/">Wikidata</a> (CC0). Text: English <a href="https://en.wikipedia.org/">Wikipedia</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>); each card links its article revision. Images: <a href="https://commons.wikimedia.org/">Wikimedia Commons</a>, shown directly from Wikimedia; each image has its own license and author, listed on the file page linked on its card. Some images come via Wikimedia's <a href="https://huggingface.co/datasets/wikimedia/wit_base">WIT</a> release.</p>
+    <p>Probe scores: simple models on frozen features (DINOv3 block-4 tokens and e5 layer-6 tokens as the model consumes them, plus SigLIP 2), trained on train, scored on val + test. R² for numbers, balanced accuracy for classes.</p>
+  </div>
+</footer>
+
+<script>
+const S = { index: null, task: null, rows: {}, status: "all", view: "original" };
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const NAME = { city_population: "City population", painting_year: "Painting year", painting_genre: "Painting genre",
+  building_style: "Building style", species_iucn: "Species IUCN status", mountain_elevation: "Mountain elevation",
+  person_birth_year: "Person birth year", ship_service_year: "Ship service year", aircraft_first_flight: "Aircraft first flight",
+  mineral_crystal_system: "Mineral crystal system", skyscraper_floors: "Skyscraper floors", bridge_length: "Bridge length" };
+const fmtInt = n => Number(n).toLocaleString("en-US");
+function fmtTarget(t, v) {
+  if (t.kind === "cat") return esc(v);
+  if (t.ttype === "year") return String(Math.round(v));
+  return Number(v).toLocaleString("en-US", { maximumFractionDigits: Math.abs(v) < 100 ? 1 : 0 });
+}
+function highlight(text, matches) {
+  const html = esc(text);
+  if (!matches || !matches.length) return html;
+  const re = new RegExp("(?<!\\w)(?<!\\d[.,])(" + matches.map(m => reEsc(esc(m))).join("|") + ")(?!\\w)(?![.,]\\d)", "gi");
+  return html.replace(re, "<mark>$1</mark>");
+}
+const bar = (label, v, max, cls = "", base = null, digits = 2) =>
+  `<div class="bar ${cls}"><span class="lbl">${label}</span><span class="track"><span class="fill ${cls.includes("mod") ? "mod" : ""}" style="width:${Math.max(0, Math.min(1, v / max)) * 100}%"></span>${base != null ? `<span class="base" style="left:${base / max * 100}%"></span>` : ""}</span><span class="v">${digits === 0 ? Math.round(v * 100) + "%" : v.toFixed(digits)}</span></div>`;
+
+function renderNav() {
+  const groups = {};
+  S.index.tasks.forEach(t => (groups[t.domain] ||= []).push(t));
+  document.getElementById("tasks").innerHTML = Object.entries(groups).map(([d, ts]) =>
+    `<section><h2 class="eyebrow">${esc(d)}</h2>${ts.map(t =>
+      `<button type="button" data-task="${t.key}" aria-current="${t.key === S.task}">${esc(t.display || NAME[t.key] || t.key)}<small>${fmtInt(t.kept)} rows · ${t.kind === "cat" ? t.n_classes + " classes" : "numeric"}</small></button>`).join("")}</section>`).join("");
+}
+
+function renderHead(t) {
+  const p = t.probe;
+  document.getElementById("task-head").innerHTML = `<div class="eyebrow">${esc(t.domain)}</div>
+    <h2>${esc(t.display || NAME[t.key])}</h2>
+    <p>Predict the <b>${esc(t.target_name)}</b> of ${esc(t.entity)} (Wikidata ${t.class_qids.map(q => `<a href="https://www.wikidata.org/wiki/${q}"><code>${q}</code></a>`).join(", ")}, target <a href="https://www.wikidata.org/wiki/Property:${t.target_pid}"><code>${t.target_pid}</code></a>)${t.kind === "cat" ? `, ${t.n_classes} classes` : ""}.</p>`;
+  const lr = t.leak_rate_before_repair || {};
+  const leaks = [["leak_text", "Text, exact"], ["leak_text_near", "Text, close number"], ["leak_label", "Title"],
+                 ["leak_image_file", "Image filename"], ["leak_ocr_text", "Text inside image"]]
+    .filter(([k]) => k in lr).map(([k, l]) => bar(l, lr[k], 1, "", null, 0)).join("");
+  const pct = n => n / t.rows * 100;
+  let probe = "";
+  if (p) {
+    const mods = [["table", "Table"], ["text_clean", "Text, repaired"], ["text_raw", "Text, original"], ["image", "Image (DINOv3)"],
+                  ["image_siglip2", "Image (SigLIP 2)"], ["all", "All combined"]].filter(([k]) => p[k] != null);
+    const base = p.metric === "R2" ? null : p.baseline;
+    probe = `<div class="panel"><div class="eyebrow">What each modality predicts · ${p.metric === "R2" ? "R²" : "balanced accuracy"}</div>
+      ${mods.map(([k, l]) => bar(l, p[k], 1, "mod" + (k === "text_raw" ? " dim" : ""), base)).join("")}
+      <p class="note">${p.metric === "R2" ? "R² on held-out rows; 0 = predicting the mean." : `Line = always guessing one class (${base.toFixed(2)}).`} The grey bar is the same text model on the original text: the gap is the leakage the repair removed. ${p.n_train} train / ${p.n_test} test rows.</p></div>`;
+  }
+  document.getElementById("panels").innerHTML = `<div class="panel">
+      <div class="eyebrow">From sample to clean set</div>
+      <div class="nums"><div><b>${fmtInt(t.rows)}</b><span>sampled</span></div><div><b>${fmtInt(t.with_image || 0)}</b><span>with image</span></div>
+        <div><b>${fmtInt(t.dropped)}</b><span>dropped</span></div><div><b>${fmtInt(t.kept)}</b><span>in clean set</span></div></div>
+      <div class="stack" role="img" aria-label="${t.kept} kept, ${t.dropped} dropped"><i style="width:${pct(t.kept)}%;background:var(--ok)"></i><i style="width:${pct(t.dropped)}%;background:var(--bad)"></i></div>
+      <div class="eyebrow" style="margin-top:8px">Rows where the target leaks, before repair</div>
+      ${leaks}
+      ${t.leaky_columns && t.leaky_columns.length ? `<p class="note">Columns dropped as label proxies: ${t.leaky_columns.map(esc).join(", ")}.</p>` : ""}
+    </div>${probe}`;
+}
+
+function card(t, r) {
+  const fileHit = r.reasons.find(x => x.where === "image filename");
+  const feats = Object.entries(r.features).map(([k, v]) => `<dt>${esc(k)}</dt><dd class="${v == null ? "null" : ""}">${v == null ? "—" : esc(v)}</dd>`).join("");
+  let text;
+  if (S.view === "original") text = r.text ? `<p class="text">${highlight(r.text, r.matches)}</p>` : `<p class="text gone">No Wikipedia intro text.</p>`;
+  else text = r.text_model == null ? `<p class="text gone">Row dropped: the model never sees this entity.</p>`
+    : r.text_model === "" ? `<p class="text gone">Every sentence stated the target, so the text is missing.</p>` : `<p class="text">${esc(r.text_model)}</p>`;
+  const removed = r.removed && r.removed.length ? `<div class="after"><div class="sec">Removed by repair</div>${r.removed.map(s => `<p><del>${highlight(s, r.matches)}</del></p>`).join("")}</div>` : "";
+  const verdict = r.status === "kept" ? "No leak found in text, title, filename or image."
+    : r.reasons.map(x => `Leak in <b>${esc(x.where)}</b>: <code>${esc(String(x.match).split("|")[0])}</code>`).join("<br>")
+      + (r.status === "repaired" ? "<br>Leaking text removed and re-checked; row kept." : "<br>Not repairable in text; row dropped.");
+  const wiki = r.wiki_title ? `<a href="https://en.wikipedia.org/w/index.php?title=${encodeURIComponent(r.wiki_title)}${r.revision ? "&oldid=" + r.revision : ""}">${esc(r.wiki_title)}</a>` : "";
+  return `<article class="card ${r.status}">
+    <div class="photo">${r.img ? `<img src="${esc(r.img)}" alt="${esc(r.label)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'none',textContent:'image unavailable'}))">` : `<div class="none">no image</div>`}</div>
+    <div class="fname"><span>${r.image_file ? (fileHit ? highlight(r.image_file, [fileHit.match]) : esc(r.image_file)) : "no Commons image"}</span>${r.commons ? `<a href="${esc(r.commons)}">license</a>` : ""}</div>
+    <div class="body">
+      <div class="head"><div><h3>${esc(r.label)}</h3><a class="qid" href="https://www.wikidata.org/wiki/${r.qid}">${r.qid}</a></div>
+        <div class="chips"><span class="chip ${r.status}">${r.status}</span>${r.split ? `<span class="chip split">${r.split}</span>` : ""}</div></div>
+      <div class="target"><span class="k">target · ${esc(t.target_name)}<br>hidden from the model</span><span class="v">${fmtTarget(t, r.target)}</span></div>
+      <div class="sec">Table</div><dl>${feats}</dl>
+      <div class="sec">Wikipedia intro</div>${text}${removed}
+      <div class="verdict">${verdict}</div>
+      ${wiki ? `<div class="attr">Text: ${wiki}, Wikipedia, CC BY-SA 4.0</div>` : ""}
+    </div></article>`;
+}
+
+function renderRows() {
+  const t = S.index.tasks.find(x => x.key === S.task), rows = S.rows[S.task] || [];
+  const order = { kept: 0, repaired: 1, dropped: 2 };
+  const shown = rows.filter(r => S.status === "all" || r.status === S.status).sort((a, b) => order[a.status] - order[b.status]);
+  document.getElementById("grid").innerHTML = shown.length ? shown.map(r => card(t, r)).join("") : `<p class="empty">No sample rows with this status.</p>`;
+  document.querySelectorAll("#status-seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.status === S.status));
+  document.querySelectorAll("#view-seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.view === S.view));
+}
+
+async function selectTask(key) {
+  S.task = key;
+  if (location.hash.slice(1) !== key) history.replaceState(null, "", "#" + key);
+  renderNav();
+  const t = S.index.tasks.find(x => x.key === key);
+  renderHead(t);
+  if (!S.rows[key]) {
+    document.getElementById("grid").innerHTML = `<p class="empty">Loading rows…</p>`;
+    S.rows[key] = (await (await fetch(`data/${key}.json`)).json()).rows;
+  }
+  if (S.task === key) renderRows();
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b) return;
+  if (b.dataset.task) selectTask(b.dataset.task);
+  else if (b.dataset.status) { S.status = b.dataset.status; renderRows(); }
+  else if (b.dataset.view) { S.view = b.dataset.view; renderRows(); }
+});
+window.addEventListener("hashchange", () => { const k = location.hash.slice(1); if (k && k !== S.task && S.index.tasks.some(t => t.key === k)) selectTask(k); });
+
+(async () => {
+  S.index = await (await fetch("data/index.json")).json();
+  const tt = S.index.totals;
+  document.getElementById("gen").textContent = S.index.generated;
+  document.getElementById("totals").innerHTML = [[tt.tasks, "tasks"], [fmtInt(tt.kept), "rows"], [fmtInt(tt.images), "images"]]
+    .map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join("");
+  const k = location.hash.slice(1);
+  selectTask(S.index.tasks.some(t => t.key === k) ? k : S.index.tasks[0].key);
+})();
+</script>
+</body>
+</html>
