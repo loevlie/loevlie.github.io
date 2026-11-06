@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 /* Layout: same catalogue system as the real explorer; a single long page in numbered sections
-   (world → task → check → stream → renders), the order in which a synthetic task is made and verified. */
+   (world → task → check → renders), the order in which a synthetic task is made and verified. */
 :root {
   --bg: #EDF0F3; --card: #FFFFFF; --ink: #16202A; --muted: #5B6875; --line: #D6DDE3; --soft: #F4F6F8;
   --accent: #1D5C8C; --on-accent: #FFFFFF;
@@ -134,10 +134,6 @@ table.rows .unrouted { color: var(--muted); opacity: .55; }
 .check svg { max-height: 420px; }
 .check svg text { fill: var(--muted); font: 9px var(--f-mono); }
 
-table.stream { border-collapse: collapse; width: 100%; font-size: 13px; }
-table.stream th, table.stream td { text-align: left; padding: 7px 12px 7px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
-table.stream th { font: 500 11px var(--f-mono); color: var(--muted); }
-table.stream td.num { font-variant-numeric: tabular-nums; font-family: var(--f-mono); font-size: 12px; }
 .mini { display: flex; height: 10px; width: 140px; border-radius: 5px; overflow: hidden; background: var(--soft); }
 .mini i { display: block; height: 100%; }
 
@@ -211,12 +207,7 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head"><span class="n">4</span><h2>A stream of tasks, each with a known mix</h2><p>The generator draws a world, a mode and a size, adds distractor columns that leave δ unchanged, and emits the task. Twenty-four draws from the stream:</p></div>
-    <div class="card scroll"><table class="stream" id="stream"></table></div>
-  </div></section>
-
-  <section class="s pad"><div class="in">
-    <div class="s-head" id="sec-renders"><span class="n">5</span><h2>Do the renders show what they were told?</h2><p>Every photo and text is generated from its fact sheet alone, then a separate checker model must read the facts back or the render is thrown away. Photos are checked by Gemma 4 12B.</p></div>
+    <div class="s-head" id="sec-renders"><span class="n">4</span><h2>Do the renders show what they were told?</h2><p>Every photo and text is generated from its fact sheet alone, then a separate checker model must read the facts back or the render is thrown away. Photos are checked by Gemma 4 12B.</p></div>
     <div class="card"><div class="eyebrow" style="margin-bottom:12px">FLUX 3 Image Klein · the photo generator used in the pilot</div>
       <div class="renders"><div id="flux-mtn"></div><div id="flux-car"></div></div>
       <p class="note" id="flux-note"></p></div>
@@ -321,18 +312,6 @@ function scatter() {
     <p class="note">${learner === "end_to_end" ? "End-to-end: one gradient-boosted model on all table columns and embedding columns at once." : "Decode, then combine: per modality, a model first predicts that modality's hidden fact from its own columns (out-of-fold); then y is predicted from the decoded facts."} Both are 5-fold out-of-fold and early-stopped.${tfmNote()}</p>`;
 }
 
-function stream() {
-  const S = D.stream;
-  document.getElementById("stream").innerHTML = `<thead><tr><th>world</th><th>mode</th><th>rows</th><th>columns · text · photo dims</th><th>necessity (Sobol total)</th></tr></thead><tbody>` +
-    S.map(t => {
-      const a = D.anchors.find(x => x.name === t.anchor);
-      const s = t.sobol_total, sum = (s.table + s.text + s.image) || 1;
-      return `<tr><td>${esc(a ? a.entity : t.anchor)}</td><td>${esc(t.mode)}</td><td class="num">${t.n_rows.toLocaleString("en-US")}</td>
-        <td class="num">${t.n_features.table} · ${t.n_features.text} · ${t.n_features.image}</td>
-        <td><span class="mini" title="table ${s.table.toFixed(2)} · text ${s.text.toFixed(2)} · photo ${s.image.toFixed(2)}">${["table", "text", "image"].map(m => `<i style="width:${s[m] / sum * 100}%;background:${MOD[m]}"></i>`).join("")}</span></td></tr>`;
-    }).join("") + `</tbody>`;
-}
-
 const okCount = imgs => imgs.filter(g => g.j === 0 && ((g.reads || {})["Gemma 4 12B"] || {}).cloud_cover === g.cloud).length;
 function renders() {
   const lv = D.image_levels;
@@ -382,10 +361,10 @@ document.addEventListener("click", e => {
   D = await (await fetch("data/site.json")).json();
   const nImg = Object.values(D.gen_images).reduce((s, v) => s + v.length, 0);
   const nFlux = D.flux_sets ? D.flux_sets.items.length : 0;
-  document.getElementById("totals").innerHTML = [[D.anchors.length, "worlds"], [D.stream.length, "sample tasks"], [nFlux, "FLUX renders shown"]]
+  document.getElementById("totals").innerHTML = [[D.anchors.length, "worlds"], [nFlux, "FLUX renders shown"]]
     .map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join("");
   fluxSection();
-  worlds(); task(); scatter(); stream(); renders();
+  worlds(); task(); scatter(); renders();
 })();
 </script>
 </body>
