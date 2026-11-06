@@ -240,8 +240,8 @@ const MOD = { table: "var(--m-table)", text: "var(--m-text)", image: "var(--m-im
 const MNAME = { table: "table", text: "text", image: "photo" };
 const Z = { t: '<span class="t">z<sub>table</sub></span>', x: '<span class="x">z<sub>text</sub></span>', p: '<span class="p">z<sub>photo</sub></span>' };
 const MODE_MATH = {
-  unique: `<div class="eq">y = b<sub>1</sub>${Z.t} + b<sub>2</sub>${Z.x} + b<sub>3</sub>${Z.p} + noise</div>Each z is one modality's hidden number (its facts combined, standardised, independent). Each modality adds its own piece, so hiding it loses only that piece: δ<sub>m</sub> = b<sub>m</sub>² / Var(y).`,
-  synergistic: `<div class="eq">y = g · (${Z.t}${Z.x} + ${Z.x}${Z.p} + ${Z.p}${Z.t}) + noise</div>Only products of pairs, no single-modality terms. Alone, any modality predicts nothing (each term still has a factor with mean 0). Hiding one modality leaves one of the three equal terms, so δ<sub>m</sub> = 2/3 of the signal ≈ 2/3 × 0.8 ≈ 0.53 with 20% noise.`,
+  unique: `<div class="eq">y = b<sub>1</sub>${Z.t} + b<sub>2</sub>${Z.x} + b<sub>3</sub>${Z.p} + noise</div>Each z is one modality's hidden number: its facts combined into one value, standardised to mean 0 and variance 1, independent of the others. Each modality adds its own piece, so hiding it loses only that piece: δ<sub>m</sub> = b<sub>m</sub>² / Var(y).`,
+  synergistic: `<div class="eq">y = g · (${Z.t}${Z.x} + ${Z.x}${Z.p} + ${Z.p}${Z.t}) + noise</div>Only products of pairs, no single-modality terms; g is a random scale (±0.8 to 1.2). Seeing one modality alone tells you nothing: if the table says ${Z.t} = 2, the unseen ${Z.x} and ${Z.p} average to 0, so every term still averages to 0 and the best guess of y does not move. The signal appears only in combination. Hiding one modality leaves one of the three equal terms, so δ<sub>m</sub> = 2/3 of the signal ≈ 2/3 × 0.8 ≈ 0.53 with 20% noise.`,
   redundant: `<div class="eq">y = b · ${Z.p} + noise, with the same fact shown in table, text and photo</div>Any one modality carries the whole signal, so hiding any single one costs nothing: δ<sub>m</sub> ≈ 0.`,
 };
 const MODE_NOTE = {
