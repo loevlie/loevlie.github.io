@@ -212,12 +212,12 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head" id="sec-renders"><span class="n">5</span><h2>Do the renders show what they were told?</h2><p>Every photo and text is generated from its fact sheet alone, then a separate checker model must read the facts back or the render is thrown away.</p></div>
+    <div class="s-head" id="sec-renders"><span class="n">5</span><h2>Do the renders show what they were told?</h2><p>Every photo and text is generated from its fact sheet alone, then a separate checker model must read the facts back or the render is thrown away. Photos are checked by Gemma 4 12B.</p></div>
     <div class="card"><div class="eyebrow" style="margin-bottom:12px">FLUX 3 Image Klein · the photo generator used in the pilot</div>
       <div class="renders"><div id="flux-mtn"></div><div id="flux-car"></div></div>
       <p class="note" id="flux-note"></p></div>
     <h3 class="subhead">Earlier bake-off (generators not used in the pilot)</h3>
-    <p class="note" style="margin:0 0 14px">The same mountain scene asked for at three cloud levels × three ice levels, from two candidate generators. Badges show what the checker read back for cloud cover: it misses "scattered clouds" in every photo, one reason a person makes the final call on middle levels.</p>
+    <p class="note" style="margin:0 0 14px">The same mountain scene asked for at three cloud levels × three ice levels, from two candidate generators. Badges show the cloud cover read back by the same checker.</p>
     <div class="renders" id="renders"></div>
     <h3 class="subhead">Texts</h3>
     <div class="texts" id="texts"></div>
@@ -322,20 +322,21 @@ function stream() {
     }).join("") + `</tbody>`;
 }
 
+const okCount = imgs => imgs.filter(g => g.j === 0 && ((g.reads || {})["Gemma 4 12B"] || {}).cloud_cover === g.cloud).length;
 function renders() {
   const lv = D.image_levels;
   document.getElementById("renders").innerHTML = Object.entries(D.gen_images).map(([model, imgs]) => {
     const pick = (c, i) => imgs.find(g => g.cloud === c && g.ice === i && g.j === 0) || imgs.find(g => g.cloud === c && g.ice === i);
     const cells = lv.cloud_cover.map((cl, c) => `<span class="rh">${esc(cl)}</span>` + lv.ice_on_ridge.map((_, i) => {
       const g = pick(c, i); if (!g) return `<span class="cell"></span>`;
-      const rd = Object.values(g.reads || {})[0] || {};
+      const rd = (g.reads || {})["Gemma 4 12B"] || Object.values(g.reads || {})[0] || {};
       const ok = rd.cloud_cover === c;
       return `<span class="cell"><img src="${esc(g.src)}" alt="${esc(cl)}, ${esc(lv.ice_on_ridge[i])}" loading="lazy"><span class="rd ${ok ? "ok" : "no"}">${esc(lv.cloud_cover[rd.cloud_cover] ?? "?")}</span></span>`;
     }).join("")).join("");
     const sm = (D.image_summary || {})[model];
     return `<div class="card"><div class="eyebrow" style="margin-bottom:10px">${esc(model)}${sm ? ` · ${sm.sec_per_image < 1 ? sm.sec_per_image.toFixed(2) : sm.sec_per_image.toFixed(1)} s per image` : ""}</div>
       <div class="sheet"><span></span>${lv.ice_on_ridge.map(i => `<span class="hd">ice: ${esc(i)}</span>`).join("")}${cells}</div>
-      <p class="note">Rows: requested cloud cover. Badge: what the checker read back.</p></div>`;
+      <p class="note">Rows: requested cloud cover. Badge: cloud cover as read back by Gemma 4 12B (correct in ${okCount(imgs)} of ${imgs.filter(g => g.j === 0).length}).</p></div>`;
   }).join("");
   document.getElementById("texts").innerHTML = (D.text.accepted_samples || []).map(t => `<article class="card">
     <div class="facts">${Object.entries(t.facts).map(([k, v]) => `${esc(k)}: ${esc(v)}`).join(" · ")}</div>
@@ -357,7 +358,7 @@ function fluxSection() {
     car.map(it => { const t = Object.entries(it.levels).map(([k, v]) => CAR_LV[k] ? CAR_LV[k][v] : v).join(" · "); const k = nOk(it), n = Object.keys(it.levels).length;
       return `<span class="cell" title="${esc(t)} (checker read ${k}/${n})"><img src="${esc(it.src)}" alt="${esc(t)}" loading="lazy"><span class="rd ${k === n ? "ok" : "no"}">${k}/${n}</span></span>`; }).join("") + `</div>`;
   const okM = mtn.filter(it => it.read.cloud_cover === it.levels.cloud_cover).length, okC = car.filter(it => nOk(it) === Object.keys(it.levels).length).length;
-  document.getElementById("flux-note").textContent = `Badges: what the ${F.checker} checker read back (the same checker as the bake-off below). Matterhorn: cloud cover read correctly in ${okM} of ${mtn.length}. CarMax: all three facts read correctly in ${okC} of ${car.length}; hover a photo for its fact sheet. Across all 240 Matterhorn renders, the strongest checker tested (Gemma 4 12B) read the intended fact 82% of the time.`;
+  document.getElementById("flux-note").textContent = `Badges: what ${F.checker} read back. It is the image checker the pipeline uses to accept or reject renders (the strongest of the four tested), and the same checker is used for the bake-off below. Shown: the first render of each fact combination. Matterhorn: cloud cover read correctly in ${okM} of ${mtn.length} shown (82% of the intended facts over all 240 Matterhorn renders). CarMax: all three facts read correctly in ${okC} of ${car.length} shown (99% over all 54). Hover a car for its fact sheet.`;
   const pickM = [[0, 0], [1, 1], [2, 2]].map(([c, i]) => at(c, i)).filter(Boolean);
   const pickC = [car[0], car[13], car[26]].filter(Boolean);
   strip.innerHTML = [...pickM, ...pickC].map(it => `<a href="#sec-renders"><img src="${esc(it.src)}" alt="FLUX render"></a>`).join("");
