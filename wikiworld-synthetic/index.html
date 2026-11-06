@@ -367,6 +367,13 @@ function scatter() {
   const syn = P.filter(d => d.mode === "synergistic" && d.modality === "image");
   const synGap = syn.reduce((s, d) => s + (d.designed - d.measured), 0) / Math.max(1, syn.length);
   document.getElementById("check-side").innerHTML = `
+    <div class="math" style="margin:0 0 16px">
+      <div class="eyebrow" style="margin-bottom:6px">What δ means</div>
+      <div class="eq">δ<sub>m</sub> = R²(all modalities) − R²(all modalities except m)</div>
+      The necessity of modality m (table, text or photo): how much predictive accuracy is lost when it is hidden. δ = 0: the others can fully replace it. δ = 0.5: half of the explainable variance of y needs it.
+      <br><b>Designed δ</b> (horizontal): computed from the hidden facts that generate y, with effectively unlimited data, before any text or photo exists.
+      <br><b>Measured δ</b> (vertical): the same difference for a learner trained on the real table columns and the text/photo embeddings, scored out-of-fold on a task's 1,000 rows.
+    </div>
     <div class="eyebrow">Real pilot · learner</div>
     <span class="seg" style="margin-top:10px"><button type="button" data-learner="end_to_end" aria-pressed="${learner === "end_to_end"}">End-to-end</button><button type="button" data-learner="two_stage" aria-pressed="${learner === "two_stage"}">Decode, then combine</button></span>
     <p style="font:600 44px/1.05 var(--f-display);margin:16px 0 4px">${within}<span style="color:var(--muted)">/${P.length}</span></p>
