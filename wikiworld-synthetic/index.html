@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>WikiWorld-Synthetic</title>
+<meta name="description" content="WikiWorld-Synthetic: multimodal tabular pretraining tasks where the R² lost without the table, text or photo is set by design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,500&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: same catalogue system as the real explorer; a single long page in numbered sections
+   (world → task → check → stream → renders), the order in which a synthetic task is made and verified. */
+:root {
+  --bg: #EDF0F3; --card: #FFFFFF; --ink: #16202A; --muted: #5B6875; --line: #D6DDE3; --soft: #F4F6F8;
+  --accent: #1D5C8C; --on-accent: #FFFFFF;
+  --m-table: #1D5C8C; --m-text: #A8650F; --m-image: #2E7D5B;
+  --m-table-soft: #E1ECF5; --m-text-soft: #FBEFD9; --m-image-soft: #E2F2EA;
+  --ok: #2E7D5B; --bad: #B4443A; --band: rgba(29, 92, 140, .10);
+  --f-display: "Spectral", Georgia, "Times New Roman", serif;
+  --f-body: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0F1418; --card: #172028; --ink: #E5ECF2; --muted: #93A1AE; --line: #2A3540; --soft: #1D2731;
+  --accent: #82B7E3; --on-accent: #0F1418;
+  --m-table: #82B7E3; --m-text: #E3AE55; --m-image: #63C497;
+  --m-table-soft: #1C3347; --m-text-soft: #3A2C12; --m-image-soft: #173327;
+  --ok: #63C497; --bad: #E7837A; --band: rgba(130, 183, 227, .12); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0F1418; --card: #172028; --ink: #E5ECF2; --muted: #93A1AE; --line: #2A3540; --soft: #1D2731;
+  --accent: #82B7E3; --on-accent: #0F1418;
+  --m-table: #82B7E3; --m-text: #E3AE55; --m-image: #63C497;
+  --m-table-soft: #1C3347; --m-text-soft: #3A2C12; --m-image-soft: #173327;
+  --ok: #63C497; --bad: #E7837A; --band: rgba(130, 183, 227, .12); color-scheme: dark }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--f-body); }
+a { color: var(--accent); }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eyebrow { font: 500 11px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.pad { padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.in { max-width: 1320px; margin: 0 auto; }
+
+.switch { display: inline-flex; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 3px; gap: 2px; }
+.switch a { text-decoration: none; color: var(--muted); padding: 6px 12px; border-radius: 6px; font: 500 13px var(--f-body); }
+.switch a[aria-current="page"] { background: var(--accent); color: var(--on-accent); }
+
+.top { padding-block: 28px 30px; }
+.top .bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.top-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px; align-items: end; margin-top: 28px; }
+.top h1 { font: 600 clamp(34px, 5vw, 56px)/1.02 var(--f-display); margin-top: 10px; }
+.top p { margin: 14px 0 0; color: var(--muted); max-width: 64ch; }
+.totals { display: flex; gap: 28px; flex-wrap: wrap; justify-content: flex-end; }
+.totals div { display: grid; gap: 2px; }
+.totals b { font: 600 30px/1 var(--f-display); font-variant-numeric: tabular-nums; }
+.totals span { font-size: 12px; color: var(--muted); }
+
+section.s { padding-block: 34px; border-top: 1px solid var(--line); }
+.s-head { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 4px 16px; margin-bottom: 22px; }
+.s-head .n { font: 600 40px/1 var(--f-display); color: var(--muted); grid-row: span 2; }
+.s-head h2 { font: 600 clamp(24px, 2.6vw, 32px)/1.15 var(--f-display); }
+.s-head p { margin: 0; color: var(--muted); max-width: 72ch; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px; min-width: 0; }
+
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin-bottom: 14px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.chip { display: inline-block; font-size: 12px; padding: 3px 8px; border-radius: 4px; margin: 0 4px 4px 0; }
+.m-table { background: var(--m-table-soft); color: var(--m-table); }
+.m-text { background: var(--m-text-soft); color: var(--m-text); }
+.m-image { background: var(--m-image-soft); color: var(--m-image); }
+.m-hidden { background: none; color: var(--muted); border: 1px dashed var(--line); padding: 2px 7px; }
+
+.worlds { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 16px; }
+.world h3 { font: 600 20px/1.2 var(--f-display); }
+.world .unit { font-size: 13px; color: var(--muted); margin: 4px 0 10px; }
+.world .tgt { font-size: 13px; margin-bottom: 10px; }
+.world .tgt b { font-weight: 600; }
+.world a.q { font: 12px var(--f-mono); }
+
+.task { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 18px; }
+.seg { display: inline-flex; flex-wrap: wrap; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 3px; gap: 2px; }
+.seg button { color: var(--muted); background: none; border: 0; border-radius: 6px; padding: 8px 12px; cursor: pointer; font-size: 13px; font-weight: 500; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.routes { display: grid; gap: 12px; margin-top: 16px; }
+.route { display: grid; grid-template-columns: 72px minmax(0, 1fr) 64px; gap: 12px; align-items: center; }
+.route .lbl { font: 500 12px var(--f-mono); }
+.route .v { font: 600 18px var(--f-display); text-align: right; font-variant-numeric: tabular-nums; }
+.route > span:nth-child(2) { display: block; min-width: 0; }
+.track { display: block; height: 10px; background: var(--soft); border-radius: 5px; position: relative; }
+.track .fill { position: absolute; inset: 0 auto 0 0; border-radius: 5px; }
+.note { font-size: 12.5px; color: var(--muted); margin: 10px 0 0; }
+.scroll { overflow-x: auto; }
+table.rows { border-collapse: collapse; font-size: 12.5px; width: 100%; }
+table.rows th, table.rows td { text-align: left; padding: 6px 10px 6px 0; border-bottom: 1px solid var(--line); white-space: nowrap; }
+table.rows th { font: 500 11px var(--f-mono); color: var(--muted); }
+table.rows th.r-table, table.rows td.r-table { color: var(--m-table); }
+table.rows th.r-text, table.rows td.r-text { color: var(--m-text); }
+table.rows th.r-image, table.rows td.r-image { color: var(--m-image); }
+table.rows .unrouted { color: var(--muted); opacity: .55; }
+
+.check { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+.check svg { width: 100%; height: auto; display: block; }
+.check svg { max-height: 420px; }
+.check svg text { fill: var(--muted); font: 9px var(--f-mono); }
+
+table.stream { border-collapse: collapse; width: 100%; font-size: 13px; }
+table.stream th, table.stream td { text-align: left; padding: 7px 12px 7px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+table.stream th { font: 500 11px var(--f-mono); color: var(--muted); }
+table.stream td.num { font-variant-numeric: tabular-nums; font-family: var(--f-mono); font-size: 12px; }
+.mini { display: flex; height: 10px; width: 140px; border-radius: 5px; overflow: hidden; background: var(--soft); }
+.mini i { display: block; height: 100%; }
+
+.renders { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.sheet { display: grid; grid-template-columns: 70px repeat(3, minmax(0, 1fr)); gap: 6px; align-items: center; }
+.sheet .hd { font: 11px var(--f-mono); color: var(--muted); text-align: center; }
+.sheet .rh { font: 11px var(--f-mono); color: var(--muted); }
+.cell { position: relative; aspect-ratio: 1 / 1; border-radius: 6px; overflow: hidden; background: var(--soft); max-width: 100%; }
+.cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cell .rd { position: absolute; left: 4px; bottom: 4px; font: 500 10px/1 var(--f-mono); padding: 3px 5px; border-radius: 3px; background: rgba(0, 0, 0, .62); color: #fff; }
+.cell .rd.ok::before { content: "✓ "; color: #8FE0B5; }
+.cell .rd.no::before { content: "✗ "; color: #FFB3AB; }
+.texts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 14px; margin-top: 18px; }
+.texts .facts { font: 12px var(--f-mono); color: var(--muted); margin-bottom: 8px; }
+.texts blockquote { margin: 0; font: italic 500 17px/1.45 var(--f-display); }
+.texts .meta { font-size: 12px; color: var(--muted); margin-top: 8px; }
+
+footer { padding-block: 26px 60px; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+footer h2 { font: 600 18px/1.2 var(--f-display); margin-bottom: 6px; }
+footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 60ch; }
+
+@media (max-width: 960px) {
+  .top-grid, .task, .check, .renders, footer { grid-template-columns: 1fr; }
+  .totals { justify-content: flex-start; }
+}
+@media (prefers-reduced-motion: no-preference) { .seg button, .switch a { transition: background .15s, color .15s; } }
+</style>
+</head>
+<body>
+<header class="top pad"><div class="in">
+  <div class="bar"><div class="eyebrow">WikiWorld · dataset explorer</div>
+    <nav class="switch" aria-label="Dataset"><a href="../wikiworld/">Real</a><a href="./" aria-current="page">Synthetic</a></nav></div>
+  <div class="top-grid">
+    <div>
+      <h1>WikiWorld-Synthetic</h1>
+      <p>Pretraining tasks where we know how much each modality matters. Each row mixes table columns, a short text and a photo, and the R² a model loses without the table, the text or the photo is fixed before any data exists. Settings come from Wikipedia; the facts in each row are drawn from a causal model; text and photos are generated from those facts only and checked by a separate model.</p>
+    </div>
+    <div class="totals" id="totals"></div>
+  </div>
+</div></header>
+
+<main>
+  <section class="s pad"><div class="in">
+    <div class="s-head"><span class="n">1</span><h2>Fifteen Wikipedia worlds</h2><p>Each world fixes what a row is, what is predicted, and which facts exist. A fact has a natural home: a number in the table, a phrase in the text, or something visible in the photo.</p></div>
+    <div class="legend"><span><i style="background:var(--m-table)"></i>table</span><span><i style="background:var(--m-text)"></i>text</span><span><i style="background:var(--m-image)"></i>photo</span><span><i style="border:1px dashed var(--muted)"></i>hidden: affects the target but is never shown</span></div>
+    <div class="worlds" id="worlds"></div>
+  </div></section>
+
+  <section class="s pad"><div class="in">
+    <div class="s-head"><span class="n">2</span><h2>One task: the facts are split across the three modalities</h2><p>In a task, a few facts drive the target and each one is shown in exactly one place. How they combine sets the necessity δ of each modality: the R² lost when it is hidden, computed from the facts alone.</p></div>
+    <div class="task">
+      <div class="card">
+        <span class="seg" id="mode-seg"></span>
+        <div class="routes" id="routes"></div>
+        <p class="note" id="mode-note"></p>
+      </div>
+      <div class="card"><div class="eyebrow" style="margin-bottom:10px">Example rows · CarMax used-car sales</div><div class="scroll" id="rows"></div>
+        <p class="note">Coloured columns carry the facts that drive the target in this mode; grey ones are present but do not enter y. The model sees each row's table, a text and a photo, never these labels.</p></div>
+    </div>
+  </div></section>
+
+  <section class="s pad"><div class="in">
+    <div class="s-head"><span class="n">3</span><h2>The designed necessity survives rendering</h2><p>For each modality in each task, the δ we designed (horizontal) against the δ measured by a gradient-boosted model on the real table columns and the text and photo embeddings, with and without that modality (vertical).</p></div>
+    <div class="check">
+      <div class="card"><svg id="scatter" viewBox="0 0 420 360" role="img" aria-label="Designed versus measured necessity"></svg></div>
+      <div class="card" id="check-side"></div>
+    </div>
+  </div></section>
+
+  <section class="s pad"><div class="in">
+    <div class="s-head"><span class="n">4</span><h2>A stream of tasks, each with a known mix</h2><p>The generator draws a world, a mode and a size, adds distractor columns that leave δ unchanged, and emits the task. Twenty-four draws from the stream:</p></div>
+    <div class="card scroll"><table class="stream" id="stream"></table></div>
+  </div></section>
+
+  <section class="s pad"><div class="in">
+    <div class="s-head"><span class="n">5</span><h2>Do the renders show what they were told?</h2><p>The same mountain scene asked for at three cloud levels × three ice levels. A checker model must read the facts back from each photo; marks show whether it read the intended cloud level. Texts below are accepted renders, each generated from its fact sheet alone.</p></div>
+    <div class="renders" id="renders"></div>
+    <div class="texts" id="texts"></div>
+  </div></section>
+</main>
+
+<footer class="pad"><div class="in" style="display:contents">
+  <div><h2>Where this comes from</h2><p>Generated by the <code>tfm_taskgen</code> project (designed-necessity task generator). Worlds are compiled from Wikipedia articles; training and evaluation tasks never share a world, and WikiWorld-Real entities are excluded from generation.</p></div>
+  <div><h2>What δ means</h2><p>δ<sub>m</sub> is the R² a model loses when modality m is hidden. Unique: each modality carries its own share. Synergistic: facts matter only in pairs, so hiding any one modality removes most of the signal. Redundant: one fact shown everywhere, so hiding any single modality costs nothing.</p></div>
+  <div><h2>Generated media</h2><p>Photos are generated with SDXL-Turbo (Stability AI non-commercial research license) and Qwen-Image-2.1 (research license) and shown here for non-commercial research purposes only. Texts are generated by open LLMs. See the <a href="../wikiworld/">real dataset</a> for the Wikidata-based counterpart.</p></div>
+</div></footer>
+
+<script>
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const MOD = { table: "var(--m-table)", text: "var(--m-text)", image: "var(--m-image)" };
+const MNAME = { table: "table", text: "text", image: "photo" };
+const MODE_NOTE = {
+  unique: "Unique: the target adds up one share per modality, so each δ is that modality's own share of the signal.",
+  synergistic: "Synergistic: the facts matter only in pairs, with no main effects, so hiding any one modality removes most of the signal.",
+  redundant: "Redundant: one visible fact is shown in every modality, so hiding any single one costs nothing.",
+};
+let D, mode = "unique";
+
+function worlds() {
+  document.getElementById("worlds").innerHTML = D.anchors.map(a => `<article class="card world">
+    <h3>${esc(a.entity)}</h3>
+    <div class="unit">Row: ${esc(a.row_unit)}</div>
+    <div class="tgt">Predict <b>${esc(a.target.display)}</b>${a.target.unit ? ` (${esc(a.target.unit)})` : ""} · ${a.wikidata_id ? `<a class="q" href="https://www.wikidata.org/wiki/${a.wikidata_id}">${a.wikidata_id}</a>` : ""}</div>
+    <div>${a.attributes.map(t => `<span class="chip m-${t.natural_modality}" title="${esc((t.levels || []).join(" · "))}">${esc(t.display)}</span>`).join("")}</div>
+  </article>`).join("");
+}
+
+function task() {
+  const modes = Object.keys(D.example.modes);
+  document.getElementById("mode-seg").innerHTML = modes.map(m => `<button type="button" data-mode="${m}" aria-pressed="${m === mode}">${m}</button>`).join("");
+  const M = D.example.modes[mode];
+  document.getElementById("routes").innerHTML = ["table", "text", "image"].map(m => `<div class="route">
+      <span class="lbl" style="color:${MOD[m]}">${MNAME[m]}</span>
+      <span><span class="track"><span class="fill" style="width:${Math.max(0, M.designed[m]) * 100}%;background:${MOD[m]}"></span></span>
+        <span class="note" style="margin:6px 0 0;display:block">${(M.routes[m] || []).map(esc).join(", ") || "—"}</span></span>
+      <span class="v">δ ${M.designed[m].toFixed(2)}</span></div>`).join("");
+  document.getElementById("mode-note").textContent = MODE_NOTE[mode] || "";
+  const route = {};
+  Object.entries(M.routes).forEach(([m, attrs]) => attrs.forEach(a => route[a] = m));
+  const attrs = D.anchors.find(a => a.name.startsWith("carmax")).attributes;
+  const cols = Object.keys(D.example.rows[0]);
+  const disp = Object.fromEntries(attrs.map(a => [a.name, a.display]));
+  const cls = c => route[c] ? "r-" + route[c] : "unrouted";
+  document.getElementById("rows").innerHTML = `<table class="rows"><thead><tr>${cols.map(c => `<th class="${cls(c)}">${esc(disp[c] || c)}</th>`).join("")}</tr></thead>
+    <tbody>${D.example.rows.map(r => `<tr>${cols.map(c => `<td class="${cls(c)}">${esc(r[c].value != null && typeof r[c].value === "number" ? `${r[c].label} (${Math.round(r[c].value).toLocaleString("en-US")})` : r[c].label)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+}
+
+function scatter() {
+  const P = D.pilot, W = 420, H = 360, m = { l: 46, r: 14, t: 14, b: 40 };
+  const lo = -0.1, hi = 0.8;
+  const x = v => m.l + (v - lo) / (hi - lo) * (W - m.l - m.r), y = v => H - m.b - (v - lo) / (hi - lo) * (H - m.t - m.b);
+  const ticks = [0, 0.2, 0.4, 0.6, 0.8];
+  const band = `M${x(lo)},${y(lo + 0.1)} L${x(hi - 0.1)},${y(hi)} L${x(hi)},${y(hi)} L${x(hi)},${y(hi - 0.1)} L${x(lo + 0.1)},${y(lo)} L${x(lo)},${y(lo)} Z`;
+  const shape = { redundant: "circle", unique: "rect", synergistic: "diamond" };
+  const mark = d => {
+    const cx = x(d.designed), cy = y(d.rendered), c = MOD[d.modality];
+    if (d.mode === "unique") return `<rect x="${cx - 4.5}" y="${cy - 4.5}" width="9" height="9" fill="${c}" opacity=".9"><title>${d.mode} · ${MNAME[d.modality]}: designed ${d.designed.toFixed(2)}, measured ${d.rendered.toFixed(2)}</title></rect>`;
+    if (d.mode === "synergistic") return `<path d="M${cx},${cy - 6} L${cx + 6},${cy} L${cx},${cy + 6} L${cx - 6},${cy} Z" fill="${c}" opacity=".9"><title>${d.mode} · ${MNAME[d.modality]}: designed ${d.designed.toFixed(2)}, measured ${d.rendered.toFixed(2)}</title></path>`;
+    return `<circle cx="${cx}" cy="${cy}" r="5" fill="${c}" opacity=".9"><title>${d.mode} · ${MNAME[d.modality]}: designed ${d.designed.toFixed(2)}, measured ${d.rendered.toFixed(2)}</title></circle>`;
+  };
+  document.getElementById("scatter").innerHTML = `
+    <path d="${band}" fill="var(--band)"/>
+    <line x1="${x(lo)}" y1="${y(lo)}" x2="${x(hi)}" y2="${y(hi)}" stroke="var(--muted)" stroke-dasharray="3 4"/>
+    ${ticks.map(t => `<text x="${x(t)}" y="${H - m.b + 16}" text-anchor="middle">${t}</text><text x="${m.l - 8}" y="${y(t) + 4}" text-anchor="end">${t}</text>`).join("")}
+    <text x="${(W + m.l) / 2}" y="${H - 6}" text-anchor="middle">designed δ</text>
+    <text x="12" y="${(H - m.b) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(H - m.b) / 2})">measured δ</text>
+    ${P.map(mark).join("")}`;
+  const within = P.filter(d => Math.abs(d.rendered - d.designed) < 0.10).length;
+  const maxErr = Math.max(...P.map(d => Math.abs(d.rendered - d.designed)));
+  document.getElementById("check-side").innerHTML = `
+    <div class="eyebrow">Pilot</div>
+    <p style="font:600 44px/1.05 var(--f-display);margin:10px 0 4px">${within}<span style="color:var(--muted)">/${P.length}</span></p>
+    <p style="margin:0">points within ±0.10 of the designed value (shaded band); largest gap ${maxErr.toFixed(2)}.</p>
+    <div class="legend" style="margin-top:16px"><span>■ unique</span><span>◆ synergistic</span><span>● redundant</span></div>
+    <div class="legend"><span><i style="background:var(--m-table)"></i>table</span><span><i style="background:var(--m-text)"></i>text</span><span><i style="background:var(--m-image)"></i>photo</span></div>
+    <p class="note">Each point is one modality in one task of 1,000 rows. Measured δ uses the table columns and frozen text/photo embeddings, so renderer and encoder loss are included.</p>`;
+}
+
+function stream() {
+  const S = D.stream;
+  document.getElementById("stream").innerHTML = `<thead><tr><th>world</th><th>mode</th><th>rows</th><th>columns · text · photo dims</th><th>necessity (Sobol total)</th></tr></thead><tbody>` +
+    S.map(t => {
+      const a = D.anchors.find(x => x.name === t.anchor);
+      const s = t.sobol_total, sum = (s.table + s.text + s.image) || 1;
+      return `<tr><td>${esc(a ? a.entity : t.anchor)}</td><td>${esc(t.mode)}</td><td class="num">${t.n_rows.toLocaleString("en-US")}</td>
+        <td class="num">${t.n_features.table} · ${t.n_features.text} · ${t.n_features.image}</td>
+        <td><span class="mini" title="table ${s.table.toFixed(2)} · text ${s.text.toFixed(2)} · photo ${s.image.toFixed(2)}">${["table", "text", "image"].map(m => `<i style="width:${s[m] / sum * 100}%;background:${MOD[m]}"></i>`).join("")}</span></td></tr>`;
+    }).join("") + `</tbody>`;
+}
+
+function renders() {
+  const lv = D.image_levels;
+  document.getElementById("renders").innerHTML = Object.entries(D.gen_images).map(([model, imgs]) => {
+    const pick = (c, i) => imgs.find(g => g.cloud === c && g.ice === i && g.j === 0) || imgs.find(g => g.cloud === c && g.ice === i);
+    const cells = lv.cloud_cover.map((cl, c) => `<span class="rh">${esc(cl)}</span>` + lv.ice_on_ridge.map((_, i) => {
+      const g = pick(c, i); if (!g) return `<span class="cell"></span>`;
+      const rd = Object.values(g.reads || {})[0] || {};
+      const ok = rd.cloud_cover === c;
+      return `<span class="cell"><img src="${esc(g.src)}" alt="${esc(cl)}, ${esc(lv.ice_on_ridge[i])}" loading="lazy"><span class="rd ${ok ? "ok" : "no"}">${esc(lv.cloud_cover[rd.cloud_cover] ?? "?")}</span></span>`;
+    }).join("")).join("");
+    const sm = (D.image_summary || {})[model];
+    return `<div class="card"><div class="eyebrow" style="margin-bottom:10px">${esc(model)}${sm ? ` · ${sm.sec_per_image < 1 ? sm.sec_per_image.toFixed(2) : sm.sec_per_image.toFixed(1)} s per image` : ""}</div>
+      <div class="sheet"><span></span>${lv.ice_on_ridge.map(i => `<span class="hd">ice: ${esc(i)}</span>`).join("")}${cells}</div>
+      <p class="note">Rows: requested cloud cover. Badge: what the checker read back.</p></div>`;
+  }).join("");
+  document.getElementById("texts").innerHTML = (D.text.accepted_samples || []).map(t => `<article class="card">
+    <div class="facts">${Object.entries(t.facts).map(([k, v]) => `${esc(k)}: ${esc(v)}`).join(" · ")}</div>
+    <blockquote>“${esc(t.text)}”</blockquote>
+    <div class="meta">${esc(t.genre)} · ${esc(t.persona)}</div></article>`).join("");
+}
+
+document.addEventListener("click", e => { const b = e.target.closest("button[data-mode]"); if (b) { mode = b.dataset.mode; task(); } });
+(async () => {
+  D = await (await fetch("data/site.json")).json();
+  const nImg = Object.values(D.gen_images).reduce((s, v) => s + v.length, 0);
+  document.getElementById("totals").innerHTML = [[D.anchors.length, "worlds"], [D.stream.length, "sample tasks"], [D.pilot.length, "δ checks"]]
+    .map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join("");
+  worlds(); task(); scatter(); stream(); renders();
+})();
+</script>
+</body>
+</html>
