@@ -60,17 +60,28 @@ button { font: inherit; }
 .totals b { font: 600 30px/1 var(--f-display); font-variant-numeric: tabular-nums; }
 .totals span { font-size: 12px; color: var(--muted); }
 
-.strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 26px; }
+.strip { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin-top: 26px; }
 .strip a { display: block; aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden; background: var(--soft); max-width: 100%; }
 .strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .strip-cap { font-size: 12px; color: var(--muted); margin-top: 8px; }
-.strip a { aspect-ratio: 16 / 10; }
+@media (max-width: 640px) { .strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .flux { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .flux figure { margin: 0; }
 .flux img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; display: block; max-width: 100%; }
 .flux figcaption { margin-top: 8px; font-size: 13px; }
 .flux figcaption span { display: inline-block; margin: 0 4px 4px 0; }
 .subhead { font: 600 18px/1.2 var(--f-display); margin: 26px 0 4px; }
+.cars { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 4px; }
+.cars .cell { aspect-ratio: 1 / 1; }
+.cars .rd { font-size: 9px; padding: 2px 4px; }
+.gbar { display: grid; grid-template-columns: 150px minmax(0, 1fr) 48px; gap: 10px; align-items: center; font-size: 13px; margin: 6px 0; }
+.gbar .lbl { color: var(--muted); }
+.gbar .tr { height: 12px; background: var(--soft); border-radius: 6px; position: relative; }
+.gbar .tr i { position: absolute; inset: 0 auto 0 0; border-radius: 6px; }
+.gbar .tr b { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--ink); }
+.gbar .v { font: 500 12px var(--f-mono); text-align: right; }
+.gsub { font: 500 12px var(--f-mono); color: var(--muted); margin: 14px 0 2px; }
+@media (max-width: 640px) { .cars { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .flux { grid-template-columns: 1fr; } }
 section.s { padding-block: 34px; border-top: 1px solid var(--line); }
 .s-head { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 4px 16px; margin-bottom: 22px; }
@@ -188,7 +199,7 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head"><span class="n">3</span><h2>The designed necessity survives rendering</h2><p>For each modality in each task, the δ we designed (horizontal) against the δ measured by a gradient-boosted model on the real table columns and the text and photo embeddings, with and without that modality (vertical).</p></div>
+    <div class="s-head"><span class="n">3</span><h2>The designed necessity holds in the mock pilot</h2><p>For each modality in each task, the δ we designed (horizontal) against the δ measured by a gradient-boosted model with and without that modality (vertical). This pilot uses stand-in renders rather than generated photos and texts, so it checks the task construction and the estimators; section 4 shows the real renders.</p></div>
     <div class="check">
       <div class="card"><svg id="scatter" viewBox="0 0 420 360" role="img" aria-label="Designed versus measured necessity"></svg></div>
       <div class="card" id="check-side"></div>
@@ -196,13 +207,23 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head"><span class="n">4</span><h2>A stream of tasks, each with a known mix</h2><p>The generator draws a world, a mode and a size, adds distractor columns that leave δ unchanged, and emits the task. Twenty-four draws from the stream:</p></div>
+    <div class="s-head"><span class="n">4</span><h2>With real renders, learners struggle exactly where modalities matter jointly</h2><p>Real CarMax pilot: FLUX 3 Klein photos, Gemma 4 texts, DINOv3 and e5 embeddings. Every hidden fact can be decoded from its own modality's embedding almost perfectly (probe R² ≥ 0.999), yet a learner that must decode and combine everything in one step falls short on synergistic tasks.</p></div>
+    <div class="check">
+      <div class="card" id="gap-r2"></div>
+      <div class="card" id="gap-delta"></div>
+    </div>
+  </div></section>
+
+  <section class="s pad"><div class="in">
+    <div class="s-head"><span class="n">5</span><h2>A stream of tasks, each with a known mix</h2><p>The generator draws a world, a mode and a size, adds distractor columns that leave δ unchanged, and emits the task. Twenty-four draws from the stream:</p></div>
     <div class="card scroll"><table class="stream" id="stream"></table></div>
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head" id="sec-renders"><span class="n">5</span><h2>Do the renders show what they were told?</h2><p>Every photo and text is generated from its fact sheet alone, then a separate checker model must read the facts back or the render is thrown away.</p></div>
-    <div class="card"><div class="eyebrow" style="margin-bottom:12px">FLUX 3 Image Klein · the photo generator used in the pilot · 768 px</div><div class="flux" id="flux"></div></div>
+    <div class="s-head" id="sec-renders"><span class="n">6</span><h2>Do the renders show what they were told?</h2><p>Every photo and text is generated from its fact sheet alone, then a separate checker model must read the facts back or the render is thrown away.</p></div>
+    <div class="card"><div class="eyebrow" style="margin-bottom:12px">FLUX 3 Image Klein · the photo generator used in the pilot</div>
+      <div class="renders"><div id="flux-mtn"></div><div id="flux-car"></div></div>
+      <p class="note" id="flux-note"></p></div>
     <h3 class="subhead">Earlier bake-off (generators not used in the pilot)</h3>
     <p class="note" style="margin:0 0 14px">The same mountain scene asked for at three cloud levels × three ice levels, from two candidate generators. Badges show what the checker read back for cloud cover: it misses "scattered clouds" in every photo, one reason a person makes the final call on middle levels.</p>
     <div class="renders" id="renders"></div>
@@ -285,7 +306,7 @@ function scatter() {
     <p style="margin:0">points within ±0.10 of the designed value (shaded band); largest gap ${maxErr.toFixed(2)}.</p>
     <div class="legend" style="margin-top:16px"><span>■ unique</span><span>◆ synergistic</span><span>● redundant</span></div>
     <div class="legend"><span><i style="background:var(--m-table)"></i>table</span><span><i style="background:var(--m-text)"></i>text</span><span><i style="background:var(--m-image)"></i>photo</span></div>
-    <p class="note">Each point is one modality in one task of 1,000 rows. Measured δ uses the table columns and frozen text/photo embeddings, so renderer and encoder loss are included.</p>`;
+    <p class="note">Each point is one modality in one task of 1,000 rows, from the mock pilot (stand-in renders). A point on the diagonal means hiding that modality costs what was designed; it does not by itself mean a learner reaches the best possible R². Section 4 checks that with real renders.</p>`;
 }
 
 function stream() {
@@ -321,17 +342,53 @@ function renders() {
     <div class="meta">${esc(t.genre)} · ${esc(t.persona)}</div></article>`).join("");
 }
 
+const CAR_LV = { body_condition: ["pristine", "light scratches", "visibly dented"], body_style: ["hatchback", "sedan", "SUV"], weather: ["sunny", "overcast", "rain"] };
+function fluxSection() {
+  const F = D.flux_sets, strip = document.getElementById("strip");
+  if (!F) return;
+  const mtn = F.items.filter(i => i.world === "matterhorn" && i.j === 0), car = F.items.filter(i => i.world === "carmax");
+  const lv = D.image_levels, at = (c, i) => mtn.find(x => x.levels.cloud_cover === c && x.levels.ice_on_ridge === i);
+  const badge = (it, k, names) => { const r = it.read[k]; return r == null ? "" : `<span class="rd ${r === it.levels[k] ? "ok" : "no"}">${esc(names[r])}</span>`; };
+  document.getElementById("flux-mtn").innerHTML = `<div class="gsub">Matterhorn · cloud cover × ice on the ridge</div><div class="sheet"><span></span>${lv.ice_on_ridge.map(x => `<span class="hd">ice: ${esc(x)}</span>`).join("")}` +
+    lv.cloud_cover.map((cl, c) => `<span class="rh">${esc(cl)}</span>` + lv.ice_on_ridge.map((ic, i) => { const it = at(c, i); return it ? `<span class="cell"><img src="${esc(it.src)}" alt="${esc(cl)}, ${esc(ic)}" loading="lazy">${badge(it, "cloud_cover", lv.cloud_cover)}</span>` : `<span class="cell"></span>`; }).join("")).join("") + `</div>`;
+  const nOk = it => Object.keys(it.levels).filter(k => it.read[k] === it.levels[k]).length;
+  document.getElementById("flux-car").innerHTML = `<div class="gsub">CarMax · all 27 combinations of body condition × style × weather</div><div class="cars">` +
+    car.map(it => { const t = Object.entries(it.levels).map(([k, v]) => CAR_LV[k] ? CAR_LV[k][v] : v).join(" · "); const k = nOk(it), n = Object.keys(it.levels).length;
+      return `<span class="cell" title="${esc(t)} (checker read ${k}/${n})"><img src="${esc(it.src)}" alt="${esc(t)}" loading="lazy"><span class="rd ${k === n ? "ok" : "no"}">${k}/${n}</span></span>`; }).join("") + `</div>`;
+  const okM = mtn.filter(it => it.read.cloud_cover === it.levels.cloud_cover).length, okC = car.filter(it => nOk(it) === Object.keys(it.levels).length).length;
+  document.getElementById("flux-note").textContent = `Badges: what the ${F.checker} checker read back (the same checker as the bake-off below). Matterhorn: cloud cover read correctly in ${okM} of ${mtn.length}. CarMax: all three facts read correctly in ${okC} of ${car.length}; hover a photo for its fact sheet. Across all 240 Matterhorn renders, the strongest checker tested (Gemma 4 12B) read the intended fact 82% of the time.`;
+  const pickM = [[0, 0], [1, 1], [2, 2]].map(([c, i]) => at(c, i)).filter(Boolean);
+  const pickC = [car[0], car[13], car[26]].filter(Boolean);
+  strip.innerHTML = [...pickM, ...pickC].map(it => `<a href="#sec-renders"><img src="${esc(it.src)}" alt="FLUX render"></a>`).join("");
+}
+function finding() {
+  const F = D.finding;
+  if (!F) return;
+  const r2 = (model, inputs, mode) => { const r = F.tfm.find(x => x.model === model && x.inputs === inputs && x.mode === mode); return r ? +r.r2_full : null; };
+  const bar = (lbl, v, max, color, mark) => `<div class="gbar"><span class="lbl">${lbl}</span><span class="tr"><i style="width:${v / max * 100}%;background:${color}"></i>${mark != null ? `<b style="left:${mark / max * 100}%"></b>` : ""}</span><span class="v">${v.toFixed(2)}</span></div>`;
+  let h = `<div class="eyebrow">R² with all modalities</div>`;
+  for (const [m, name] of [["tabpfn_v2", "TabPFN v2"], ["tabicl_v2", "TabICLv2"]]) for (const mode of ["unique", "synergistic"]) {
+    const f = r2(m, "latent_facts", mode), e = r2(m, "embeddings", mode);
+    if (f == null || e == null) continue;
+    h += `<div class="gsub">${name} · ${mode} · gap ${(f - e).toFixed(2)}</div>` + bar("given the facts", f, 0.85, "var(--muted)") + bar("given embeddings", e, 0.85, mode === "synergistic" ? "var(--bad)" : "var(--accent)");
+  }
+  document.getElementById("gap-r2").innerHTML = h + `<p class="note">Same tasks, same protocol: the hidden facts themselves vs the real table columns plus text and photo embeddings. The cost of decoding is small on unique tasks and about five times larger on synergistic ones.</p>`;
+  const g = F.gbm.find(x => x.mode === "synergistic" && x.modality === "image");
+  const t = m => { const r = F.tfm.find(x => x.model === m && x.inputs === "embeddings" && x.mode === "synergistic" && x.modality === "image"); return r ? +r.delta : null; };
+  const des = +g.designed;
+  document.getElementById("gap-delta").innerHTML = `<div class="eyebrow">Photo δ on synergistic tasks (line = designed ${des.toFixed(2)})</div>` +
+    [["Gradient boosting, end-to-end", +g.end_to_end, "var(--bad)"], ["TabPFN v2", t("tabpfn_v2"), "var(--bad)"], ["TabICLv2", t("tabicl_v2"), "var(--bad)"],
+     ["Decode each modality, then combine", +g.two_stage, "var(--ok)"]].filter(x => x[1] != null).map(([l, v, c]) => bar(l, v, 0.7, c, des)).join("") +
+    `<p class="note">Hiding the photo should cost ${des.toFixed(2)} R². Learners that decode and combine in one step see less of the photo's value; decoding each modality first, then combining, recovers it (within 0.01). This is what the WikiWorld model design builds in. Source: tfm_taskgen finding “The synergistic δ gap is the learner, not the renders” (3 tasks per mode, 1,000 rows each).</p>`;
+}
+
 document.addEventListener("click", e => { const b = e.target.closest("button[data-mode]"); if (b) { mode = b.dataset.mode; task(); } });
 (async () => {
   D = await (await fetch("data/site.json")).json();
   const nImg = Object.values(D.gen_images).reduce((s, v) => s + v.length, 0);
   document.getElementById("totals").innerHTML = [[D.anchors.length, "worlds"], [D.stream.length, "sample tasks"], [D.pilot.length, "δ checks"]]
     .map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join("");
-  const flux = D.flux || [];
-  const alt = f => Object.values(f.facts).join(", ");
-  document.getElementById("strip").innerHTML = flux.map(f => `<a href="#sec-renders"><img src="${esc(f.src)}" alt="${esc(alt(f))}"></a>`).join("");
-  document.getElementById("flux").innerHTML = flux.map(f => `<figure><img src="${esc(f.src)}" alt="${esc(alt(f))}" loading="lazy">
-    <figcaption>${Object.entries(f.facts).map(([k, v]) => `<span class="chip m-image">${esc(k)}: ${esc(v)}</span>`).join("")}</figcaption></figure>`).join("");
+  fluxSection(); finding();
   worlds(); task(); scatter(); stream(); renders();
 })();
 </script>
