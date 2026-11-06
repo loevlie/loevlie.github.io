@@ -60,6 +60,11 @@ button { font: inherit; }
 .totals b { font: 600 30px/1 var(--f-display); font-variant-numeric: tabular-nums; }
 .totals span { font-size: 12px; color: var(--muted); }
 
+.strip { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; margin-top: 26px; }
+.strip a { display: block; aspect-ratio: 1 / 1; border-radius: 8px; overflow: hidden; background: var(--soft); max-width: 100%; }
+.strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.strip-cap { font-size: 12px; color: var(--muted); margin-top: 8px; }
+@media (max-width: 640px) { .strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 section.s { padding-block: 34px; border-top: 1px solid var(--line); }
 .s-head { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 4px 16px; margin-bottom: 22px; }
 .s-head .n { font: 600 40px/1 var(--f-display); color: var(--muted); grid-row: span 2; }
@@ -151,6 +156,8 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
     </div>
     <div class="totals" id="totals"></div>
   </div>
+  <div class="strip" id="strip"></div>
+  <div class="strip-cap">Generated photos, each made from its fact sheet alone (cloud cover × ice on the ridge). <a href="#renders">See all renders and how they are checked</a>.</div>
 </div></header>
 
 <main>
@@ -187,7 +194,7 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head"><span class="n">5</span><h2>Do the renders show what they were told?</h2><p>The same mountain scene asked for at three cloud levels × three ice levels. A checker model must read the facts back from each photo; marks show whether it read the intended cloud level. Texts below are accepted renders, each generated from its fact sheet alone.</p></div>
+    <div class="s-head" id="renders"><span class="n">5</span><h2>Do the renders show what they were told?</h2><p>The same mountain scene asked for at three cloud levels × three ice levels. A checker model must read the facts back from each photo; marks show whether it read the intended cloud level. Texts below are accepted renders, each generated from its fact sheet alone.</p></div>
     <div class="renders" id="renders"></div>
     <div class="texts" id="texts"></div>
   </div></section>
@@ -309,6 +316,9 @@ document.addEventListener("click", e => { const b = e.target.closest("button[dat
   const nImg = Object.values(D.gen_images).reduce((s, v) => s + v.length, 0);
   document.getElementById("totals").innerHTML = [[D.anchors.length, "worlds"], [D.stream.length, "sample tasks"], [D.pilot.length, "δ checks"]]
     .map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join("");
+  const qwen = D.gen_images["Qwen-Image-2.1-Turbo"] || Object.values(D.gen_images)[0];
+  const pick = [[0, 0], [0, 2], [1, 1], [2, 0], [2, 2], [1, 2]].map(([c, i]) => qwen.find(g => g.cloud === c && g.ice === i && g.j === 0)).filter(Boolean);
+  document.getElementById("strip").innerHTML = pick.map(g => `<a href="#renders"><img src="${esc(g.src)}" alt="${esc(D.image_levels.cloud_cover[g.cloud])}, ${esc(D.image_levels.ice_on_ridge[g.ice])}"></a>`).join("");
   worlds(); task(); scatter(); stream(); renders();
 })();
 </script>
