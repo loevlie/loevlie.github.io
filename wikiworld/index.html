@@ -197,7 +197,7 @@ mark { background: var(--leak); color: var(--leak-ink); border-radius: 3px; padd
   <div>
     <h2>Sources and licenses</h2>
     <p>Structured data: <a href="https://www.wikidata.org/">Wikidata</a> (CC0). Text: English <a href="https://en.wikipedia.org/">Wikipedia</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>); each card links its article revision. Images: <a href="https://commons.wikimedia.org/">Wikimedia Commons</a>, shown as small thumbnails; each card credits the photo's author and license and links its file page. Some images come via Wikimedia's <a href="https://huggingface.co/datasets/wikimedia/wit_base">WIT</a> release.</p>
-    <p>Probe scores: simple models on frozen features (DINOv3 block-4 tokens and e5 layer-6 tokens as the model consumes them, plus SigLIP 2), trained on train, scored on val + test. R² for numbers, balanced accuracy for classes.</p>
+    <p>Probe scores: simple models on frozen features (e5 layer-6 text tokens, the pooled SigLIP 2 image embedding), trained on train, scored on val + test. R² for numbers, balanced accuracy for classes.</p>
   </div>
 </footer>
 
@@ -244,8 +244,8 @@ function renderHead(t) {
   const pct = n => n / t.rows * 100;
   let probe = "";
   if (p) {
-    const mods = [["table", "Table"], ["text_clean", "Text, repaired"], ["text_raw", "Text, original"], ["image", "Image (DINOv3)"],
-                  ["image_siglip2", "Image (SigLIP 2)"], ["all", "All combined"]].filter(([k]) => p[k] != null);
+    const mods = [["table", "Table"], ["text_clean", "Text, repaired"], ["text_raw", "Text, original"],
+                  ["image_siglip2", "Image (SigLIP 2)"]].filter(([k]) => p[k] != null);
     const base = p.metric === "R2" ? null : p.baseline;
     probe = `<div class="panel"><div class="eyebrow">What each modality predicts · ${p.metric === "R2" ? "R²" : "balanced accuracy"}</div>
       ${mods.map(([k, l]) => bar(l, p[k], 1, "mod" + (k === "text_raw" ? " dim" : ""), base)).join("")}
