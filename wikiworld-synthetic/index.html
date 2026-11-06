@@ -133,6 +133,26 @@ table.rows .unrouted { color: var(--muted); opacity: .55; }
 .check svg { width: 100%; height: auto; display: block; }
 .check svg { max-height: 420px; }
 .check svg text { fill: var(--muted); font: 9px var(--f-mono); }
+.check svg [data-i] { cursor: pointer; }
+.check svg [data-i]:hover, .check svg [data-i]:focus-visible { stroke: var(--ink); stroke-width: 1.5; outline: none; }
+.s-head.with-eq { grid-template-columns: 56px minmax(0, 1fr) auto; }
+.s-head.with-eq .eq { grid-column: 3; grid-row: 1 / span 2; align-self: start; background: var(--card);
+  border: 1px solid var(--line); border-radius: 10px; padding: 12px 16px 10px; }
+.eq math { font-size: 18px; color: var(--ink); }
+.eq p { margin: 6px 0 0; font-size: 12px; color: var(--muted); max-width: 32ch; }
+.tip { position: fixed; z-index: 50; width: 320px; background: var(--card); color: var(--ink); border: 1px solid var(--line);
+  border-radius: 10px; padding: 12px 14px; box-shadow: 0 8px 28px rgba(22, 32, 42, .16); font-size: 12.5px; pointer-events: none; }
+.tip[hidden] { display: none; }
+.tip h4 { margin: 0 0 4px; font: 600 14px/1.3 var(--f-body); }
+.tip .d { color: var(--muted); margin-bottom: 10px; }
+.tip .d b, .tip .d .on { color: var(--ink); font-weight: 600; }
+.tip .lab { font: 500 10.5px var(--f-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin: 8px 0 4px; }
+.tip table { border-collapse: collapse; width: 100%; }
+.tip td { padding: 2px 8px 2px 0; vertical-align: top; }
+.tip td.m { font: 10.5px var(--f-mono); color: var(--muted); width: 44px; }
+.tip tr.hl td { font-weight: 600; }
+.tip .num { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.tip .note { margin: 8px 0 0; color: var(--muted); font-size: 11.5px; }
 
 .mini { display: flex; height: 10px; width: 140px; border-radius: 5px; overflow: hidden; background: var(--soft); }
 .mini i { display: block; height: 100%; }
@@ -157,6 +177,8 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
 
 @media (max-width: 960px) {
   .top-grid, .task, .check, .renders, footer { grid-template-columns: 1fr; }
+  .s-head.with-eq { grid-template-columns: 56px minmax(0, 1fr); }
+  .s-head.with-eq .eq { grid-column: 1 / -1; grid-row: auto; justify-self: start; }
   .totals { justify-content: flex-start; }
 }
 @media (prefers-reduced-motion: no-preference) { .seg button, .switch a { transition: background .15s, color .15s; } }
@@ -199,7 +221,10 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head"><span class="n">3</span><h2>Designed vs measured necessity on real renders</h2><p>Real CarMax pilot, 9 tasks of 1,000 rows (FLUX 3 Klein photos, Gemma 4 texts, DINOv3 and e5 embeddings). Each point is one modality (table, text or photo) in one task. Horizontal: the R² we designed to be lost when that modality is hidden. Vertical: the R² a learner actually loses, R²(all) − R²(without it). On the diagonal, the necessity came out as designed; below it, the learner gets less out of that modality than it should.</p></div>
+    <div class="s-head with-eq"><span class="n">3</span><h2>Designed vs measured necessity on real renders</h2><p>Real CarMax pilot, 9 tasks of 1,000 rows (FLUX 3 Klein photos, Gemma 4 texts, DINOv3 and e5 embeddings). Each point is one modality (table, text or photo) in one task. Horizontal: the R² we designed to be lost when that modality is hidden. Vertical: the R² a learner actually loses, R²(all) − R²(without it). On the diagonal, the necessity came out as designed; below it, the learner gets less out of that modality than it should. Hover over a point to see a real example row from that task.</p><div class="eq" role="img" aria-label="R squared equals one minus the sum of squared errors over the total sum of squares">
+      <math display="block"><msup><mi>R</mi><mn>2</mn></msup><mo>=</mo><mn>1</mn><mo>&#x2212;</mo><mfrac><mrow><munder><mo>&#x2211;</mo><mi>i</mi></munder><msubsup><mi>e</mi><mi>i</mi><mn>2</mn></msubsup></mrow><mrow><munder><mo>&#x2211;</mo><mi>i</mi></munder><msup><mrow><mo stretchy="false">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>&#x2212;</mo><mover accent="true"><mi>y</mi><mo>&#xAF;</mo></mover><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow></mfrac></math>
+      <p><i>e</i><sub><i>i</i></sub> = <i>y</i><sub><i>i</i></sub> &#x2212; <i>&#x177;</i><sub><i>i</i></sub>, the out-of-fold error on row <i>i</i>; <i>&#x233;</i> is the mean price. A modality's &#x3B4; is the drop in <i>R</i><sup>2</sup> when it is hidden.</p>
+    </div></div>
     <div class="check">
       <div class="card"><svg id="scatter" viewBox="0 0 420 360" role="img" aria-label="Designed versus measured necessity"></svg></div>
       <div class="card" id="check-side"></div>
@@ -273,6 +298,39 @@ function task() {
 }
 
 let learner = "end_to_end";
+const TIP = document.body.appendChild(Object.assign(document.createElement("div"), { className: "tip", hidden: true }));
+const taskName = t => { const [mode, n] = String(t).split("_"); return `${mode[0].toUpperCase()}${mode.slice(1)} task ${+n + 1}`; };
+const usd = (v, sign) => `${sign ? (v < 0 ? "\u2212" : "+") : ""}$${Math.abs(Math.round(v)).toLocaleString("en-US")}`;
+const TIP_NOTE = {
+  unique: "Unique: each fact adds its own term to the price.",
+  synergistic: "Synergistic: the price multiplies pairs of facts, and each pair term is split half-and-half between its two facts, so a good fact can still lower the price.",
+  redundant: "Redundant: only body condition sets the price, and it appears in all three modalities, so hiding one loses almost nothing.",
+};
+function tipHTML(d) {
+  const ex = (((D.finding || {}).examples || {})[d.task] || {})[d.modality];
+  const meas = (v, k, l) => `<span class="${learner === k ? "on" : ""}">${v.toFixed(2)} ${l}</span>`;
+  let h = `<h4>${esc(taskName(d.task))} · ${MNAME[d.modality]}</h4>
+    <div class="d">δ designed <b>${d.designed.toFixed(2)}</b> · measured ${meas(d.e2e, "end_to_end", "end-to-end")} · ${meas(d.two, "two_stage", "decode, then combine")}</div>`;
+  if (!ex) return h;
+  h += `<div class="lab">Example row ${ex.row + 1} of 1,000</div><table>` +
+    ex.facts.map(f => `<tr class="${f.share && f.modality === d.modality ? "hl" : ""}"><td class="m">${MNAME[f.modality]}</td><td>${esc(f.fact)}</td><td>${esc(f.value)}</td></tr>`).join("") +
+    `</table><div class="lab">Price ${usd(ex.price)}</div><table>
+     <tr><td>base price</td><td class="num">${usd(ex.base)}</td></tr>` +
+    ex.parts.map(p => `<tr class="${p.modality === d.modality ? "hl" : ""}"><td>${esc(p.fact)}</td><td class="num">${usd(p.usd, true)}</td></tr>`).join("") +
+    `<tr><td>noise</td><td class="num">${usd(ex.noise, true)}</td></tr></table>
+    <p class="note">${TIP_NOTE[d.mode] || ""}</p>`;
+  return h;
+}
+function showTip(d, ev, el) {
+  TIP.innerHTML = tipHTML(d); TIP.hidden = false;
+  const r = el.getBoundingClientRect(), px = ev && ev.clientX != null ? ev.clientX : r.right, py = ev && ev.clientY != null ? ev.clientY : r.top;
+  const w = TIP.offsetWidth, hh = TIP.offsetHeight, pad = 12;
+  let left = px + 16, top = py + 16;
+  if (left + w > innerWidth - pad) left = px - w - 16;
+  if (top + hh > innerHeight - pad) top = Math.max(pad, innerHeight - hh - pad);
+  TIP.style.left = `${Math.max(pad, left)}px`; TIP.style.top = `${top}px`;
+}
+function hideTip() { TIP.hidden = true; }
 function tfmNote() {
   const T = (D.finding || {}).tfm || [];
   const r2 = (m, inp) => { const r = T.find(x => x.model === m && x.inputs === inp && x.mode === "synergistic"); return r ? (+r.r2_full).toFixed(2) : null; };
@@ -280,17 +338,18 @@ function tfmNote() {
   return p.every(Boolean) ? ` Real tabular foundation models show the same gap on synergistic tasks: TabPFN v2 reaches R² ${p[0]} from the embeddings vs ${p[1]} given the hidden facts, TabICLv2 ${p[2]} vs ${p[3]}.` : "";
 }
 function scatter() {
-  const P = ((D.finding || {}).per_modality || []).map(r => ({ mode: r.mode, modality: r.modality, designed: +r.designed, measured: +r[learner] }));
+  const P = ((D.finding || {}).per_modality || []).map(r => ({ task: r.task, mode: r.mode, modality: r.modality, designed: +r.designed,
+    measured: +r[learner], e2e: +r.end_to_end, two: +r.two_stage }));
   const W = 420, H = 360, m = { l: 46, r: 14, t: 14, b: 40 }, lo = -0.1, hi = 0.8;
   const x = v => m.l + (v - lo) / (hi - lo) * (W - m.l - m.r), y = v => H - m.b - (v - lo) / (hi - lo) * (H - m.t - m.b);
   const ticks = [0, 0.2, 0.4, 0.6, 0.8];
   const band = `M${x(lo)},${y(lo + 0.1)} L${x(hi - 0.1)},${y(hi)} L${x(hi)},${y(hi)} L${x(hi)},${y(hi - 0.1)} L${x(lo + 0.1)},${y(lo)} L${x(lo)},${y(lo)} Z`;
-  const tip = d => `<title>${d.mode} · ${MNAME[d.modality]}: designed ${d.designed.toFixed(2)}, measured ${d.measured.toFixed(2)}</title>`;
-  const mark = d => {
+  const mark = (d, i) => {
     const cx = x(d.designed), cy = y(d.measured), c = MOD[d.modality];
-    if (d.mode === "unique") return `<rect x="${cx - 4.5}" y="${cy - 4.5}" width="9" height="9" fill="${c}" opacity=".9">${tip(d)}</rect>`;
-    if (d.mode === "synergistic") return `<path d="M${cx},${cy - 6} L${cx + 6},${cy} L${cx},${cy + 6} L${cx - 6},${cy} Z" fill="${c}" opacity=".9">${tip(d)}</path>`;
-    return `<circle cx="${cx}" cy="${cy}" r="5" fill="${c}" opacity=".9">${tip(d)}</circle>`;
+    const at = `data-i="${i}" tabindex="0" role="button" aria-label="${esc(taskName(d.task))}, ${MNAME[d.modality]}: designed ${d.designed.toFixed(2)}, measured ${d.measured.toFixed(2)}"`;
+    if (d.mode === "unique") return `<rect ${at} x="${cx - 4.5}" y="${cy - 4.5}" width="9" height="9" fill="${c}" opacity=".9"/>`;
+    if (d.mode === "synergistic") return `<path ${at} d="M${cx},${cy - 6} L${cx + 6},${cy} L${cx},${cy + 6} L${cx - 6},${cy} Z" fill="${c}" opacity=".9"/>`;
+    return `<circle ${at} cx="${cx}" cy="${cy}" r="5" fill="${c}" opacity=".9"/>`;
   };
   document.getElementById("scatter").innerHTML = `
     <path d="${band}" fill="var(--band)"/>
@@ -299,6 +358,11 @@ function scatter() {
     <text x="${(W + m.l) / 2}" y="${H - 6}" text-anchor="middle">designed δ</text>
     <text x="12" y="${(H - m.b) / 2}" text-anchor="middle" transform="rotate(-90 12 ${(H - m.b) / 2})">measured δ</text>
     ${P.map(mark).join("")}`;
+  document.querySelectorAll("#scatter [data-i]").forEach(el => {
+    const d = P[+el.dataset.i], show = ev => showTip(d, ev, el);
+    el.addEventListener("pointerenter", show); el.addEventListener("pointermove", show); el.addEventListener("focus", show);
+    el.addEventListener("pointerleave", hideTip); el.addEventListener("blur", hideTip);
+  });
   const within = P.filter(d => Math.abs(d.measured - d.designed) < 0.10).length;
   const syn = P.filter(d => d.mode === "synergistic" && d.modality === "image");
   const synGap = syn.reduce((s, d) => s + (d.designed - d.measured), 0) / Math.max(1, syn.length);
