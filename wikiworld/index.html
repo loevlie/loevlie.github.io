@@ -196,7 +196,7 @@ mark { background: var(--leak); color: var(--leak-ink); border-radius: 3px; padd
   </div>
   <div>
     <h2>Sources and licenses</h2>
-    <p>Structured data: <a href="https://www.wikidata.org/">Wikidata</a> (CC0). Text: English <a href="https://en.wikipedia.org/">Wikipedia</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>); each card links its article revision. Images: <a href="https://commons.wikimedia.org/">Wikimedia Commons</a>, shown directly from Wikimedia; each image has its own license and author, listed on the file page linked on its card. Some images come via Wikimedia's <a href="https://huggingface.co/datasets/wikimedia/wit_base">WIT</a> release.</p>
+    <p>Structured data: <a href="https://www.wikidata.org/">Wikidata</a> (CC0). Text: English <a href="https://en.wikipedia.org/">Wikipedia</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>); each card links its article revision. Images: <a href="https://commons.wikimedia.org/">Wikimedia Commons</a>, shown as small thumbnails; each card credits the photo's author and license and links its file page. Some images come via Wikimedia's <a href="https://huggingface.co/datasets/wikimedia/wit_base">WIT</a> release.</p>
     <p>Probe scores: simple models on frozen features (DINOv3 block-4 tokens and e5 layer-6 tokens as the model consumes them, plus SigLIP 2), trained on train, scored on val + test. R² for numbers, balanced accuracy for classes.</p>
   </div>
 </footer>
@@ -276,7 +276,7 @@ function card(t, r) {
   const wiki = r.wiki_title ? `<a href="https://en.wikipedia.org/w/index.php?title=${encodeURIComponent(r.wiki_title)}${r.revision ? "&oldid=" + r.revision : ""}">${esc(r.wiki_title)}</a>` : "";
   return `<article class="card ${r.status}">
     <div class="photo">${r.img ? `<img src="${esc(r.img)}" alt="${esc(r.label)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'none',textContent:'image unavailable'}))">` : `<div class="none">no image</div>`}</div>
-    <div class="fname"><span>${r.image_file ? (fileHit ? highlight(r.image_file, [fileHit.match]) : esc(r.image_file)) : "no Commons image"}</span>${r.commons ? `<a href="${esc(r.commons)}">license</a>` : ""}</div>
+    <div class="fname"><span>${r.image_file ? (fileHit ? highlight(r.image_file, [fileHit.match]) : esc(r.image_file)) : "no Commons image"}</span>${r.commons ? `<a href="${esc(r.commons)}">file page</a>` : ""}</div>
     <div class="body">
       <div class="head"><div><h3>${esc(r.label)}</h3><a class="qid" href="https://www.wikidata.org/wiki/${r.qid}">${r.qid}</a></div>
         <div class="chips"><span class="chip ${r.status}">${r.status}</span>${r.split ? `<span class="chip split">${r.split}</span>` : ""}</div></div>
@@ -284,6 +284,7 @@ function card(t, r) {
       <div class="sec">Table</div><dl>${feats}</dl>
       <div class="sec">Wikipedia intro</div>${text}${removed}
       <div class="verdict">${verdict}</div>
+      ${r.credit ? `<div class="attr">Photo: ${esc(r.credit.artist)}${r.credit.license ? `, ${r.credit.license_url ? `<a href="${esc(r.credit.license_url)}">${esc(r.credit.license)}</a>` : esc(r.credit.license)}` : ""}, via <a href="${esc(r.commons)}">Wikimedia Commons</a></div>` : ""}
       ${wiki ? `<div class="attr">Text: ${wiki}, Wikipedia, CC BY-SA 4.0</div>` : ""}
     </div></article>`;
 }
