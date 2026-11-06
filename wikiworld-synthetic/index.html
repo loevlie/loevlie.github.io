@@ -110,6 +110,9 @@ section.s { padding-block: 34px; border-top: 1px solid var(--line); }
 .seg button { color: var(--muted); background: none; border: 0; border-radius: 6px; padding: 8px 12px; cursor: pointer; font-size: 13px; font-weight: 500; }
 .seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 .routes { display: grid; gap: 12px; margin-top: 16px; }
+.math { margin-top: 14px; padding: 12px 14px; background: var(--soft); border-radius: 8px; font-size: 13.5px; line-height: 1.7; }
+.math .eq { font: italic 500 17px/1.5 var(--f-display); margin: 4px 0 6px; }
+.math .t { color: var(--m-table); font-style: normal; } .math .x { color: var(--m-text); font-style: normal; } .math .p { color: var(--m-image); font-style: normal; }
 .route { display: grid; grid-template-columns: 72px minmax(0, 1fr) 64px; gap: 12px; align-items: center; }
 .route .lbl { font: 500 12px var(--f-mono); }
 .route .v { font: 600 18px var(--f-display); text-align: right; font-variant-numeric: tabular-nums; }
@@ -192,6 +195,7 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
         <span class="seg" id="mode-seg"></span>
         <div class="routes" id="routes"></div>
         <p class="note" id="mode-note"></p>
+        <div class="math" id="mode-math"></div>
       </div>
       <div class="card"><div class="eyebrow" style="margin-bottom:10px">Example rows · CarMax used-car sales</div><div class="scroll" id="rows"></div>
         <p class="note">Coloured columns carry the facts that drive the target in this mode; grey ones are present but do not enter y. The model sees each row's table, a text and a photo, never these labels.</p></div>
@@ -234,6 +238,12 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const MOD = { table: "var(--m-table)", text: "var(--m-text)", image: "var(--m-image)" };
 const MNAME = { table: "table", text: "text", image: "photo" };
+const Z = { t: '<span class="t">z<sub>table</sub></span>', x: '<span class="x">z<sub>text</sub></span>', p: '<span class="p">z<sub>photo</sub></span>' };
+const MODE_MATH = {
+  unique: `<div class="eq">y = b<sub>1</sub>${Z.t} + b<sub>2</sub>${Z.x} + b<sub>3</sub>${Z.p} + noise</div>Each z is one modality's hidden number (its facts combined, standardised, independent). Each modality adds its own piece, so hiding it loses only that piece: δ<sub>m</sub> = b<sub>m</sub>² / Var(y).`,
+  synergistic: `<div class="eq">y = g · (${Z.t}${Z.x} + ${Z.x}${Z.p} + ${Z.p}${Z.t}) + noise</div>Only products of pairs, no single-modality terms. Alone, any modality predicts nothing (each term still has a factor with mean 0). Hiding one modality leaves one of the three equal terms, so δ<sub>m</sub> = 2/3 of the signal ≈ 2/3 × 0.8 ≈ 0.53 with 20% noise.`,
+  redundant: `<div class="eq">y = b · ${Z.p} + noise, with the same fact shown in table, text and photo</div>Any one modality carries the whole signal, so hiding any single one costs nothing: δ<sub>m</sub> ≈ 0.`,
+};
 const MODE_NOTE = {
   unique: "Unique: the target adds up one share per modality, so each δ is that modality's own share of the signal.",
   synergistic: "Synergistic: the facts matter only in pairs, with no main effects, so hiding any one modality removes most of the signal.",
@@ -260,6 +270,7 @@ function task() {
         <span class="note" style="margin:6px 0 0;display:block">${(M.routes[m] || []).map(esc).join(", ") || "—"}</span></span>
       <span class="v">δ ${M.designed[m].toFixed(2)}</span></div>`).join("");
   document.getElementById("mode-note").textContent = MODE_NOTE[mode] || "";
+  document.getElementById("mode-math").innerHTML = MODE_MATH[mode] || "";
   const route = {};
   Object.entries(M.routes).forEach(([m, attrs]) => attrs.forEach(a => route[a] = m));
   const attrs = D.anchors.find(a => a.name.startsWith("carmax")).attributes;
