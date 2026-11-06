@@ -199,7 +199,7 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head"><span class="n">3</span><h2>Designed vs measured necessity on real renders</h2><p>Real CarMax pilot, 9 tasks of 1,000 rows (FLUX 3 Klein photos, Gemma 4 texts, DINOv3 and e5 embeddings). For each modality in each task: the δ we designed (horizontal) against the δ measured with and without that modality (vertical). Switch the learner to see where the gap comes from.</p></div>
+    <div class="s-head"><span class="n">3</span><h2>Designed vs measured necessity on real renders</h2><p>Real CarMax pilot, 9 tasks of 1,000 rows (FLUX 3 Klein photos, Gemma 4 texts, DINOv3 and e5 embeddings). Each point is one modality (table, text or photo) in one task. Horizontal: the R² we designed to be lost when that modality is hidden. Vertical: the R² a learner actually loses, R²(all) − R²(without it). On the diagonal, the necessity came out as designed; below it, the learner gets less out of that modality than it should.</p></div>
     <div class="check">
       <div class="card"><svg id="scatter" viewBox="0 0 420 360" role="img" aria-label="Designed versus measured necessity"></svg></div>
       <div class="card" id="check-side"></div>
@@ -207,20 +207,12 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head"><span class="n">4</span><h2>With real renders, learners struggle exactly where modalities matter jointly</h2><p>Every hidden fact can be decoded from its own modality's embedding almost perfectly (probe R² ≥ 0.999), yet tabular foundation models that must decode and combine everything in one step fall short on synergistic tasks, the same gap as in section 3.</p></div>
-    <div class="check">
-      <div class="card" id="gap-r2"></div>
-      <div class="card" id="gap-delta"></div>
-    </div>
-  </div></section>
-
-  <section class="s pad"><div class="in">
-    <div class="s-head"><span class="n">5</span><h2>A stream of tasks, each with a known mix</h2><p>The generator draws a world, a mode and a size, adds distractor columns that leave δ unchanged, and emits the task. Twenty-four draws from the stream:</p></div>
+    <div class="s-head"><span class="n">4</span><h2>A stream of tasks, each with a known mix</h2><p>The generator draws a world, a mode and a size, adds distractor columns that leave δ unchanged, and emits the task. Twenty-four draws from the stream:</p></div>
     <div class="card scroll"><table class="stream" id="stream"></table></div>
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head" id="sec-renders"><span class="n">6</span><h2>Do the renders show what they were told?</h2><p>Every photo and text is generated from its fact sheet alone, then a separate checker model must read the facts back or the render is thrown away.</p></div>
+    <div class="s-head" id="sec-renders"><span class="n">5</span><h2>Do the renders show what they were told?</h2><p>Every photo and text is generated from its fact sheet alone, then a separate checker model must read the facts back or the render is thrown away.</p></div>
     <div class="card"><div class="eyebrow" style="margin-bottom:12px">FLUX 3 Image Klein · the photo generator used in the pilot</div>
       <div class="renders"><div id="flux-mtn"></div><div id="flux-car"></div></div>
       <p class="note" id="flux-note"></p></div>
@@ -279,6 +271,12 @@ function task() {
 }
 
 let learner = "end_to_end";
+function tfmNote() {
+  const T = (D.finding || {}).tfm || [];
+  const r2 = (m, inp) => { const r = T.find(x => x.model === m && x.inputs === inp && x.mode === "synergistic"); return r ? (+r.r2_full).toFixed(2) : null; };
+  const p = [r2("tabpfn_v2", "embeddings"), r2("tabpfn_v2", "latent_facts"), r2("tabicl_v2", "embeddings"), r2("tabicl_v2", "latent_facts")];
+  return p.every(Boolean) ? ` Real tabular foundation models show the same gap on synergistic tasks: TabPFN v2 reaches R² ${p[0]} from the embeddings vs ${p[1]} given the hidden facts, TabICLv2 ${p[2]} vs ${p[3]}.` : "";
+}
 function scatter() {
   const P = ((D.finding || {}).per_modality || []).map(r => ({ mode: r.mode, modality: r.modality, designed: +r.designed, measured: +r[learner] }));
   const W = 420, H = 360, m = { l: 46, r: 14, t: 14, b: 40 }, lo = -0.1, hi = 0.8;
@@ -308,8 +306,8 @@ function scatter() {
     <p style="font:600 44px/1.05 var(--f-display);margin:16px 0 4px">${within}<span style="color:var(--muted)">/${P.length}</span></p>
     <p style="margin:0">points within ±0.10 of the designed value (shaded band). Synergistic photo δ falls short by ${synGap.toFixed(2)} on average.</p>
     <div class="legend" style="margin-top:16px"><span>■ unique</span><span>◆ synergistic</span><span>● redundant</span></div>
-    <div class="legend"><span><i style="background:var(--m-table)"></i>table</span><span><i style="background:var(--m-text)"></i>text</span><span><i style="background:var(--m-image)"></i>photo</span></div>
-    <p class="note">${learner === "end_to_end" ? "End-to-end: one gradient-boosted model on all table columns and embedding columns at once." : "Decode, then combine: per modality, a model first predicts that modality's hidden fact from its own columns (out-of-fold); then y is predicted from the decoded facts."} Both are 5-fold out-of-fold and early-stopped. A point on the diagonal means hiding that modality costs what was designed.</p>`;
+    <div class="legend"><span><i style="background:var(--m-table)"></i>table</span><span><i style="background:var(--m-text)"></i>text</span><span><i style="background:var(--m-image)"></i>photo</span><span><i style="background:var(--band);border:1px solid var(--line)"></i>within ±0.10 of designed</span></div>
+    <p class="note">${learner === "end_to_end" ? "End-to-end: one gradient-boosted model on all table columns and embedding columns at once." : "Decode, then combine: per modality, a model first predicts that modality's hidden fact from its own columns (out-of-fold); then y is predicted from the decoded facts."} Both are 5-fold out-of-fold and early-stopped.${tfmNote()}</p>`;
 }
 
 function stream() {
@@ -364,27 +362,6 @@ function fluxSection() {
   const pickC = [car[0], car[13], car[26]].filter(Boolean);
   strip.innerHTML = [...pickM, ...pickC].map(it => `<a href="#sec-renders"><img src="${esc(it.src)}" alt="FLUX render"></a>`).join("");
 }
-function finding() {
-  const F = D.finding;
-  if (!F) return;
-  const r2 = (model, inputs, mode) => { const r = F.tfm.find(x => x.model === model && x.inputs === inputs && x.mode === mode); return r ? +r.r2_full : null; };
-  const bar = (lbl, v, max, color, mark) => `<div class="gbar"><span class="lbl">${lbl}</span><span class="tr"><i style="width:${v / max * 100}%;background:${color}"></i>${mark != null ? `<b style="left:${mark / max * 100}%"></b>` : ""}</span><span class="v">${v.toFixed(2)}</span></div>`;
-  let h = `<div class="eyebrow">R² with all modalities</div>`;
-  for (const [m, name] of [["tabpfn_v2", "TabPFN v2"], ["tabicl_v2", "TabICLv2"]]) for (const mode of ["unique", "synergistic"]) {
-    const f = r2(m, "latent_facts", mode), e = r2(m, "embeddings", mode);
-    if (f == null || e == null) continue;
-    h += `<div class="gsub">${name} · ${mode} · gap ${(f - e).toFixed(2)}</div>` + bar("given the facts", f, 0.85, "var(--muted)") + bar("given embeddings", e, 0.85, mode === "synergistic" ? "var(--bad)" : "var(--accent)");
-  }
-  document.getElementById("gap-r2").innerHTML = h + `<p class="note">Same tasks, same protocol: the hidden facts themselves vs the real table columns plus text and photo embeddings. The cost of decoding is small on unique tasks and about five times larger on synergistic ones.</p>`;
-  const g = F.gbm.find(x => x.mode === "synergistic" && x.modality === "image");
-  const t = m => { const r = F.tfm.find(x => x.model === m && x.inputs === "embeddings" && x.mode === "synergistic" && x.modality === "image"); return r ? +r.delta : null; };
-  const des = +g.designed;
-  document.getElementById("gap-delta").innerHTML = `<div class="eyebrow">Photo δ on synergistic tasks (line = designed ${des.toFixed(2)})</div>` +
-    [["Gradient boosting, end-to-end", +g.end_to_end, "var(--bad)"], ["TabPFN v2", t("tabpfn_v2"), "var(--bad)"], ["TabICLv2", t("tabicl_v2"), "var(--bad)"],
-     ["Decode each modality, then combine", +g.two_stage, "var(--ok)"]].filter(x => x[1] != null).map(([l, v, c]) => bar(l, v, 0.7, c, des)).join("") +
-    `<p class="note">Hiding the photo should cost ${des.toFixed(2)} R². Learners that decode and combine in one step see less of the photo's value; decoding each modality first, then combining, recovers it (within 0.01). This is what the WikiWorld model design builds in. Source: tfm_taskgen finding “The synergistic δ gap is the learner, not the renders” (3 tasks per mode, 1,000 rows each).</p>`;
-}
-
 document.addEventListener("click", e => {
   const b = e.target.closest("button[data-mode]"); if (b) { mode = b.dataset.mode; task(); }
   const l = e.target.closest("button[data-learner]"); if (l) { learner = l.dataset.learner; scatter(); }
@@ -395,7 +372,7 @@ document.addEventListener("click", e => {
   const nFlux = D.flux_sets ? D.flux_sets.items.length : 0;
   document.getElementById("totals").innerHTML = [[D.anchors.length, "worlds"], [D.stream.length, "sample tasks"], [nFlux, "FLUX renders shown"]]
     .map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join("");
-  fluxSection(); finding();
+  fluxSection();
   worlds(); task(); scatter(); stream(); renders();
 })();
 </script>
