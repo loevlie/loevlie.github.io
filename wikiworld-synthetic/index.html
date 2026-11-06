@@ -221,7 +221,7 @@ footer p { font-size: 13.5px; color: var(--muted); margin: 0 0 8px; max-width: 6
   </div></section>
 
   <section class="s pad"><div class="in">
-    <div class="s-head with-eq"><span class="n">3</span><h2>Designed vs measured necessity on real renders</h2><p>Real CarMax pilot, 9 tasks of 1,000 rows (FLUX 3 Klein photos, Gemma 4 texts, DINOv3 and e5 embeddings). Each point is one modality (table, text or photo) in one task. Horizontal: the R² we designed to be lost when that modality is hidden. Vertical: the R² a learner actually loses, R²(all) − R²(without it). On the diagonal, the necessity came out as designed; below it, the learner gets less out of that modality than it should. Hover over a point to see a real example row from that task.</p><div class="eq" role="img" aria-label="R squared equals one minus the sum of squared errors over the total sum of squares">
+    <div class="s-head with-eq"><span class="n">3</span><h2>Designed vs measured necessity on real renders</h2><p>Real CarMax pilot, 9 tasks of 1,000 rows (FLUX 3 Klein photos, Gemma 4 texts, DINOv3 and e5 embeddings). Each point is one modality (table, text or photo) in one task: how much R² we designed it to carry (x) against how much a learner actually loses without it (y). On the diagonal, the necessity came out as designed; below it, the learner gets less out of that modality than it should. Hover over a point to see a real example row from that task.</p><div class="eq" role="img" aria-label="R squared equals one minus the sum of squared errors over the total sum of squares">
       <math display="block"><msup><mi>R</mi><mn>2</mn></msup><mo>=</mo><mn>1</mn><mo>&#x2212;</mo><mfrac><mrow><munder><mo>&#x2211;</mo><mi>i</mi></munder><msubsup><mi>e</mi><mi>i</mi><mn>2</mn></msubsup></mrow><mrow><munder><mo>&#x2211;</mo><mi>i</mi></munder><msup><mrow><mo stretchy="false">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>&#x2212;</mo><mover accent="true"><mi>y</mi><mo>&#xAF;</mo></mover><mo stretchy="false">)</mo></mrow><mn>2</mn></msup></mrow></mfrac></math>
       <p><i>e</i><sub><i>i</i></sub> = <i>y</i><sub><i>i</i></sub> &#x2212; <i>&#x177;</i><sub><i>i</i></sub>, the out-of-fold error on row <i>i</i>; <i>&#x233;</i> is the mean price. A modality's &#x3B4; is the drop in <i>R</i><sup>2</sup> when it is hidden.</p>
     </div></div>
@@ -367,20 +367,22 @@ function scatter() {
   const syn = P.filter(d => d.mode === "synergistic" && d.modality === "image");
   const synGap = syn.reduce((s, d) => s + (d.designed - d.measured), 0) / Math.max(1, syn.length);
   document.getElementById("check-side").innerHTML = `
-    <div class="math" style="margin:0 0 16px">
-      <div class="eyebrow" style="margin-bottom:6px">What δ means</div>
-      <div class="eq">δ<sub>m</sub> = R²(all modalities) − R²(all modalities except m)</div>
-      The necessity of modality m (table, text or photo): how much predictive accuracy is lost when it is hidden. δ = 0: the others can fully replace it. δ = 0.5: half of the explainable variance of y needs it.
-      <br><b>Designed δ</b> (horizontal): computed from the hidden facts that generate y, with effectively unlimited data, before any text or photo exists.
-      <br><b>Measured δ</b> (vertical): the same difference for a learner trained on the real table columns and the text/photo embeddings, scored out-of-fold on a task's 1,000 rows.
-    </div>
     <div class="eyebrow">Real pilot · learner</div>
     <span class="seg" style="margin-top:10px"><button type="button" data-learner="end_to_end" aria-pressed="${learner === "end_to_end"}">End-to-end</button><button type="button" data-learner="two_stage" aria-pressed="${learner === "two_stage"}">Decode, then combine</button></span>
     <p style="font:600 44px/1.05 var(--f-display);margin:16px 0 4px">${within}<span style="color:var(--muted)">/${P.length}</span></p>
     <p style="margin:0">points within ±0.10 of the designed value (shaded band). Synergistic photo δ falls short by ${synGap.toFixed(2)} on average.</p>
     <div class="legend" style="margin-top:16px"><span>■ unique</span><span>◆ synergistic</span><span>● redundant</span></div>
     <div class="legend"><span><i style="background:var(--m-table)"></i>table</span><span><i style="background:var(--m-text)"></i>text</span><span><i style="background:var(--m-image)"></i>photo</span><span><i style="background:var(--band);border:1px solid var(--line)"></i>within ±0.10 of designed</span></div>
-    <p class="note">${learner === "end_to_end" ? "End-to-end: one gradient-boosted model on all table columns and embedding columns at once." : "Decode, then combine: per modality, a model first predicts that modality's hidden fact from its own columns (out-of-fold); then y is predicted from the decoded facts."} Both are 5-fold out-of-fold and early-stopped.${tfmNote()}</p>`;
+    <p class="note">${learner === "end_to_end" ? "End-to-end: one gradient-boosted model on all table columns and embedding columns at once." : "Decode, then combine: per modality, a model first predicts that modality's hidden fact from its own columns (out-of-fold); then y is predicted from the decoded facts."} Both are 5-fold out-of-fold and early-stopped.${tfmNote()}</p>
+    <div class="math" style="margin:16px 0 0">
+      <div class="eyebrow" style="margin-bottom:6px">Reading the axes</div>
+      <div class="eq">δ<sub>m</sub> = R²(all) − R²(without m)</div>
+      δ is the held-out R² lost when the model is refit without one modality m (table, text or photo). Example: if hiding the photo drops R² from 0.80 to 0.27, δ<sub>photo</sub> = 0.53. δ = 0 means the other modalities fully make up for it.
+      <dl style="margin:10px 0 0;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 12px">
+        <dt><b>designed δ</b> (x)</dt><dd style="margin:0">computed from the hidden facts that generate y, as if with unlimited data</dd>
+        <dt><b>measured δ</b> (y)</dt><dd style="margin:0">the same drop for a model trained on the real table columns and text/photo embeddings (numeric summaries from frozen e5 and DINOv3), tested on rows it never trained on, 1,000 per task; it is noisy, hence the ±0.10 band</dd>
+      </dl>
+    </div>`;
 }
 
 const okCount = imgs => imgs.filter(g => g.j === 0 && ((g.reads || {})["Gemma 4 12B"] || {}).cloud_cover === g.cloud).length;
